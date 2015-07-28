@@ -42,38 +42,61 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Notifications</h1>
+                    <h1 class="page-header">SMS</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-12">
-                    <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary btn-circle btn-lg"><i class="fa fa-list"></i>
-                    </button>
-                    <button type="button" class="btn btn-success btn-circle btn-lg"><i class="fa fa-link"></i>
-                    </button>
-                    <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-circle btn-lg"><i class="fa fa-heart"></i>
-                    </button>
-                    <br>
-                    <br>
+                <div class="col-lg-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            Primary Panel
+                            Bulk Messaging
                         </div>
                         <div class="panel-body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>Message</label>
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <a class="btn btn-primary">Submit Button</a>
+                                <a class="btn btn-warning">Reset Button</a>
+                            </form>
                         </div>
-                        <div class="panel-footer">
-                            Panel Footer
-                        </div>
+                        <!-- /.panel-body -->
                     </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Regular Messaging
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                <div class="form-group input-group">
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">+63</span>
+                                    <input type="text" class="form-control" placeholder="Username">
+                                </div>
+                                <div class="form-group">
+                                    <label>Message</label>
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <a class="btn btn-primary">Submit Button</a>
+                                <a class="btn btn-warning">Reset Button</a>
+                            </form>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
                 </div>
             </div>
             <!-- /.row -->
@@ -94,19 +117,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
-    <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
-    <script>
-    // tooltip demo
-    $('.tooltip-demo').tooltip({
-        selector: "[data-toggle=tooltip]",
-        container: "body"
-    })
-
-    // popover demo
-    $("[data-toggle=popover]")
-        .popover()
-    </script>
 
 </body>
 

@@ -17,6 +17,9 @@
     <!-- MetisMenu CSS -->
     <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
+    <!-- Social Buttons CSS -->
+    <link href="../bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -39,22 +42,57 @@
         <!-- Navigation -->
         <?php include('includes/nav-bar.php'); ?>
 
+
+        <!-- Page Content -->
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Notifications</h1>
+                    <h1 class="page-header">Questions Category</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-4">
                     <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-check"></i>
                     </button>
                     <button type="button" class="btn btn-primary btn-circle btn-lg"><i class="fa fa-list"></i>
                     </button>
                     <button type="button" class="btn btn-success btn-circle btn-lg"><i class="fa fa-link"></i>
                     </button>
+                    <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
+                    </button>
+                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-circle btn-lg"><i class="fa fa-heart"></i>
+                    </button>
+                    <br>
+                    <br>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Primary Panel
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess">Input with success</label>
+                                    <input type="text" class="form-control" id="inputSuccess">
+                                </div>
+                                <div class="form-group has-warning">
+                                    <label class="control-label" for="inputWarning">Input with warning</label>
+                                    <input type="text" class="form-control" id="inputWarning">
+                                </div>
+                                <div class="form-group has-error">
+                                    <label class="control-label" for="inputError">Input with error</label>
+                                    <input type="text" class="form-control" id="inputError">
+                                </div>
+                                <a class="btn btn-primary">Submit Button</a>
+                                <a class="btn btn-warning">Reset Button</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
                     <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
                     </button>
                     <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
@@ -94,19 +132,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
-    <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
-    <script>
-    // tooltip demo
-    $('.tooltip-demo').tooltip({
-        selector: "[data-toggle=tooltip]",
-        container: "body"
-    })
-
-    // popover demo
-    $("[data-toggle=popover]")
-        .popover()
-    </script>
 
 </body>
 
