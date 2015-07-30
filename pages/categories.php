@@ -54,37 +54,15 @@
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-4">
-                    <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary btn-circle btn-lg"><i class="fa fa-list"></i>
-                    </button>
-                    <button type="button" class="btn btn-success btn-circle btn-lg"><i class="fa fa-link"></i>
-                    </button>
-                    <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-circle btn-lg"><i class="fa fa-heart"></i>
-                    </button>
-                    <br>
-                    <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             Primary Panel
                         </div>
                         <div class="panel-body">
                             <form role="form">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess">Input with success</label>
-                                    <input type="text" class="form-control" id="inputSuccess">
-                                </div>
-                                <div class="form-group has-warning">
-                                    <label class="control-label" for="inputWarning">Input with warning</label>
-                                    <input type="text" class="form-control" id="inputWarning">
-                                </div>
-                                <div class="form-group has-error">
-                                    <label class="control-label" for="inputError">Input with error</label>
-                                    <input type="text" class="form-control" id="inputError">
+                                <div class="form-group">
+                                    <label class="control-label" for="inputCategory">Category</label>
+                                    <input type="text" class="form-control" id="inputCategory">
                                 </div>
                                 <a class="btn btn-primary">Submit Button</a>
                                 <a class="btn btn-warning">Reset Button</a>
@@ -93,23 +71,51 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-circle btn-lg"><i class="fa fa-heart"></i>
-                    </button>
-                    <br>
+                    <div class="form-inline form-padding">
+                        <form action="category.php" method="post">
+                            <input type="text" class="form-control" name="search" placeholder="Search Keyword...">
+                            <button type="submit" name="submitsearch" class="btn btn-success"><i class="fa fa-search"></i> Search</button>                                
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategory">Add Category</button>
+                        </form>
+                    </div>
                     <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             Primary Panel
                         </div>
                         <div class="panel-body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                        </div>
-                        <div class="panel-footer">
-                            Panel Footer
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Username</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

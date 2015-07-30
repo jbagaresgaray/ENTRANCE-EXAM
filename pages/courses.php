@@ -49,20 +49,6 @@
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-4">
-                    <button type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary btn-circle btn-lg"><i class="fa fa-list"></i>
-                    </button>
-                    <button type="button" class="btn btn-success btn-circle btn-lg"><i class="fa fa-link"></i>
-                    </button>
-                    <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-circle btn-lg"><i class="fa fa-heart"></i>
-                    </button>
-                    <br>
-                    <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             Primary Panel
@@ -88,11 +74,9 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <button type="button" class="btn btn-info btn-circle btn-lg"><i class="fa fa-check"></i>
+                    <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>
                     </button>
-                    <button type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-circle btn-lg"><i class="fa fa-heart"></i>
+                    <button type="button" class="btn btn-success btn-lg"><i class="fa fa-refresh"></i>
                     </button>
                     <br>
                     <br>

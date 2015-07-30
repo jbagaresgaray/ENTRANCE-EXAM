@@ -8,10 +8,10 @@
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manage<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="questions.php">Manage Questions</a>
+                        <a href="categories.php">Manage Questions Category</a>
                     </li>
                     <li>
-                        <a href="categories.php">Manage Questions Category</a>
+                        <a href="questions.php">Manage Questions</a>
                     </li>
                     <li>
                         <a href="courses.php">Manage Courses</a>

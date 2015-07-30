@@ -17,6 +17,9 @@
     <!-- MetisMenu CSS -->
     <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
+    <!-- Summernote -->
+    <link href="../bower_components/summernote/dist/summernote.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -55,55 +58,50 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <form role="form">
                                         <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input class="form-control" type="text">
+                                            <label>Category</label>
+                                            <select class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>First Name</label>
-                                            <input class="form-control" type="text">
+                                            <label>Question</label>
+                                            <div id="summernote"></div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input class="form-control" type="email">
+                                        <div class="form-group well">
+                                            <label>Primary Image: </label>
+                                            <input type="file" name="mainpic" class="form-control" accept="image/*" />
                                         </div>
-                                        <div class="form-group">
-                                            <label>Contact Number</label>
-                                            <input class="form-control" type="email">
+                                        <div class="form-group well">
+                                            <label>Correct Answer</label>
+                                            <input type="text" name="answer" class="form-control" required/>
+                                            <label>Image: </label>
+                                            <input type="file" name="correctpic" class="form-control" accept="image/*" />
                                         </div>
-                                        <div class="form-group">
-                                            <label>Address</label>
-                                            <textarea class="form-control" rows="3"></textarea>
+                                        <div class="form-group well">
+                                            <label>2nd Choice</label>
+                                            <input type="text" name="choice2" class="form-control" required/> 
+                                            <label>Image: </label>
+                                            <input type="file" name="pic2" class="form-control" accept="image/*" />
                                         </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Male
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Female
-                                                </label>
-                                            </div>
+                                        <div class="form-group well">                
+                                            <label>3rd Choice</label>
+                                            <input type="text" name="choice3" class="form-control" required/> 
+                                            <label>Image: </label>
+                                            <input type="file" name="pic3" class="form-control" accept="image/*" />
                                         </div>
-                                    </form>
-                                </div>
-                                <!-- /.col-lg-6 (nested) -->
-                                <div class="col-lg-6">
-                                    <h1>Accounts</h1>
-                                    <form role="form">
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="Username">
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">*</span>
-                                            <input type="password" class="form-control" placeholder="Password">
-                                        </div>
+                                        <div class="form-group well">
+                                            <label>4th Choice</label>
+                                            <input type="text" name="choice4" class="form-control" required/> 
+                                            <label>Image: </label>
+                                            <input type="file" name="pic4" class="form-control" accept="image/*" />
+                                        </div>      
                                     </form>
                                     <button class="btn btn-primary">Submit Button</button>
                                     <button class="btn btn-warning">Reset Button</button>
@@ -134,6 +132,9 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <!-- SummerNote -->
+    <script src="../bower_components/summernote/dist/summernote.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
 
@@ -143,11 +144,21 @@
     $('.tooltip-demo').tooltip({
         selector: "[data-toggle=tooltip]",
         container: "body"
-    })
+    });
 
     // popover demo
-    $("[data-toggle=popover]")
-        .popover()
+    $("[data-toggle=popover]").popover();
+
+    $(document).ready(function() {
+      $('#summernote').summernote({
+          height: 300,                 // set editor height
+
+          minHeight: null,             // set minimum height of editor
+          maxHeight: null,             // set maximum height of editor
+
+          focus: true,                 // set focus to editable area after initializing summernote
+        });
+    });
     </script>
 
 </body>
