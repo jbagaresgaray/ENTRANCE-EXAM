@@ -56,66 +56,48 @@
                 <div class="col-lg-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            Primary Panel
+                            Category Information
                         </div>
                         <div class="panel-body">
-                            <form role="form">
+                            <form id="frmCategory" role="form" data-toggle="validator">
                                 <div class="form-group">
                                     <label class="control-label" for="inputCategory">Category</label>
-                                    <input type="text" class="form-control" id="inputCategory">
+                                    <input type="text" class="form-control" id="category_name" name="category_name" required>
                                 </div>
-                                <a class="btn btn-primary">Submit Button</a>
-                                <a class="btn btn-warning">Reset Button</a>
+                                <a id="btn-save" class="btn btn-primary" onclick="save()">Submit Button</a>
+                                <a class="btn btn-warning" onclick="clear_category()">Reset Button</a>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="form-inline form-padding">
-                        <form action="category.php" method="post">
-                            <input type="text" class="form-control" name="search" placeholder="Search Keyword...">
+                        <form id="frmSearch" role="form">
+                            <input type="text" class="form-control" name="search" id="search" placeholder="Search Keyword..." required>
                             <button type="submit" name="submitsearch" class="btn btn-success"><i class="fa fa-search"></i> Search</button>                                
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategory">Add Category</button>
+                            <a onclick="create_category()" class="btn btn-primary">Add Category</a>
+                            <a onclick="refresh()" class="btn btn-primary">Refresh</a>
                         </form>
                     </div>
                     <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            Primary Panel
+                            List of Category
                         </div>
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-bordered table-striped" style="margin-bottom:0;" id="tbl_category">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" >
+                                            Category Name
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div id="pagination" cellspacing="0"></div>
                         </div>
                     </div>
                 </div>
@@ -133,11 +115,15 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+    <!-- Bootstrap Validator JavaScript -->
+    <script src="../bower_components/bootstrap-validator/dist/validator.min.js"></script>
+
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../js/pages/categories.js" type="text/javascript"></script>
 
 </body>
 
