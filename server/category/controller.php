@@ -1,15 +1,16 @@
 <?php
-require('../../server/connection.php');
+require_once '../../server/connection.php';
 include('../../server/pagination.php');
 
-class Category extends Config{
-
+class Category {
 
 	function __construct(){
     }
 
 	public function create($data){
-		$mysqli = new mysqli("localhost", "root", "", "entance");
+		$config= new Config();
+		
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
@@ -26,11 +27,11 @@ class Category extends Config{
 	}
 
 	public function read($page,$search){
-
 		$limit = 10;
 		$adjacent = 3;
-
-		$mysqli = new mysqli($this->host, $this->user, "", "entance");
+		$config= new Config();
+		
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
@@ -60,7 +61,9 @@ class Category extends Config{
 	}
 
 	public function update($data){
-		$mysqli = new mysqli("localhost", "root", "", "entance");
+		$config= new Config();
+		
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
@@ -77,6 +80,9 @@ class Category extends Config{
 	}
 
 	public function delete($id){
+		$config= new Config();
+		
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if($stmt = $mysqli->prepare("DELETE FROM category WHERE id =?")){
 			$stmt->bind_param("s", $id);
 			$stmt->execute();

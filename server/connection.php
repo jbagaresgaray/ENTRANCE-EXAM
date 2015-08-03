@@ -5,8 +5,8 @@ class Config {
     public $host  ='localhost';
     public $user ='root';
     public $pass  = '';
-    public $db  ='entance';
-    
+    public $db  ='entrance';
+   
 }
 
 ?>

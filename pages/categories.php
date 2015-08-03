@@ -20,6 +20,9 @@
     <!-- Social Buttons CSS -->
     <link href="../bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet">
 
+    <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -63,9 +66,10 @@
                                 <div class="form-group">
                                     <label class="control-label" for="inputCategory">Category</label>
                                     <input type="text" class="form-control" id="category_name" name="category_name" required>
+                                    <span class="help-inline"></span>
                                 </div>
-                                <a id="btn-save" class="btn btn-primary" onclick="save()">Submit Button</a>
-                                <a class="btn btn-warning" onclick="clear_category()">Reset Button</a>
+                                <a id="btn-save" class="btn btn-primary" onclick="save()">Submit</a>
+                                <a id="btn-reset" class="btn btn-warning" onclick="clear_category()">Reset</a>
                             </form>
                         </div>
                     </div>
@@ -120,6 +124,9 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

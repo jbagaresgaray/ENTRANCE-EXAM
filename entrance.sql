@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `lname` varchar(100) NOT NULL,
   `mobileno` varchar(45) NOT NULL,
   `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL
+  `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 

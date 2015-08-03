@@ -1,23 +1,20 @@
 $(document).ready(function() {
     var user = JSON.parse(window.localStorage['user'] || '{}');
 
-    if (Object.keys(user).length < 1) {
-        console.log('redirect to main');
-        window.location.href = "index.php";
-    }
+    // if (Object.keys(user).length < 1) {
+    //     console.log('redirect to main');
+    //     window.location.href = "index.php";
+    // }
 
     $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
     $("#category_name").prop('disabled', true);
+    $("#btn-save").attr('disabled', true);
+    $("#btn-reset").hide();
+
 
     fetch_all_category('1');
 
 });
-
-
-function refresh() {
-    fetch_all_category('1');
-}
-
 
 $('#pagination').on('click', '.page-numbers', function() {
     var page = $(this).attr('data-id');
@@ -25,6 +22,38 @@ $('#pagination').on('click', '.page-numbers', function() {
     fetch_all_category(page);
 });
 
+
+$(document).on("click", ".remove-icon", function() {\
+    var id = $(this).data('id');
+
+    BootstrapDialog.show({
+        title: 'Default Title',
+        message: 'Click buttons below.',
+        buttons: [{
+            label: 'Title 1',
+            action: function(dialog) {
+                dialog.setTitle('Title 1');
+            }
+        }, {
+            label: 'Title 2',
+            action: function(dialog) {
+                dialog.setTitle('Title 2');
+            }
+        }]
+    });
+
+});
+
+function resetHelpInLine() {
+    $('span.help-inline').each(function() {
+        $(this).text('');
+    });
+}
+
+
+function refresh() {
+    fetch_all_category('1');
+}
 
 function save() {
     $('#frmCategory').validator('validate');
@@ -37,13 +66,12 @@ function save() {
         dataType: 'json',
         data: {
             command: 'create_category',
-            category_name:  $('#category_name').val()
+            category_name: $('#category_name').val()
         },
         success: function(response) {
             var decode = response;
 
             if (decode.success == true) {
-                $('#btn-save').button('reset');
                 refresh();
                 clear_category();
             } else if (decode.success === false) {
@@ -63,11 +91,15 @@ function save() {
 
 function clear_category() {
     $("#category_name").prop('disabled', true);
+    $("#btn-save").attr('disabled', true);
+    $("#btn-reset").hide();
     $("#category_name").val('');
 }
 
 function create_category() {
     $("#category_name").prop('disabled', false);
+    $("#btn-save").removeAttr('disabled');
+    $("#btn-reset").show();
     $("#category_name").val('');
 }
 
@@ -91,17 +123,17 @@ function fetch_all_category(page) {
                     for (var i = 0; i < decode.category.length; i++) {
                         var row = decode.category;
                         var html = '<tr class="odd">\
-                                    	<td class="sorting">' + row[i].name + '</td>\
-	                                    <td class=" ">\
-	                                      <div class="text-right">\
-	                                        <a class="edit-college-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
-	                                          <i class="fa fa-pencil"></i>\
-	                                        </a>\
-	                                        <a class="remove-college-icon btn btn-danger btn-xs" data-id="' + row[i].id + '">\
-	                                          <i class="fa fa-remove"></i>\
-	                                        </a>\
-	                                      </div>\
-	                                    </td>\
+                                        <td class="sorting">' + row[i].name + '</td>\
+                                        <td class=" ">\
+                                          <div class="text-right">\
+                                            <a class="edit-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
+                                              <i class="fa fa-pencil"></i>\
+                                            </a>\
+                                            <a class="remove-icon btn btn-danger btn-xs" data-id="' + row[i].id + '">\
+                                              <i class="fa fa-remove"></i>\
+                                            </a>\
+                                          </div>\
+                                        </td>\
                                 </tr>';
                         $("#tbl_category tbody").append(html);
                     }
@@ -114,6 +146,31 @@ function fetch_all_category(page) {
         error: function(error) {
             $('#btn-save').button('reset');
             return;
+        }
+    });
+}
+
+function delete(id) {
+    var ipaddress = sessionStorage.getItem("ipaddress");
+    $.ajax({
+        url: '../server/category/index.php',
+        async: true,
+        type: 'POST',
+        data: {
+            command: 'delete_category',
+            id: id
+        },
+        success: function(response) {
+            var decode = response;
+
+            if (decode.success == true) {
+                refresh();
+                clear_category();
+            } else if (decode.success === false) {
+                alert(decode.msg);
+                return;
+            }
+
         }
     });
 }

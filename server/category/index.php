@@ -1,4 +1,5 @@
 <?php
+	include('../../server/cors.php');
 	include( __DIR__.'/controller.php'); 
 
 	switch ($_POST['command']) {
@@ -10,7 +11,7 @@
 			break;
 		case 'read_category':
 			$search = isset($_POST['search']) ? $_POST['search']: null;
-			$page = isset($_POST['page']) ? $_POST['page']: null;
+			$page = isset($_POST['page']) ? $_POST['page']: 1;
 			Category::read($page,$search);
 			break;
 		case 'update_category':
