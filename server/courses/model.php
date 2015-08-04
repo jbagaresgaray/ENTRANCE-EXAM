@@ -45,17 +45,11 @@ class Courses {
 			$query1 ="SELECT * FROM courses c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
-
-			$query ="SELECT * FROM courses c WHERE coursename LIKE '%$search%' order by coursename asc LIMIT $start, $limit;";
-			$mysqli->set_charset("utf8");
-			$result = $mysqli->query($query);
 			$data = array();
-			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
 				array_push($data,$row);
 			}
-
-			$paging = pagination($limit,$adjacent,$rows,$page);
-			print json_encode(['success' =>true,'courses' =>$data,'pagination'=>$paging],JSON_PRETTY_PRINT);
+			print json_encode(['success' =>true,'courses' =>$data],JSON_PRETTY_PRINT);
 		}
 	}
 

@@ -51,16 +51,12 @@ class Student {
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 
-			$query ="SELECT * FROM student c WHERE ((fname LIKE '%$search%' OR lname LIKE '%$search%') OR (studid='$search')) order by name asc LIMIT $start, $limit;";
-			$mysqli->set_charset("utf8");
-			$result = $mysqli->query($query);
 			$data = array();
-			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
 				array_push($data,$row);
 			}
-
-			$paging = pagination($limit,$adjacent,$rows,$page);
-			print json_encode(['success' =>true,'student' =>$data,'pagination'=>$paging],JSON_PRETTY_PRINT);
+			
+			print json_encode(['success' =>true,'student' =>$data],JSON_PRETTY_PRINT);
 		}
 	}
 

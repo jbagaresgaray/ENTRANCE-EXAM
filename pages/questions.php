@@ -48,18 +48,27 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Manage Questions</h1>
+                    <h1 class="page-header">Questions</h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            Questions
+                        </li>
+                    </ol>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
-                    <a href="ae_questions.php" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>
-                    </a>
-                    <a class="btn btn-success btn-lg"><i class="fa fa-refresh"></i>
-                    </a>
-                    <br>
+                   <div class="form-inline form-padding">
+                        <form id="frmSearch" role="form">                               
+                            <a onclick="create_category()" class="btn btn-primary">Add Question</a>
+                            <a onclick="refresh()" class="btn btn-success">Refresh</a>
+                        </form>
+                    </div>
                     <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -525,8 +534,20 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+    </script>
 
 </body>
 

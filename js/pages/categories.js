@@ -22,6 +22,13 @@ $('#pagination').on('click', '.page-numbers', function() {
     fetch_all_category(page);
 });
 
+$('#addcategory').on('hide.bs.modal', function(e) {
+    $("#category_name").prop('disabled', true);
+    $("#btn-save").attr('disabled', true);
+    $("#btn-reset").hide();
+    $("#category_name").val('');
+});
+
 
 $(document).on("click", ".remove-icon", function() {
     var id = $(this).data('id');
@@ -56,7 +63,23 @@ function refresh() {
 }
 
 function save() {
-    $('#frmCategory').validator('validate');
+    resetHelpInLine();
+
+    var empty = false;
+
+    $('input[type="text"]').each(function() {
+        $(this).val($(this).val().trim());
+    });
+
+    if ($('#category_name').val() == '') {
+        $('#category_name').next('span').text('Category Name is required.');
+        empty = true;
+    }
+
+    if (empty == true) {
+        alert('Please input all the required fields correctly.');
+        return false;
+    }
 
     $.ajax({
         url: '../server/category/index.php',
@@ -89,25 +112,21 @@ function save() {
     });
 }
 
-function clear_category() {
-    $("#category_name").prop('disabled', true);
-    $("#btn-save").attr('disabled', true);
-    $("#btn-reset").hide();
-    $("#category_name").val('');
-}
 
 function create_category() {
     $("#category_name").prop('disabled', false);
     $("#btn-save").removeAttr('disabled');
     $("#btn-reset").show();
     $("#category_name").val('');
+
+    $('#addcategory').modal('show');
 }
 
 function fetch_all_category(page) {
     $('#tbl_category tbody > tr').remove();
 
     $.ajax({
-        url: '../server/category?page='+page,
+        url: '../server/category',
         async: true,
         type: 'GET',
         crossDomain: true,
@@ -134,8 +153,9 @@ function fetch_all_category(page) {
                         $("#tbl_category tbody").append(html);
                     }
                     $('#pagination').html(decode.pagination);
-                    var resort = true;
-                    $("table").trigger("update", [resort]);
+                    $('#tbl_category').DataTable({
+                        responsive: true
+                    });
                 }
             }
         },

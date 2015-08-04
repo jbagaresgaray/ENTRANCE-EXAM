@@ -43,6 +43,17 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Student</h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="tables.php"> Students</a>
+                        </li>
+                        <li class="active">
+                           Manage Student
+                        </li>
+                    </ol>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

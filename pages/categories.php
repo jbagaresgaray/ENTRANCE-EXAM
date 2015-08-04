@@ -51,36 +51,24 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Questions Category</h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            Questions Category
+                        </li>
+                    </ol>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            Category Information
-                        </div>
-                        <div class="panel-body">
-                            <form id="frmCategory" role="form" data-toggle="validator">
-                                <div class="form-group">
-                                    <label class="control-label" for="inputCategory">Category</label>
-                                    <input type="text" class="form-control" id="category_name" name="category_name" required>
-                                    <span class="help-inline"></span>
-                                </div>
-                                <a id="btn-save" class="btn btn-primary" onclick="save()">Submit</a>
-                                <a id="btn-reset" class="btn btn-warning" onclick="clear_category()">Reset</a>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="form-inline form-padding">
                         <form id="frmSearch" role="form">
-                            <input type="text" class="form-control" name="search" id="search" placeholder="Search Keyword..." required>
-                            <button type="submit" name="submitsearch" class="btn btn-success"><i class="fa fa-search"></i> Search</button>                                
                             <a onclick="create_category()" class="btn btn-primary">Add Category</a>
-                            <a onclick="refresh()" class="btn btn-primary">Refresh</a>
+                            <a onclick="refresh()" class="btn btn-success">Refresh</a>
                         </form>
                     </div>
                     <br>
@@ -89,19 +77,20 @@
                             List of Category
                         </div>
                         <div class="panel-body">
-                            <table class="table table-bordered table-striped" style="margin-bottom:0;" id="tbl_category">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting" >
-                                            Category Name
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                            <div id="pagination" cellspacing="0"></div>
+                            <div class="dataTable_wrapper">
+                                <table class="table table-bordered table-striped" style="margin-bottom:0;" id="tbl_category">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" >
+                                                Category Name
+                                            </th>
+                                            <th width="10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,6 +98,28 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+
+        <div class="modal fade" id="addcategory" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Add Category</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmCategory" role="form" data-toggle="validator">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="category_name" name="category_name" required>
+                                <span class="help-inline"></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="btn-save" class="btn btn-primary" onclick="save()">Submit</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <!-- /#wrapper -->
@@ -127,6 +138,10 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

@@ -47,16 +47,11 @@ class Category {
 			$query1 ="SELECT * FROM category c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
-
-			$query ="SELECT * FROM category c WHERE c.name LIKE '%$search%' order by c.name asc LIMIT $start,$limit;";
-			$mysqli->set_charset('utf8');
-			$result = $mysqli->query($query);
 			$data = array();
-			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
 				array_push($data,$row);
 			}
-			$paging = $func->pagination($limit,$adjacent,$rows,$page);
-			print json_encode(array('success' =>true,'category' =>$data,'pagination'=>$paging),JSON_PRETTY_PRINT);
+			print json_encode(array('success' =>true,'category' =>$data),JSON_PRETTY_PRINT);
 		}
 	}
 
