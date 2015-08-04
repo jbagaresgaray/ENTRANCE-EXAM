@@ -1,17 +1,22 @@
 <?php
 	include('../../server/cors.php');
-	include( __DIR__.'/controller.php');
+	include( __DIR__.'/model.php');
 
 	$method = $_SERVER['REQUEST_METHOD'];
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 
 	switch ($method) {
 	  case 'PUT':
-  		$data = [
-			"category_name" => $_POST['category_name'],
-			"id" => $request
-		];
-		Category::update($data);
+	  	if(isset($request) && !empty($request) && $request[0] !== ''){
+	  		$id = $request[0];
+	  		Category::update($data);
+	  	}else{
+	  		$data = [
+				"category_name" => $_POST['category_name'],
+				"id" => $request
+			];
+			Category::update($data);
+	  	}
 	    break;
 	  case 'POST':
 	    $data = [
@@ -20,12 +25,12 @@
 		Category::create($data);
 	    break;
 	  case 'GET':
-	  	if(isset($request) && !empty($request)){
-	  		print json_encode($request);
-	  		// Category::detail($request);
+	  	if(isset($request) && !empty($request) && $request[0] !== ''){
+	  		$id = $request[0];
+	  		Category::detail($id);
 	  	}else{
-	  		$search = isset($_POST['search']) ? $_POST['search']: null;
-			$page = isset($_POST['page']) ? $_POST['page']: 1;
+	  		$search = isset($_GET['search']) ? $_GET['search']: null;
+			$page = isset($_GET['page']) ? $_GET['page']: 1;
 			Category::read($page,$search);
 	  	}
 	    break;

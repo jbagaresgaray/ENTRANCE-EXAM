@@ -23,7 +23,7 @@ $('#pagination').on('click', '.page-numbers', function() {
 });
 
 
-$(document).on("click", ".remove-icon", function() {\
+$(document).on("click", ".remove-icon", function() {
     var id = $(this).data('id');
 
     BootstrapDialog.show({
@@ -107,15 +107,11 @@ function fetch_all_category(page) {
     $('#tbl_category tbody > tr').remove();
 
     $.ajax({
-        url: '../server/category/index.php',
+        url: '../server/category?page='+page,
         async: true,
-        type: 'POST',
+        type: 'GET',
         crossDomain: true,
         dataType: 'json',
-        data: {
-            command: 'read_category',
-            page: page
-        },
         success: function(response) {
             var decode = response;
             if (decode) {
@@ -150,7 +146,7 @@ function fetch_all_category(page) {
     });
 }
 
-function delete(id) {
+function deletedata(id) {
     var ipaddress = sessionStorage.getItem("ipaddress");
     $.ajax({
         url: '../server/category/index.php',
