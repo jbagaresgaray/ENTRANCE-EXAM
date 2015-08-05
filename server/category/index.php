@@ -35,8 +35,9 @@
 	  	}
 	    break;
 	  case 'DELETE':
-	  	if(isset($request) && !empty($request)){
-	  		Category::delete($request);
+	  	if(isset($request) && !empty($request) && $request[0] !== ''){
+	  		$id = $request[0];
+	  		Category::delete($id);
 	  	}else{
 	  		Category::delete($_POST['id']);
 	  	}	   

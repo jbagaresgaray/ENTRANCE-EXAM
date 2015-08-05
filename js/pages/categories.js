@@ -1,16 +1,14 @@
 $(document).ready(function() {
     var user = JSON.parse(window.localStorage['user'] || '{}');
 
-    // if (Object.keys(user).length < 1) {
-    //     console.log('redirect to main');
-    //     window.location.href = "index.php";
-    // }
-
     $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
     $("#category_name").prop('disabled', true);
     $("#btn-save").attr('disabled', true);
     $("#btn-reset").hide();
 
+    $('#tbl_category').DataTable({
+        responsive: true
+    });
 
     fetch_all_category('1');
 
@@ -34,21 +32,28 @@ $(document).on("click", ".remove-icon", function() {
     var id = $(this).data('id');
 
     BootstrapDialog.show({
-        title: 'Default Title',
-        message: 'Click buttons below.',
+        title: 'Delete',
+        message: 'Are you sure to delete this record?',
         buttons: [{
-            label: 'Title 1',
+            label: 'Yes',
+            cssClass: 'btn-primary',
             action: function(dialog) {
-                dialog.setTitle('Title 1');
+                deletedata(id);
+                dialog.close();
             }
         }, {
-            label: 'Title 2',
+            label: 'No',
+            cssClass: 'btn-warning',
             action: function(dialog) {
-                dialog.setTitle('Title 2');
+                dialog.close();
             }
         }]
     });
+});
 
+$(document).on("click", ".edit-icon", function() {
+    var id = $(this).data('id');
+    getData(id);
 });
 
 function resetHelpInLine() {
@@ -153,9 +158,7 @@ function fetch_all_category(page) {
                         $("#tbl_category tbody").append(html);
                     }
                     $('#pagination').html(decode.pagination);
-                    $('#tbl_category').DataTable({
-                        responsive: true
-                    });
+                    $.notify("All records display", "info");
                 }
             }
         },
@@ -167,23 +170,37 @@ function fetch_all_category(page) {
 }
 
 function deletedata(id) {
-    var ipaddress = sessionStorage.getItem("ipaddress");
     $.ajax({
-        url: '../server/category/index.php',
+        url: '../server/category/' + id,
         async: true,
-        type: 'POST',
-        data: {
-            command: 'delete_category',
-            id: id
-        },
+        type: 'DELETE',
         success: function(response) {
             var decode = response;
-
             if (decode.success == true) {
+                $.notify("Record successfully deleted", "success");
                 refresh();
                 clear_category();
             } else if (decode.success === false) {
-                alert(decode.msg);
+                $.notify(decode.msg, "error");
+                return;
+            }
+
+        }
+    });
+}
+
+function getData(id) {
+    $.ajax({
+        url: '../server/category/' + id,
+        async: true,
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            console.log('response: ', decode);
+            if (decode.success == true) {
+                $('#addcategory').modal('show');
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
                 return;
             }
 
