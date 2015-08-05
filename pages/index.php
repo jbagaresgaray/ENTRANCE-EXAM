@@ -60,14 +60,6 @@
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <a href="main.php" class="btn btn-lg btn-success btn-block">Login</a>
-                                <hr>
-                                <div class="text-center">
-                                    <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
-                                    <a class="btn btn-social-icon btn-google-plus"><i class="fa fa-google-plus"></i></a>
-                                    <a class="btn btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></a>
-                                    <a class="btn btn-social-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                                    <a class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
-                                </div>
                             </fieldset>
                         </form>
                     </div>
