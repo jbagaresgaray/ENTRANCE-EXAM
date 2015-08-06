@@ -25,21 +25,13 @@ class Questions {
 		}        
 	}
 
-	public function read($page,$search){
-		$limit = 10;
-		$adjacent = 3;
+	public function read(){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-
-			if($page==1){
-			   $start = 0;
-			}else{
-			  $start = ($page-1)*$limit;
-			}
 
 		}
 	}

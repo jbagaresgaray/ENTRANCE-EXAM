@@ -20,6 +20,11 @@
     <!-- Social Buttons CSS -->
     <link href="../bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet">
 
+    <!-- Bootstrap Material CSS -->
+    <link href="../bower_components/bootstrap-material-design/dist/css/roboto.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap-material-design/dist/css/material.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -42,7 +47,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Admin Panel</h3>
+                        <h3 class="panel-title text-center">Student</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">
@@ -68,6 +73,10 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Material Core JavaScript -->
+    <script src="../bower_components/bootstrap-material-design/dist/js/ripples.min.js"></script>
+    <script src="../bower_components/bootstrap-material-design/dist/js/material.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
