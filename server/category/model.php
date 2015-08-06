@@ -62,7 +62,7 @@ class Category {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
-			$query ='SELECT * FROM category c WHERE id=$id LIMIT 1;';
+			$query ="SELECT * FROM category c WHERE c.id=$id;";
 			$mysqli->set_charset('utf8');
 			$result = $mysqli->query($query);
 			if($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -73,7 +73,7 @@ class Category {
 		}
 	}
 
-	public function update($id,$data){
+	public function update($data){
 		$config= new Config();
 		
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
@@ -82,6 +82,7 @@ class Category {
 		    return;
 		}else{
 			$category_name = $mysqli->real_escape_string($data['category_name']);
+			$id = $mysqli->real_escape_string($data['id']);
 			if ($stmt = $mysqli->prepare('UPDATE category SET name=? WHERE id=?')){
 				$stmt->bind_param('ss', $category_name,$id);
 				$stmt->execute();

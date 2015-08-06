@@ -6,23 +6,19 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 
 	switch ($method) {
-	  case 'PUT':
-	  	if(isset($request) && !empty($request) && $request[0] !== ''){
-	  		$id = $request[0];
-	  		Category::update($data);
-	  	}else{
+	  case 'POST':
+	  	if(isset($_POST['category_id'])&&!empty($_POST['category_id'])){
 	  		$data = [
 				"category_name" => $_POST['category_name'],
-				"id" => $request
+				"id" => $_POST['category_id']
 			];
 			Category::update($data);
+	  	}else{
+	  		$data = [
+				"category_name" => $_POST['category_name']
+			];
+			Category::create($data);
 	  	}
-	    break;
-	  case 'POST':
-	    $data = [
-			"category_name" => $_POST['category_name']
-		];
-		Category::create($data);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){

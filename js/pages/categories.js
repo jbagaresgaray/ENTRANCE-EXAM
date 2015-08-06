@@ -82,39 +82,69 @@ function save() {
     }
 
     if (empty == true) {
-        alert('Please input all the required fields correctly.');
+        $.notify('Please input all the required fields correctly.', "error");
         return false;
     }
 
-    $.ajax({
-        url: '../server/category/index.php',
-        async: false,
-        type: 'POST',
-        crossDomain: true,
-        dataType: 'json',
-        data: {
-            command: 'create_category',
-            category_name: $('#category_name').val()
-        },
-        success: function(response) {
-            var decode = response;
-
-            if (decode.success == true) {
-                refresh();
-                clear_category();
-            } else if (decode.success === false) {
-                $('#btn-save').button('reset');
-                alert(decode.error);
+    if ($("#category_id").val() === '') {
+        $.ajax({
+            url: '../server/category/index.php',
+            async: false,
+            type: 'POST',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                category_name: $('#category_name').val()
+            },
+            success: function(response) {
+                var decode = response;
+                if (decode.success == true) {
+                    $('#addcategory').modal('hide');
+                    refresh();
+                    $.notify("Record successfully saved", "success");
+                } else if (decode.success === false) {
+                    $('#btn-save').button('reset');
+                    $.notify(decode.msg, "error");
+                    return;
+                }
+            },
+            error: function(error) {
+                console.log("Error:");
+                console.log(error.responseText);
+                console.log(error.message);
                 return;
             }
-        },
-        error: function(error) {
-            console.log("Error:");
-            console.log(error.responseText);
-            console.log(error.message);
-            return;
-        }
-    });
+        });
+    } else {
+        $.ajax({
+            url: '../server/category/index.php',
+            async: false,
+            type: 'POST',
+            data: {
+                category_id: $('#category_id').val(),
+                category_name: $('#category_name').val()
+            },
+            success: function(response) {
+                var decode = response;
+                console.log('decode: ',decode);
+                if (decode.success == true) {
+                    $('#addcategory').modal('hide');
+                    refresh();
+                    $.notify("Record successfully updated", "success");
+                } else if (decode.success === false) {
+                    $('#btn-save').button('reset');
+                    $.notify(decode.msg, "error");
+                    return;
+                }
+            },
+            error: function(error) {
+                console.log("Error:");
+                console.log(error.responseText);
+                console.log(error.message);
+                return;
+            }
+        });
+    }
 }
 
 
@@ -198,6 +228,13 @@ function getData(id) {
             var decode = response;
             console.log('response: ', decode);
             if (decode.success == true) {
+                $("#category_name").prop('disabled', false);
+                $("#btn-save").removeAttr('disabled');
+                $("#btn-reset").show();
+
+                $("#category_name").val(decode.category.name);
+                $("#category_id").val(decode.category.id);
+
                 $('#addcategory').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");

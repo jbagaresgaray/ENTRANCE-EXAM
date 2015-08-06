@@ -98,8 +98,8 @@
                                     <label>Message</label>
                                     <textarea class="form-control" rows="3" placeholder="Message"></textarea>
                                 </div>
-                                <a class="btn btn-primary">Submit Button</a>
-                                <a class="btn btn-warning">Reset Button</a>
+                                <a class="btn btn-primary" id="btn-send">Send Message</a>
+                                <a class="btn btn-warning" id="btn-reset">Reset</a>
                             </form>
                         </div>
                         <!-- /.panel-body -->
@@ -125,6 +125,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../js/pages/sms.js" type="text/javascript"></script>
 
 </body>
 

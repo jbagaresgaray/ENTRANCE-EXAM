@@ -5,7 +5,7 @@ class Config {
     public $host  ='localhost';
     public $user ='root';
     public $pass  = '';
-    public $db  ='entance';
+    public $db  ='entrance';
 
 
     public $sms_api_code='09394049310J2P9XQZ4';
