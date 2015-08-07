@@ -4,12 +4,11 @@ require_once('../../server/pagination.php');
 
 class Category {
 
-	function __construct(){
-    }
+	function __construct(){}
 
-	public function create($data){
+	public static function create($data){
 		$config= new Config();
-		
+
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
@@ -23,15 +22,15 @@ class Category {
 			}else{
 				print json_encode(array('success' =>false,'msg' =>'Error message: %s\n', $mysqli->error),JSON_PRETTY_PRINT);
 			}
-		}        
+		}
 	}
 
-	public function read($page,$search){
+	public static function read($page,$search){
 		$limit = 10;
 		$adjacent = 3;
 		$config= new Config();
 		$func = new Functions();
-		
+
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
@@ -55,7 +54,7 @@ class Category {
 		}
 	}
 
-	public function detail($id){
+	public static function detail($id){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -73,9 +72,9 @@ class Category {
 		}
 	}
 
-	public function update($data){
+	public static function update($data){
 		$config= new Config();
-		
+
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
@@ -93,7 +92,7 @@ class Category {
 		}
 	}
 
-	public function delete($id){
+	public static function delete($id){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if($stmt = $mysqli->prepare('DELETE FROM category WHERE id =?')){
