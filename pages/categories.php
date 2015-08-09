@@ -109,7 +109,7 @@
                         <form id="frmCategory" role="form">
                             <div class="form-group">
                                 <input type="hidden" id="category_id" name="category_id">
-                                <input type="text" class="form-control" id="category_name" name="category_name" required>                         
+                                <input type="text" class="form-control" id="category_name" name="category_name" required>
                                 <span class="help-inline"></span>
                             </div>
                         </form>

@@ -4,10 +4,9 @@ require_once('../../server/pagination.php');
 
 class Courses {
 
-	function __construct(){
-    }
+	function __construct(){}
 
-	public function create($data){
+	public static function create($data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -23,25 +22,16 @@ class Courses {
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
 			}
-		}        
+		}
 	}
 
-	public function read($page,$search){
-		$limit = 10;
-		$adjacent = 3;
+	public function read(){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-
-			if($page==1){
-			   $start = 0;
-			}else{
-			  $start = ($page-1)*$limit;
-			}
-
 			$query1 ="SELECT * FROM courses c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
@@ -53,7 +43,7 @@ class Courses {
 		}
 	}
 
-	public function detail($id){
+	public static function detail($id){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -71,7 +61,7 @@ class Courses {
 		}
 	}
 
-	public function update($data){
+	public static function update($data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -81,7 +71,7 @@ class Courses {
 			$coursename = $mysqli->real_escape_string($data['coursename']);
 			$passing_score = $mysqli->real_escape_string($data['passing_score']);
 
-			if ($stmt = $mysqli->prepare('UPDATE courses SET coursename=?,passing_score WHERE id=?')){
+			if ($stmt = $mysqli->prepare('UPDATE courses SET coursename=?,passing_score=? WHERE id=?')){
 				$stmt->bind_param("sss", $coursename,$passing_score,$data['id']);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
@@ -91,8 +81,8 @@ class Courses {
 		}
 	}
 
-	public function delete($id){
-		$config= new Config();		
+	public static function delete($id){
+		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if($stmt = $mysqli->prepare("DELETE FROM courses WHERE id =?")){
 			$stmt->bind_param("s", $id);
