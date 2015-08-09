@@ -60,6 +60,7 @@
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <a href="main.php" class="btn btn-lg btn-primary btn-block">Login</a>
+                                <a href="main.php" class="btn btn-lg btn-success btn-block">Register</a>
                             </fieldset>
                         </form>
                     </div>
@@ -83,7 +84,11 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+    <script type="text/javascript">
+        $(function() {
+            $.material.init();
+        });
+    </script>
 </body>
 
 </html>

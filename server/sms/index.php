@@ -6,9 +6,6 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 
 	switch ($method) {
-	  case 'PUT':
-  		
-	    break;
 	  case 'POST':
 	    
 	    break;

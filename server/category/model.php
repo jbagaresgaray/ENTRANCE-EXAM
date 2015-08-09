@@ -7,7 +7,7 @@ class Category {
 	function __construct(){
     }
 
-	public function create($data){
+	public static function create($data){
 		$config= new Config();
 		
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
@@ -26,7 +26,7 @@ class Category {
 		}        
 	}
 
-	public function read($page,$search){
+	public static function read($page,$search){
 		$limit = 10;
 		$adjacent = 3;
 		$config= new Config();
@@ -55,7 +55,7 @@ class Category {
 		}
 	}
 
-	public function detail($id){
+	public static function detail($id){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -73,7 +73,7 @@ class Category {
 		}
 	}
 
-	public function update($data){
+	public static function update($data){
 		$config= new Config();
 		
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
@@ -93,7 +93,7 @@ class Category {
 		}
 	}
 
-	public function delete($id){
+	public static function delete($id){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if($stmt = $mysqli->prepare('DELETE FROM category WHERE id =?')){
