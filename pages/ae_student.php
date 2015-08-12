@@ -68,56 +68,39 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <form role="form">
+                                        <input type="hidden" name="id" />
                                         <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input class="form-control" type="text">
+                                            <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID" />
                                         </div>
                                         <div class="form-group">
-                                            <label>First Name</label>
-                                            <input class="form-control" type="text">
+                                            <input type="text" class="form-control" name="fname" id="fname" placeholder="Firstname" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input class="form-control" type="email">
+                                            <input type="text" class="form-control" name="lname" id="lname" placeholder="Lastname" />
                                         </div>
                                         <div class="form-group">
-                                            <label>Contact Number</label>
-                                            <input class="form-control" type="email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Address</label>
-                                            <textarea class="form-control" rows="3"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Male
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Female
-                                                </label>
-                                            </div>
+                                            <input type="text" class="form-control" name="mobileno" id="mobileno" placeholder="Mobile No" />
                                         </div>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                                 <div class="col-lg-6">
-                                    <h1>Accounts</h1>
                                     <form role="form">
                                         <div class="form-group input-group">
                                             <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="Username">
+                                            <input type="text" class="form-control" id="username" placeholder="Username">
                                         </div>
                                         <div class="form-group input-group">
                                             <span class="input-group-addon">*</span>
-                                            <input type="password" class="form-control" placeholder="Password">
+                                            <input type="password" class="form-control" id="password"  placeholder="Password">
+                                        </div>
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">*</span>
+                                            <input type="password" class="form-control" id="password2" placeholder="Confirm Password" />
                                         </div>
                                     </form>
-                                    <button class="btn btn-primary">Submit Button</button>
-                                    <button class="btn btn-warning">Reset Button</button>
+                                    <button class="btn btn-primary">Save</button>
+                                    <button class="btn btn-warning">Reset</button>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>

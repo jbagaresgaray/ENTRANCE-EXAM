@@ -130,6 +130,22 @@ CREATE TABLE IF NOT EXISTS `status` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sms`
+--
+
+CREATE TABLE IF NOT EXISTS `sms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mobileno` varchar(45) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+--
+-- Dumping data for table `category`
+--
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student`
 --
 

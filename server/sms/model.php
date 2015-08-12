@@ -21,7 +21,7 @@ class SMS {
 		curl_setopt($ch, CURLOPT_POSTFIELDS, 
 		http_build_query($itexmo));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		return curl_exec ($ch);
+		return print json_encode(curl_exec ($ch));
 		curl_close ($ch);
 	}
 	public static function itexmo_bal(){

@@ -25,7 +25,7 @@ class Category {
 		}
 	}
 
-	public static function read($page,$search){
+	public static function read(){
 		$limit = 10;
 		$adjacent = 3;
 		$config= new Config();
@@ -36,13 +36,6 @@ class Category {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
-
-			if($page==1){
-			   $start = 0;
-			}else{
-			  $start = ($page-1)*$limit;
-			}
-
 			$query1 ="SELECT * FROM category c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;

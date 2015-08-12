@@ -88,7 +88,7 @@ function save() {
 
     if ($("#category_id").val() === '') {
         $.ajax({
-            url: '../server/category/index.php',
+            url: '../server/category/',
             async: false,
             type: 'POST',
             crossDomain: true,
@@ -117,7 +117,7 @@ function save() {
         });
     } else {
         $.ajax({
-            url: '../server/category/index.php',
+            url: '../server/category/',
             async: false,
             type: 'POST',
             data: {
@@ -161,7 +161,7 @@ function fetch_all_category(page) {
     $('#tbl_category tbody > tr').remove();
 
     $.ajax({
-        url: '../server/category',
+        url: '../server/category/',
         async: true,
         type: 'GET',
         crossDomain: true,

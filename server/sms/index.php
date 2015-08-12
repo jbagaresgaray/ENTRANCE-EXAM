@@ -7,7 +7,7 @@
 
 	switch ($method) {
 	  case 'POST':
-	    
+	     SMS::itexmo($_POST['number'],$_POST['message']);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){

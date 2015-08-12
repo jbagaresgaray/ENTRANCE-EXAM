@@ -7,20 +7,28 @@
 
 	switch ($method) {
 		case 'PUT':
+			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
+			foreach ($_PUT as $key => $value){
+					unset($_PUT[$key]);
+					$_PUT[str_replace('amp;', '', $key)] = $value;
+			}
+			$_REQUEST = array_merge($_REQUEST, $_PUT);
+
+			$data = [
+				"category_name" => $_REQUEST['category_name'],
+				"id" => $_REQUEST['category_id']
+			];
+
 			if(isset($request) && !empty($request) && $request[0] !== ''){
-		  		$id = $request[0];
-		  		parse_str(file_get_contents('php://input'), $this->_put_args);
-		  	}else{
-		  		
-		  	}
+				$id = $request[0];
+				Category::update($id,$data);
+			}else{
+				Category::update(null,$data);
+			}
 			break;
 	  	case 'POST':
 		  	if(isset($_POST['category_id'])&&!empty($_POST['category_id'])){
-		  		$data = [
-					"category_name" => $_POST['category_name'],
-					"id" => $_POST['category_id']
-				];
-				Category::update($data);
+		  		
 		  	}else{
 		  		$data = [
 					"category_name" => $_POST['category_name']
@@ -33,18 +41,14 @@
 		  		$id = $request[0];
 		  		Category::detail($id);
 		  	}else{
-		  		$search = isset($_GET['search']) ? $_GET['search']: null;
-				$page = isset($_GET['page']) ? $_GET['page']: 1;
-				Category::read($page,$search);
+				Category::read();
 		  	}
 		    break;
 	  	case 'DELETE':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		$id = $request[0];
 		  		Category::delete($id);
-		  	}else{
-		  		Category::delete($_POST['id']);
-		  	}	   
+		  	}   
 		    break;
 	  	default:
 	    	print json_encode('ENTRANCE EXAM API v.0.1 developed by: Philip Cesar B. Garay');

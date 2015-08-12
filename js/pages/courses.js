@@ -90,7 +90,7 @@ function save() {
 
     if ($("#course_id").val() === '') {
         $.ajax({
-            url: '../server/courses/index.php',
+            url: '../server/courses/',
             async: false,
             type: 'POST',
             crossDomain: true,
@@ -119,7 +119,7 @@ function save() {
         });
     } else {
         $.ajax({
-            url: '../server/courses/index.php',
+            url: '../server/courses/',
             async: false,
             type: 'POST',
             data: {
@@ -165,7 +165,7 @@ function fetch_all_course() {
     $('#tbl_courses tbody > tr').remove();
 
     $.ajax({
-        url: '../server/category',
+        url: '../server/course/',
         async: true,
         type: 'GET',
         crossDomain: true,
@@ -206,7 +206,7 @@ function fetch_all_course() {
 
 function deletedata(id) {
     $.ajax({
-        url: '../server/category/' + id,
+        url: '../server/course/' + id,
         async: true,
         type: 'DELETE',
         success: function(response) {
@@ -226,7 +226,7 @@ function deletedata(id) {
 
 function getData(id) {
     $.ajax({
-        url: '../server/category/' + id,
+        url: '../server/course/' + id,
         async: true,
         type: 'GET',
         success: function(response) {

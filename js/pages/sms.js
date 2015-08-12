@@ -4,3 +4,13 @@ $(document).ready(function() {
     $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
 
 });
+
+
+function send(){
+
+}
+
+
+function bulksend(){
+	
+}

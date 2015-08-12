@@ -8,17 +8,11 @@
                 <form role="form">
                     <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
+                        <select class="form-control" id="select_category" name="select_category"></select>
                     </div>
                     <div class="form-group">
                         <label>Question</label>
-                        <div id="summernote"></div>
+                        <textarea class="ckeditor" name="content"></textarea>
                     </div>
                     <div class="form-group well">
                         <label>Primary Image: </label>
@@ -49,8 +43,6 @@
                         <input type="file" name="pic4" class="form-control" accept="image/*" />
                     </div>      
                 </form>
-                <button class="btn btn-primary">Submit Button</button>
-                <button class="btn btn-warning">Reset Button</button>
             </div>
             <div class="modal-footer">
                 <a id="btn-save" class="btn btn-primary" onclick="save()">Submit</a>
