@@ -70,52 +70,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label>Category</label>
-                                            <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Question</label>
-                                            <div id="summernote"></div>
-                                        </div>
-                                        <div class="form-group well">
-                                            <label>Primary Image: </label>
-                                            <input type="file" name="mainpic" class="form-control" accept="image/*" />
-                                        </div>
-                                        <div class="form-group well">
-                                            <label>Correct Answer</label>
-                                            <input type="text" name="answer" class="form-control" required/>
-                                            <label>Image: </label>
-                                            <input type="file" name="correctpic" class="form-control" accept="image/*" />
-                                        </div>
-                                        <div class="form-group well">
-                                            <label>2nd Choice</label>
-                                            <input type="text" name="choice2" class="form-control" required/> 
-                                            <label>Image: </label>
-                                            <input type="file" name="pic2" class="form-control" accept="image/*" />
-                                        </div>
-                                        <div class="form-group well">                
-                                            <label>3rd Choice</label>
-                                            <input type="text" name="choice3" class="form-control" required/> 
-                                            <label>Image: </label>
-                                            <input type="file" name="pic3" class="form-control" accept="image/*" />
-                                        </div>
-                                        <div class="form-group well">
-                                            <label>4th Choice</label>
-                                            <input type="text" name="choice4" class="form-control" required/> 
-                                            <label>Image: </label>
-                                            <input type="file" name="pic4" class="form-control" accept="image/*" />
-                                        </div>      
-                                    </form>
-                                    <button class="btn btn-primary">Submit Button</button>
-                                    <button class="btn btn-warning">Reset Button</button>
+                                    
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
@@ -143,8 +98,6 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-    <!-- SummerNote -->
-    <script src="../bower_components/summernote/dist/summernote.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
@@ -159,17 +112,6 @@
 
     // popover demo
     $("[data-toggle=popover]").popover();
-
-    $(document).ready(function() {
-      $('#summernote').summernote({
-          height: 300,                 // set editor height
-
-          minHeight: null,             // set minimum height of editor
-          maxHeight: null,             // set maximum height of editor
-
-          focus: true,                 // set focus to editable area after initializing summernote
-        });
-    });
     </script>
 
 </body>
