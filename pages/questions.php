@@ -65,7 +65,7 @@
                 <div class="col-lg-12">
                    <div class="form-inline form-padding">
                         <form id="frmSearch" role="form">                               
-                            <a onclick="create_category()" class="btn btn-primary">Add Question</a>
+                            <a onclick="create_question()" class="btn btn-primary">Add Question</a>
                             <a onclick="refresh()" class="btn btn-success">Refresh</a>
                         </form>
                     </div>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover" id="tbl_questions">
                                     <thead>
                                         <tr>
                                             <th>Rendering engine</th>
@@ -504,25 +504,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+    <?php include('modals/questions.php'); ?>
     <!-- /.row -->
 
     <!-- jQuery -->
@@ -537,17 +519,11 @@
     <!-- DataTables JavaScript -->
     <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
+    <!-- SummerNote -->
+    <script src="../bower_components/summernote/dist/summernote.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
-    <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-    </script>
+    <script src="../js/pages/questions.js" type="text/javascript"></script>
 
 </body>
 
