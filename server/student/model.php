@@ -1,6 +1,5 @@
 <?php
 require_once '../../server/connection.php';
-include('../../server/pagination.php');
 
 class Student {
 
@@ -22,7 +21,7 @@ class Student {
 			$password = $mysqli->real_escape_string($data['password']);
 
 			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,username,password) VALUES(?,?,?,?,?,?)')){
-				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$username,$password);
+				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$username,sha1($password));
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{

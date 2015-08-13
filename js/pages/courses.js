@@ -19,6 +19,7 @@ $('#addcourse').on('hide.bs.modal', function(e) {
     $("#btn-save").attr('disabled', true);
     $("#course_name").val('');
     $("#passing_score").val('');
+    $("#course_id").val('');
 });
 
 
@@ -154,6 +155,7 @@ function create_course() {
     $("#btn-reset").show();
     $("#course_name").val('');
     $("#passing_score").val('');
+    $("#course_id").val('');
 
     $('#addcourse').modal('show');
 }

@@ -2,8 +2,12 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 --
--- Database: `entance`
+-- Database: `entrance`
 --
+
+DROP SCHEMA IF EXISTS `entrance`;
+CREATE SCHEMA `entrance`;
+USE `entrance`;
 
 -- --------------------------------------------------------
 
@@ -74,6 +78,40 @@ CREATE TABLE IF NOT EXISTS `lesson` (
 -- Dumping data for table `lesson`
 --
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `lesson_pdf`
+--
+
+CREATE TABLE IF NOT EXISTS `lesson_pdf` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lesson_id` int(11) NOT NULL,
+  `file` varchar(300) NOT NULL,
+  `image` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=390 ;
+
+--
+-- Dumping data for table `lesson_pdf`
+--
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lesson_video`
+--
+
+CREATE TABLE IF NOT EXISTS `lesson_video` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lesson_id` int(11) NOT NULL,
+  `file` varchar(300) NOT NULL,
+  `image` text NOT NULL,
+  `source` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+
+--
+-- Dumping data for table `lesson_video`
+--
 
 --
 -- Table structure for table `quiz`
@@ -155,8 +193,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `fname` varchar(100) NOT NULL,
   `lname` varchar(100) NOT NULL,
   `mobileno` varchar(45) NOT NULL,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
@@ -181,8 +218,4 @@ CREATE TABLE IF NOT EXISTS `userdata` (
 
 --
 -- Dumping data for table `userdata`
---
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

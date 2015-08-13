@@ -44,79 +44,58 @@
 <body>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="login-panel panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title text-center">Sign Up</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal">
-                            <fieldset>
-                                <legend>Legend</legend>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-                                    <div class="col-lg-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                    </div>
+         <div class="col-md-6 col-md-offset-3">
+            <div class="login-panel panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Sign Up</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="inputFirstName" class="col-lg-3 control-label">Firstname</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" id="inputFirstName" placeholder="Firstname">
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                                    <div class="col-lg-10">
-                                        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> Checkbox
-                                            </label>
-                                        </div>
-                                        <br>
-                                        <div class="togglebutton">
-                                            <label>
-                                                <input type="checkbox" checked=""> Toggle button
-                                            </label>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputLastname" class="col-lg-3 control-label">Lastname</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" id="inputLastname" placeholder="Lastname">
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputFile" class="col-lg-2 control-label">File</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" readonly="" class="form-control floating-label" placeholder="Browse...">
-                                        <input type="file" id="inputFile" multiple="">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputMobileNo" class="col-lg-3 control-label">Mobile No.</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" id="inputMobileNo" placeholder="Mobile No.">
                                 </div>
-                                <div class="form-group">
-                                    <label for="textArea" class="col-lg-2 control-label">Textarea</label>
-                                    <div class="col-lg-10">
-                                        <textarea class="form-control" rows="3" id="textArea"></textarea>
-                                        <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputUsername" class="col-lg-3 control-label">Username</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label">Radios</label>
-                                    <div class="col-lg-10">
-                                        <div class="radio radio-primary">
-                                            <label>
-                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                                Option one is this
-                                            </label>
-                                        </div>
-                                        <div class="radio radio-primary">
-                                            <label>
-                                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                                Option two can be something else
-                                            </label>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-lg-3 control-label">Password</label>
+                                <div class="col-lg-9">
+                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2">
-                                        <button class="btn btn-default">Cancel</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCPassword" class="col-lg-3 control-label">Confirm Password</label>
+                                <div class="col-lg-9">
+                                    <input type="password" class="form-control" id="inputCPassword" placeholder="Confirm Password">
                                 </div>
-                            </fieldset>
-                        </form>
-                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <a class="btn btn-primary">Submit</a>
+                                    <a class="btn btn-default">Cancel</a>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
         </div>

@@ -31,7 +31,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-wrench fa-fw"></i>Reports<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-files-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
                         <a href="flot.php">Exam Result</a>
@@ -46,10 +46,10 @@
                 <a href="sms.php"><i class="fa fa-edit fa-fw"></i> SMS</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="blank.php">Blank Page</a>
+                        <a href="blank.php">Manage Users</a>
                     </li>
                     <li>
                         <a href="index.php">Login Page</a>

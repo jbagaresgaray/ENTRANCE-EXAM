@@ -15,8 +15,7 @@
 			$_REQUEST = array_merge($_REQUEST, $_PUT);
 
 			$data = [
-				"category_name" => $_REQUEST['category_name'],
-				"id" => $_REQUEST['category_id']
+				"category_name" => $_REQUEST['category_name']
 			];
 
 			if(isset($request) && !empty($request) && $request[0] !== ''){

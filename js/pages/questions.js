@@ -20,11 +20,11 @@ function create_question() {
     $('#questionsModal').modal('show');
 }
 
-function clear(){
+function clear() {
 
 }
 
-function refresh(){
+function refresh() {
 
 }
 
@@ -77,7 +77,7 @@ function resetHelpInLine() {
     });
 }
 
-function save(){
+function save() {
     resetHelpInLine();
 
     var empty = false;
@@ -121,6 +121,68 @@ function save(){
         $.notify('Please input all the required fields correctly.', "error");
         return false;
     }
+
+
+    if ($("#course_id").val() === '') {
+        $.ajax({
+            url: '../server/courses/',
+            async: false,
+            type: 'POST',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                coursename: $('#course_name').val(),
+                passing_score: $('#passing_score').val()
+            },
+            success: function(response) {
+                var decode = response;
+                if (decode.success == true) {
+                    $('#addcourse').modal('hide');
+                    refresh();
+                    $.notify("Record successfully saved", "success");
+                } else if (decode.success === false) {
+                    $('#btn-save').button('reset');
+                    $.notify(decode.msg, "error");
+                    return;
+                }
+            },
+            error: function(error) {
+                console.log("Error:");
+                console.log(error.responseText);
+                console.log(error.message);
+                return;
+            }
+        });
+    } else {
+        $.ajax({
+            url: '../server/courses/' + $('#course_id').val(),
+            async: false,
+            type: 'PUT',
+            data: {
+                coursename: $('#course_name').val(),
+                passing_score: $('#passing_score').val()
+            },
+            success: function(response) {
+                var decode = response;
+                console.log('decode: ', decode);
+                if (decode.success == true) {
+                    $('#addcourse').modal('hide');
+                    refresh();
+                    $.notify("Record successfully updated", "success");
+                } else if (decode.success === false) {
+                    $.notify(decode.msg, "error");
+                    return;
+                }
+            },
+            error: function(error) {
+                console.log("Error:");
+                console.log(error.responseText);
+                console.log(error.message);
+                return;
+            }
+        });
+    }
+
 }
 
 function fetch_categories() {
@@ -131,7 +193,7 @@ function fetch_categories() {
         dataType: 'json',
         success: function(response) {
             var decode = response;
-            console.log('data: ',response);
+            console.log('data: ', response);
             $('#select_category').empty();
             for (var i = 0; i < decode.category.length; i++) {
                 var row = decode.category;

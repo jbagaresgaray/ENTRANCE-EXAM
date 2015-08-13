@@ -60,7 +60,7 @@
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <a href="main.php" class="btn btn-lg btn-primary btn-block">Login</a>
-                                <a href="main.php" class="btn btn-lg btn-success btn-block">Register</a>
+                                <a href="signup.php" class="btn btn-lg btn-success btn-block">Register</a>
                             </fieldset>
                         </form>
                     </div>
