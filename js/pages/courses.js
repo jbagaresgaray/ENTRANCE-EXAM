@@ -16,10 +16,7 @@ $(document).ready(function() {
 
 
 $('#addcourse').on('hide.bs.modal', function(e) {
-    $("#course_name").prop('disabled', true);
-    $("#passing_score").prop('disabled', true);
     $("#btn-save").attr('disabled', true);
-    $("#btn-reset").hide();
     $("#course_name").val('');
     $("#passing_score").val('');
 });
@@ -96,12 +93,13 @@ function save() {
             crossDomain: true,
             dataType: 'json',
             data: {
-                category_name: $('#category_name').val()
+                coursename: $('#course_name').val(),
+                passing_score: $('#passing_score').val()
             },
             success: function(response) {
                 var decode = response;
                 if (decode.success == true) {
-                    $('#addcategory').modal('hide');
+                    $('#addcourse').modal('hide');
                     refresh();
                     $.notify("Record successfully saved", "success");
                 } else if (decode.success === false) {
@@ -119,22 +117,21 @@ function save() {
         });
     } else {
         $.ajax({
-            url: '../server/courses/',
+            url: '../server/courses/' + $('#course_id').val(),
             async: false,
-            type: 'POST',
+            type: 'PUT',
             data: {
-                category_id: $('#category_id').val(),
-                category_name: $('#category_name').val()
+                coursename: $('#course_name').val(),
+                passing_score: $('#passing_score').val()
             },
             success: function(response) {
                 var decode = response;
                 console.log('decode: ',decode);
                 if (decode.success == true) {
-                    $('#addcategory').modal('hide');
+                    $('#addcourse').modal('hide');
                     refresh();
                     $.notify("Record successfully updated", "success");
                 } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
                     $.notify(decode.msg, "error");
                     return;
                 }
@@ -165,20 +162,21 @@ function fetch_all_course() {
     $('#tbl_courses tbody > tr').remove();
 
     $.ajax({
-        url: '../server/course/',
+        url: '../server/courses/',
         async: true,
         type: 'GET',
         crossDomain: true,
         dataType: 'json',
         success: function(response) {
             var decode = response;
+            console.log('decode: ',decode);
             if (decode) {
-                if (decode.category.length > 0) {
-                    for (var i = 0; i < decode.category.length; i++) {
-                        var row = decode.category;
+                if (decode.courses.length > 0) {
+                    for (var i = 0; i < decode.courses.length; i++) {
+                        var row = decode.courses;
                         var html = '<tr class="odd">\
-                                        <td class="sorting">' + row[i].name + '</td>\
-                                        <td class="sorting">' + row[i].name + '</td>\
+                                        <td class="sorting">' + row[i].coursename + '</td>\
+                                        <td class="sorting">' + row[i].passing_score + '</td>\
                                         <td class=" ">\
                                           <div class="text-right">\
                                             <a class="edit-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
@@ -206,7 +204,7 @@ function fetch_all_course() {
 
 function deletedata(id) {
     $.ajax({
-        url: '../server/course/' + id,
+        url: '../server/courses/' + id,
         async: true,
         type: 'DELETE',
         success: function(response) {
@@ -214,7 +212,6 @@ function deletedata(id) {
             if (decode.success == true) {
                 $.notify("Record successfully deleted", "success");
                 refresh();
-                clear_category();
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
                 return;
@@ -226,22 +223,20 @@ function deletedata(id) {
 
 function getData(id) {
     $.ajax({
-        url: '../server/course/' + id,
+        url: '../server/courses/' + id,
         async: true,
         type: 'GET',
         success: function(response) {
             var decode = response;
             console.log('response: ', decode);
             if (decode.success == true) {
-                $("#course_name").prop('disabled', false);
-                $("#course_id").prop('disabled', false);
                 $("#btn-save").removeAttr('disabled');
-                $("#btn-reset").show();
 
-                $("#course_name").val(decode.category.name);
-                $("#course_id").val(decode.category.id);
+                $("#course_name").val(decode.course.coursename);
+                $("#passing_score").val(decode.course.passing_score);
+                $("#course_id").val(decode.course.id);
 
-                $('#addcategory').modal('show');
+                $('#addcourse').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
                 return;

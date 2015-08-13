@@ -17,6 +17,9 @@
     <!-- MetisMenu CSS -->
     <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -116,6 +119,9 @@
     <!-- Notify -->
     <script src="../bower_components/notifyjs/dist/notify.js"></script>
     <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

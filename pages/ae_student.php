@@ -70,16 +70,21 @@
                                     <form role="form">
                                         <input type="hidden" name="id" />
                                         <div class="form-group">
+                                            <input type="hidden" name="id" id="id"/>
                                             <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID" />
+                                            <span class="help-inline"></span>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="fname" id="fname" placeholder="Firstname" />
+                                            <span class="help-inline"></span>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="lname" id="lname" placeholder="Lastname" />
+                                            <span class="help-inline"></span>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="mobileno" id="mobileno" placeholder="Mobile No" />
+                                            <span class="help-inline"></span>
                                         </div>
                                     </form>
                                 </div>
@@ -90,17 +95,20 @@
                                             <span class="input-group-addon">@</span>
                                             <input type="text" class="form-control" id="username" placeholder="Username">
                                         </div>
+                                        <span class="help-inline"></span>
                                         <div class="form-group input-group">
                                             <span class="input-group-addon">*</span>
                                             <input type="password" class="form-control" id="password"  placeholder="Password">
                                         </div>
+                                        <span class="help-inline"></span>
                                         <div class="form-group input-group">
                                             <span class="input-group-addon">*</span>
                                             <input type="password" class="form-control" id="password2" placeholder="Confirm Password" />
                                         </div>
+                                        <span class="help-inline"></span>
                                     </form>
-                                    <button class="btn btn-primary">Save</button>
-                                    <button class="btn btn-warning">Reset</button>
+                                    <a href="javascript:save();" class="btn btn-primary">Save</a>
+                                    <a href="javascript:clear();" class="btn btn-warning">Reset</a>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
@@ -128,8 +136,13 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../js/pages/student2.js"></script>
 
 </body>
 

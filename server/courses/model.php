@@ -54,14 +54,14 @@ class Courses {
 			$mysqli->set_charset("utf8");
 			$result = $mysqli->query($query);
 			if($row = $result->fetch_array(MYSQLI_ASSOC)){
-				print json_encode(array('success' =>true,'category' =>$row),JSON_PRETTY_PRINT);
+				print json_encode(array('success' =>true,'course' =>$row),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
 			}
 		}
 	}
 
-	public static function update($data){
+	public static function update($id,$data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -72,7 +72,7 @@ class Courses {
 			$passing_score = $mysqli->real_escape_string($data['passing_score']);
 
 			if ($stmt = $mysqli->prepare('UPDATE courses SET coursename=?,passing_score=? WHERE id=?')){
-				$stmt->bind_param("sss", $coursename,$passing_score,$data['id']);
+				$stmt->bind_param("sss", $coursename,$passing_score,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

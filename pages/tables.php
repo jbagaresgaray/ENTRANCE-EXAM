@@ -23,6 +23,9 @@
     <!-- DataTables Responsive CSS -->
     <link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
+     <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -117,6 +120,13 @@
     <!-- DataTables JavaScript -->
     <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

@@ -31,7 +31,7 @@ class Student {
 		}        
 	}
 
-	public function read($page,$search){
+	public function read(){
 		$limit = 10;
 		$adjacent = 3;
 		$config= new Config();
@@ -41,16 +41,8 @@ class Student {
 		    return;
 		}else{
 
-			if($page==1){
-			   $start = 0;
-			}else{
-			  $start = ($page-1)*$limit;
-			}
-
 			$query1 ="SELECT * FROM student c;";
 			$result1 = $mysqli->query($query1);
-			$rows = $result1->num_rows;
-
 			$data = array();
 			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
 				array_push($data,$row);
@@ -93,7 +85,7 @@ class Student {
 			$password = $mysqli->real_escape_string($data['password']);
 
 			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=?,username=?,password=? WHERE id=?')){
-				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$username,$password,$id);
+				$stmt->bind_param("sssssss", $studid,$fname,$lname,$mobileno,$username,$password,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

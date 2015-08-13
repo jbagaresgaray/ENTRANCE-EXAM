@@ -14,30 +14,34 @@
 			}
 			$_REQUEST = array_merge($_REQUEST, $_PUT);
 
-			$data = [];
+			$data = [
+				''
+			];
 
 			if(isset($request) && !empty($request) && $request[0] !== ''){
 				$id = $request[0];
-				
+				Questions::update($id,$data);
 			}else{
-				
+				Questions::update(null,$data);
 			}
 	    break;
 	  case 'POST':
-	    
+	    	$data = [
+	    	];
+	    	Questions::create($data);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
-	  		
+	  		Questions::detail($id);
 	  	}else{
-	  		
+	  		Questions::read();
 	  	}
 	    break;
 	  case 'DELETE':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
-	  		
+	  		Questions::delete($id);
 	  	}   
 	    break;
 	  default:

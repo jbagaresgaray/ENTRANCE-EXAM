@@ -63,10 +63,11 @@ function fetch_all_student() {
         dataType: 'json',
         success: function(response) {
             var decode = response;
+            console.log('decode: ', decode);
             if (decode) {
-                if (decode.category.length > 0) {
-                    for (var i = 0; i < decode.category.length; i++) {
-                        var row = decode.category;
+                if (decode.student.length > 0) {
+                    for (var i = 0; i < decode.student.length; i++) {
+                        var row = decode.student;
                         var html = '<tr class="odd">\
                                         <td class="sorting">' + row[i].lname + ', ' + row[i].fname + '</td>\
                                         <td class="sorting">' + row[i].mobileno + '</td>\
@@ -104,7 +105,6 @@ function deletedata(id) {
             if (decode.success == true) {
                 $.notify("Record successfully deleted", "success");
                 refresh();
-                clear_category();
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
                 return;
@@ -125,13 +125,14 @@ function getData(id) {
             if (decode.success == true) {
                 $("#studid").val(decode.student.studid);
                 $("#fname").val(decode.student.fname);
+                $("#lname").val(decode.student.lname);
                 $("#mobileno").val(decode.student.mobileno);
                 $("#username").val(decode.student.username);
                 $("#password").val(decode.student.password);
                 $("#password2").val(decode.student.password2);
                 $("#id").val(decode.student.id);
 
-                $('#addcategory').modal('show');
+                $('#addstudent').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
                 return;
@@ -148,4 +149,137 @@ function create_student() {
 
 function create_student_bulk() {
     $('#addbulkstudent').modal('show');
+}
+
+function clear() {
+    $('#studid').val('');
+    $('#fname').val('');
+    $('#lname').val('');
+    $('#mobileno').val('');
+    $('#username').val('');
+    $('#password').val('');
+    $('#password2').val('');
+}
+
+function save() {
+    resetHelpInLine();
+
+    var empty = false;
+
+    $('input[type="text"]').each(function() {
+        $(this).val($(this).val().trim());
+    });
+
+    if ($('#studid').val() == '') {
+        $('#studid').next('span').text('Student ID is required.');
+        empty = true;
+    }
+
+    if ($('#fname').val() == '') {
+        $('#fname').next('span').text('First Name is required.');
+        empty = true;
+    }
+
+    if ($('#lname').val() == '') {
+        $('#lname').next('span').text('First Name is required.');
+        empty = true;
+    }
+
+    if ($('#mobileno').val() == '') {
+        $('#mobileno').next('span').text('Mobile No is required.');
+        empty = true;
+    }
+
+    if ($('#username').val() == '') {
+        $('#username').next('span').text('Username is required.');
+        empty = true;
+    }
+
+    if ($('#password').val() == '') {
+        $('#password').next('span').text('Password is required.');
+        empty = true;
+    }
+
+    if ($('#password2').val() == '') {
+        $('#password2').next('span').text('Confirm Password is required.');
+        empty = true;
+    }
+
+    if ($('#password').val() !== $('#password2').val()) {
+        $('#password2').next('span').text('Password and Confirm Password must be the same.');
+        empty = true;
+    }
+
+    if (empty == true) {
+        $.notify('Please input all the required fields correctly.', "error");
+        return false;
+    }
+
+    if ($("#id").val() === '') {
+        $.ajax({
+            url: '../server/student/',
+            async: false,
+            type: 'POST',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                studid: $('#studid').val(),
+                fname: $('#fname').val(),
+                lname: $('#lname').val(),
+                mobileno: $('#mobileno').val(),
+                username: $('#username').val(),
+                password: $('#password').val(),
+            },
+            success: function(response) {
+                var decode = response;
+                if (decode.success == true) {
+                    $('#addstudent').modal('hide');
+                    refresh();
+                    $.notify("Record successfully saved", "success");
+                } else if (decode.success === false) {
+                    $('#btn-save').button('reset');
+                    $.notify(decode.msg, "error");
+                    return;
+                }
+            },
+            error: function(error) {
+                console.log("Error:");
+                console.log(error.responseText);
+                console.log(error.message);
+                return;
+            }
+        });
+    } else {
+        $.ajax({
+            url: '../server/student/' + $('#id').val(),
+            async: false,
+            type: 'PUT',
+            data: {
+                studid: $('#studid').val(),
+                fname: $('#fname').val(),
+                lname: $('#lname').val(),
+                mobileno: $('#mobileno').val(),
+                username: $('#username').val(),
+                password: $('#password').val(),
+            },
+            success: function(response) {
+                var decode = response;
+                console.log('decode: ', decode);
+                if (decode.success == true) {
+                    $('#addstudent').modal('hide');
+                    refresh();
+                    $.notify("Record successfully updated", "success");
+                } else if (decode.success === false) {
+                    $.notify(decode.msg, "error");
+                    return;
+                }
+            },
+            error: function(error) {
+                console.log("Error:");
+                console.log(error.responseText);
+                console.log(error.message);
+                return;
+            }
+        });
+    }
 }

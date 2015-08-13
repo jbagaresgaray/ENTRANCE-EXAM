@@ -6,32 +6,40 @@
             </div>
             <div class="modal-body">
                 <form method="post">
-                    <input type="hidden" name="id" />
+                    <input type="hidden" name="id" id="id"/>
                     <div class="form-group">
                         <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID" />
+                        <span class="help-inline"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="fname" id="fname" placeholder="Firstname" />
+                        <span class="help-inline"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="lname" id="lname" placeholder="Lastname" />
+                        <span class="help-inline"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="mobileno" id="mobileno" placeholder="Mobile No" />
+                        <span class="help-inline"></span>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="username" id="username" placeholder="Username"/>
+                        <span class="help-inline"></span>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+                        <span class="help-inline"></span>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm Password" />
+                        <span class="help-inline"></span>
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"> Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a href="javascript:save()" class="btn btn-primary"> Save</a>
+                 <a href="javascript:clear()" class="btn btn-warning"> Reset</a>
+                <a class="btn btn-default" data-dismiss="modal">Close</a>
                 </form>
             </div>
         </div>

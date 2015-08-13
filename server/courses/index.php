@@ -21,9 +21,9 @@
 
 			if(isset($request) && !empty($request) && $request[0] !== ''){
 				$id = $request[0];
-				Student::update($id,$data);
+				Courses::update($id,$data);
 			}else{
-				Student::update(null,$data);
+				Courses::update(null,$data);
 			}
 	    break;
 	  case 'POST':

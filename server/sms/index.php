@@ -1,4 +1,4 @@
-<?php
+	<?php
 	include('../../server/cors.php');
 	include( __DIR__.'/model.php');
 
@@ -7,14 +7,15 @@
 
 	switch ($method) {
 	  case 'POST':
-	     SMS::itexmo($_POST['number'],$_POST['message']);
+	    // SMS::itexmo($_POST['number'],$_POST['message']);
+	  	SMS::itexmo_less($_POST['number'],$_POST['message']);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
 	  		
 	  	}else{
-	  		
+	  		SMS::itexmo_bal_less();
 	  	}
 	    break;
 	  case 'DELETE':
