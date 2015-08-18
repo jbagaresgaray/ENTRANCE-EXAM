@@ -13,6 +13,7 @@ $(document).ready(function() {
 
     fetch_categories();
     fetch_all_questions();
+    fetch_questions();
 });
 
 
@@ -137,6 +138,31 @@ function fetch_categories() {
                 var row = decode.category;
                 var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].name + '</option>';
                 $("#select_category").append(html);
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            return;
+        }
+    });
+}
+
+function fetch_questions() {
+    $.ajax({
+        url: '../server/courses/',
+        async: true,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            var decode = response;
+            console.log('data: ',response);
+            $('#select_course').empty();
+            for (var i = 0; i < decode.courses.length; i++) {
+                var row = decode.courses;
+                var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].coursename + '</option>';
+                $("#select_course").append(html);
             }
         },
         error: function(error) {

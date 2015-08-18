@@ -92,14 +92,16 @@
                                 </div> -->
                                 <div class="form-group">
                                     <label>Mobile No.</label>
-                                    <input type="text" class="form-control" placeholder="Mobile No.">
+                                    <input type="text" class="form-control" placeholder="Mobile No." id="mobileNo" name="mobileNo">
+                                    <span class="help-inline"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Message</label>
-                                    <textarea class="form-control" rows="3" placeholder="Message"></textarea>
+                                    <textarea class="form-control" rows="3" placeholder="Message" id="txtMessages" name="txtMessages"></textarea>
+                                    <span class="help-inline"></span>
                                 </div>
-                                <a class="btn btn-primary" id="btn-send">Send Message</a>
-                                <a class="btn btn-warning" id="btn-reset">Reset</a>
+                                <a class="btn btn-primary" id="btn-send" onclick="send()">Send Message</a>
+                                <a class="btn btn-warning" id="btn-reset" onclick="resetRegular()">Reset</a>
                             </form>
                         </div>
                         <!-- /.panel-body -->
@@ -122,6 +124,10 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

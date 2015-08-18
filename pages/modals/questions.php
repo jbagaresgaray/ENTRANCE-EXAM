@@ -1,4 +1,4 @@
-<div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,6 +9,10 @@
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" id="select_category" name="select_category"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Course</label>
+                        <select class="form-control" id="select_course" name="select_course"></select>
                     </div>
                     <div class="form-group">
                         <label>Question</label>
