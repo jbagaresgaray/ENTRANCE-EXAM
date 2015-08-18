@@ -6,6 +6,7 @@
             </div>
             <div class="modal-body">
                 <form role="form">
+                    <input type="hidden" name="question_id" id="question_id">
                     <div class="form-group">
                         <label>Category</label>
                         <select class="form-control" id="select_category" name="select_category"></select>

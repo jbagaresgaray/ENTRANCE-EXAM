@@ -83,6 +83,10 @@
                                             <span class="help-inline"></span>
                                         </div>
                                         <div class="form-group">
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" />
+                                            <span class="help-inline"></span>
+                                        </div>
+                                        <div class="form-group">
                                             <input type="text" class="form-control" name="mobileno" id="mobileno" placeholder="Mobile No" />
                                             <span class="help-inline"></span>
                                         </div>

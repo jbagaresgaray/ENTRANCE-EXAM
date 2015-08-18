@@ -181,7 +181,12 @@ function save() {
     }
 
     if ($('#lname').val() == '') {
-        $('#lname').next('span').text('First Name is required.');
+        $('#lname').next('span').text('Last Name is required.');
+        empty = true;
+    }
+
+    if ($('#email').val() == '') {
+        $('#email').next('span').text('Email Address is required.');
         empty = true;
     }
 

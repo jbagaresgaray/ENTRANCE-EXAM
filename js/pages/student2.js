@@ -3,13 +3,7 @@ $(document).ready(function() {
 
     $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
 
-    $('#studid').val('');
-    $('#fname').val('');
-    $('#lname').val('');
-    $('#mobileno').val('');
-    $('#username').val('');
-    $('#password').val('');
-    $('#password2').val('');
+   clear();
 });
 
 function resetHelpInLine() {
@@ -22,6 +16,7 @@ function clear(){
     $('#studid').val('');
     $('#fname').val('');
     $('#lname').val('');
+    $('#email').val('');
     $('#mobileno').val('');
     $('#username').val('');
     $('#password').val('');
@@ -48,7 +43,12 @@ function save() {
     }
 
     if ($('#lname').val() == '') {
-        $('#lname').next('span').text('First Name is required.');
+        $('#lname').next('span').text('Last Name is required.');
+        empty = true;
+    }
+
+    if ($('#email').val() == '') {
+        $('#email').next('span').text('Email Address is required.');
         empty = true;
     }
 
@@ -95,6 +95,7 @@ function save() {
             mobileno: $('#mobileno').val(),
             username: $('#username').val(),
             password: $('#password').val(),
+            email: $('#email').val()
         },
         success: function(response) {
             var decode = response;

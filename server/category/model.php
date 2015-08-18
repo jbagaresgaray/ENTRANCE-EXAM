@@ -65,18 +65,17 @@ class Category {
 		}
 	}
 
-	public static function update($data){
+	public static function update($id,$data){
 		$config= new Config();
-
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
 			$category_name = $mysqli->real_escape_string($data['category_name']);
-			$id = $mysqli->real_escape_string($data['id']);
-			if ($stmt = $mysqli->prepare('UPDATE category SET name=? WHERE id=?')){
-				$stmt->bind_param('ss', $category_name,$id);
+			// $id = $mysqli->real_escape_string($data['id']);
+			if ($stmt = $mysqli->prepare('UPDATE category SET `name`=? WHERE id=?')){
+				$stmt->bind_param('si', $category_name,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

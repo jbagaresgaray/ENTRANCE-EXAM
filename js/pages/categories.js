@@ -117,11 +117,10 @@ function save() {
         });
     } else {
         $.ajax({
-            url: '../server/category/',
+            url: '../server/category/' + $('#category_id').val(),
             async: false,
-            type: 'POST',
+            type: 'PUT',
             data: {
-                category_id: $('#category_id').val(),
                 category_name: $('#category_name').val()
             },
             success: function(response) {
