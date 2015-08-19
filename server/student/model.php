@@ -1,6 +1,7 @@
 <?php
 require_once '../../server/connection.php';
 
+
 class Student {
 
 	function __construct(){
@@ -20,9 +21,16 @@ class Student {
 			$username = $mysqli->real_escape_string($data['username']);
 			$password = $mysqli->real_escape_string($data['password']);
 
+			$level = $mysqli->real_escape_string($data['level']);
+
+			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,fname,lname,level) VALUES(?,?,?,?,?)');
+			$stmt2->bind_param("sssss", $username,sha1($password),$fname,$lname,$level);
+			$stmt2->execute();				
+
 			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,username,password) VALUES(?,?,?,?,?,?)')){
 				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$username,sha1($password));
 				$stmt->execute();
+
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
@@ -80,11 +88,9 @@ class Student {
 			$fname = $mysqli->real_escape_string($data['fname']);
 			$lname = $mysqli->real_escape_string($data['lname']);
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
-			$username = $mysqli->real_escape_string($data['username']);
-			$password = $mysqli->real_escape_string($data['password']);
 
-			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=?,username=?,password=? WHERE id=?')){
-				$stmt->bind_param("sssssss", $studid,$fname,$lname,$mobileno,$username,$password,$id);
+			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=? WHERE id=?')){
+				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

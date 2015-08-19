@@ -65,12 +65,13 @@ CREATE TABLE IF NOT EXISTS `courses` (
 -- Table structure for table `lesson`
 --
 
-CREATE TABLE IF NOT EXISTS `lesson` (
+CREATE TABLE IF NOT EXISTS `question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `content` text NOT NULL,
-  `category` varchar(100) NOT NULL,
-  `time` int(11) NOT NULL,
+  `file` text NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
@@ -78,58 +79,7 @@ CREATE TABLE IF NOT EXISTS `lesson` (
 -- Dumping data for table `lesson`
 --
 -- --------------------------------------------------------
-
---
--- Table structure for table `lesson_pdf`
---
-
-CREATE TABLE IF NOT EXISTS `lesson_pdf` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lesson_id` int(11) NOT NULL,
-  `file` varchar(300) NOT NULL,
-  `image` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=390 ;
-
---
--- Dumping data for table `lesson_pdf`
---
--- --------------------------------------------------------
-
---
--- Table structure for table `lesson_video`
---
-
-CREATE TABLE IF NOT EXISTS `lesson_video` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lesson_id` int(11) NOT NULL,
-  `file` varchar(300) NOT NULL,
-  `image` text NOT NULL,
-  `source` varchar(200) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
-
---
--- Dumping data for table `lesson_video`
---
-
---
--- Table structure for table `quiz`
---
-
-CREATE TABLE IF NOT EXISTS `quiz` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `lesson` varchar(100) NOT NULL,
-  `file` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
-
---
--- Dumping data for table `quiz`
---
--- --------------------------------------------------------
-
+ 
 --
 -- Table structure for table `result`
 --

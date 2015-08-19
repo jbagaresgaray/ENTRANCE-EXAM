@@ -3,45 +3,13 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>ENTRACE EXAM</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Social Buttons CSS -->
-    <link href="../bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet">
-
-    <!-- Bootstrap Material CSS -->
-    <link href="../bower_components/bootstrap-material-design/dist/css/roboto.min.css" rel="stylesheet">
-    <!-- <link href="../bower_components/bootstrap-material-design/dist/css/material.min.css" rel="stylesheet"> -->
-    <link href="../bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css" rel="stylesheet">
-    <link href="../bower_components/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<?php include('includes/head.php'); ?>
 
 </head>
 
 <body>
+    
+    <?php include('includes/nav1.php'); ?>
 
     <div class="container">
          <div class="col-md-6 col-md-offset-3">
@@ -53,45 +21,65 @@
                     <form class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
-                                <label for="inputFirstName" class="col-lg-3 control-label">Firstname</label>
+                                <label for="studid" class="col-lg-3 control-label">Student ID</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="inputFirstName" placeholder="Firstname">
+                                    <input type="text" class="form-control" id="studid" placeholder="Student ID">
+                                    <span class="help-inline"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputLastname" class="col-lg-3 control-label">Lastname</label>
+                                <label for="fname" class="col-lg-3 control-label">Firstname</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="inputLastname" placeholder="Lastname">
+                                    <input type="text" class="form-control" id="fname" placeholder="Firstname">
+                                    <span class="help-inline"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputMobileNo" class="col-lg-3 control-label">Mobile No.</label>
+                                <label for="lname" class="col-lg-3 control-label">Lastname</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="inputMobileNo" placeholder="Mobile No.">
+                                    <input type="text" class="form-control" id="lname" placeholder="Lastname">
+                                    <span class="help-inline"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputUsername" class="col-lg-3 control-label">Username</label>
+                                <label for="email" class="col-lg-3 control-label">Email</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                                    <input type="email" class="form-control" id="email" placeholder="Email Address">
+                                    <span class="help-inline"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword" class="col-lg-3 control-label">Password</label>
+                                <label for="mobileno" class="col-lg-3 control-label">Mobile No.</label>
                                 <div class="col-lg-9">
-                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                    <input type="text" class="form-control" id="mobileno" placeholder="Mobile No.">
+                                    <span class="help-inline"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputCPassword" class="col-lg-3 control-label">Confirm Password</label>
+                                <label for="username" class="col-lg-3 control-label">Username</label>
                                 <div class="col-lg-9">
-                                    <input type="password" class="form-control" id="inputCPassword" placeholder="Confirm Password">
+                                    <input type="text" class="form-control" id="username" placeholder="Username">
+                                    <span class="help-inline"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-lg-3 control-label">Password</label>
+                                <div class="col-lg-9">
+                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <span class="help-inline"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password2" class="col-lg-3 control-label">Confirm Password</label>
+                                <div class="col-lg-9">
+                                    <input type="password" class="form-control" id="password2" placeholder="Confirm Password">
+                                    <span class="help-inline"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
-                                    <a class="btn btn-primary">Submit</a>
-                                    <a class="btn btn-default">Cancel</a>
+                                    <a class="btn btn-primary" onclick="save()">Register</a>
+                                    <a class="btn btn-default" onclick="clearFields()">Cancel</a>
                                 </div>
                             </div>
                         </fieldset>
@@ -114,7 +102,12 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+
     <!-- Custom Theme JavaScript -->
+    <script src="../js/student/register.js" type="text/javascript"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
     <script type="text/javascript">
         $(function() {

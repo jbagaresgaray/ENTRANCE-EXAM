@@ -9,17 +9,14 @@
 
 <body>
 
-    <?php include('includes/nav2.php'); ?>
+    <?php include('includes/nav3.php'); ?>
 
     <div class="container">
         <div class="starter-template">
-            <h1 class="text-center">Welcome To</h1>
+            <h1 class="text-center">About the App</h1>
             <p class="lead">Use this document as a way to quickly start any new project.</p>
-            <a href="lessons.php" class="btn btn-primary btn-lg btn-block">Start Test</a>
-            <a href="javascript:void(0)" class="btn btn-info btn-lg btn-block">View Results</a>
         </div>
     </div><!-- /.container -->
-
 
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>

@@ -26,7 +26,9 @@ function clear() {
 }
 
 function refresh() {
-
+    fetch_categories();
+    fetch_all_questions();
+    fetch_questions();
 }
 
 function fetch_all_questions() {
@@ -78,7 +80,7 @@ function resetHelpInLine() {
     });
 }
 
-function save() {
+function validate() {
     resetHelpInLine();
 
     var empty = false;
@@ -87,12 +89,14 @@ function save() {
         $(this).val($(this).val().trim());
     });
 
+    var CKEDITOR = CKEDITOR.instances['content'].getData();
+
     if ($('#select_category').val() == '') {
         $('#select_category').next('p').text('Question Category is required.');
         empty = true;
     }
 
-    if ($('#content').val() == '') {
+    if (CKEDITOR == '') {
         $('#content').next('p').text('Question Content is required.');
         $.notify('Question Content is required.', "error");
         empty = true;
@@ -120,68 +124,142 @@ function save() {
 
     if (empty == true) {
         $.notify('Please input all the required fields correctly.', "error");
-        return false;
+        return true;
     }
 
+    return empty;
+}
 
-    if ($("#course_id").val() === '') {
-        $.ajax({
-            url: '../server/courses/',
-            async: false,
-            type: 'POST',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                coursename: $('#course_name').val(),
-                passing_score: $('#passing_score').val()
-            },
-            success: function(response) {
-                var decode = response;
-                if (decode.success == true) {
-                    $('#addcourse').modal('hide');
-                    refresh();
-                    $.notify("Record successfully saved", "success");
-                } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
-                    $.notify(decode.msg, "error");
+function save() {
+
+    if (validate() !== true) {
+
+        var data = {
+            course_id: $('#select_course').val(),
+            category_id: $('#select_category').val(),
+            content:  CKEDITOR.instances['content'].getData(),
+            answer: $('#answer').val(),
+            choice2: $('#choice2').val(),
+            choice3: $('#choice3').val(),
+            choice4: $('#choice4').val()
+        };
+
+        if ($("#mainpic").get(0).files[0]) {
+            if ($("#mainpic").get(0).files[0].result) {
+                data.file = $("#mainpic").get(0).files[0].result;
+            } else {
+                data.file = '';
+            }
+        } else if (path !== '') {
+            data.file = path;
+        } else {
+            data.file = '';
+        }
+
+
+        if ($("#correctpic").get(0).files[0]) {
+            if ($("#correctpic").get(0).files[0].result) {
+                data.correctpic = $("#correctpic").get(0).files[0].result;
+            } else {
+                data.correctpic = '';
+            }
+        } else if (path !== '') {
+            data.correctpic = path;
+        } else {
+            data.correctpic = '';
+        }
+
+        if ($("#pic2").get(0).files[0]) {
+            if ($("#pic2").get(0).files[0].result) {
+                data.pic2 = $("#pic2").get(0).files[0].result;
+            } else {
+                data.pic2 = '';
+            }
+        } else if (path !== '') {
+            data.pic2 = path;
+        } else {
+            data.pic2 = '';
+        }
+
+        if ($("#pic3").get(0).files[0]) {
+            if ($("#pic3").get(0).files[0].result) {
+                data.pic3 = $("#pic3").get(0).files[0].result;
+            } else {
+                data.pic3 = '';
+            }
+        } else if (path !== '') {
+            data.pic3 = path;
+        } else {
+            data.pic3 = '';
+        }
+
+        if ($("#pic4").get(0).files[0]) {
+            if ($("#pic4").get(0).files[0].result) {
+                data.pic4 = $("#pic4").get(0).files[0].result;
+            } else {
+                data.pic4 = '';
+            }
+        } else if (path !== '') {
+            data.pic4 = path;
+        } else {
+            data.pic4 = '';
+        }
+
+        console.log('data: ',data);
+
+       /* if ($("#question_id").val() === '') {
+            $.ajax({
+                url: '../server/questions/',
+                async: false,
+                type: 'POST',
+                crossDomain: true,
+                dataType: 'json',
+                data: data,
+                success: function(response) {
+                    var decode = response;
+                    if (decode.success == true) {
+                        $('#addcourse').modal('hide');
+                        refresh();
+                        $.notify("Record successfully saved", "success");
+                    } else if (decode.success === false) {
+                        $('#btn-save').button('reset');
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
                     return;
                 }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                return;
-            }
-        });
-    } else {
-        $.ajax({
-            url: '../server/courses/' + $('#course_id').val(),
-            async: false,
-            type: 'PUT',
-            data: {
-                coursename: $('#course_name').val(),
-                passing_score: $('#passing_score').val()
-            },
-            success: function(response) {
-                var decode = response;
-                console.log('decode: ', decode);
-                if (decode.success == true) {
-                    $('#addcourse').modal('hide');
-                    refresh();
-                    $.notify("Record successfully updated", "success");
-                } else if (decode.success === false) {
-                    $.notify(decode.msg, "error");
+            });
+        } else {
+            $.ajax({
+                url: '../server/questions/' + $('#question_id').val(),
+                async: false,
+                type: 'PUT',
+                data: data,
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#addcourse').modal('hide');
+                        refresh();
+                        $.notify("Record successfully updated", "success");
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
                     return;
                 }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                return;
-            }
-        });
+            });
+        }*/
     }
 
 }
@@ -210,7 +288,6 @@ function fetch_categories() {
         }
     });
 }
-<<<<<<< HEAD
 
 function fetch_questions() {
     $.ajax({
@@ -220,7 +297,7 @@ function fetch_questions() {
         dataType: 'json',
         success: function(response) {
             var decode = response;
-            console.log('data: ',response);
+            console.log('data: ', response);
             $('#select_course').empty();
             for (var i = 0; i < decode.courses.length; i++) {
                 var row = decode.courses;
@@ -236,5 +313,3 @@ function fetch_questions() {
         }
     });
 }
-=======
->>>>>>> e5a3f4c91a05edc77d8cb4c198236996970ea659
