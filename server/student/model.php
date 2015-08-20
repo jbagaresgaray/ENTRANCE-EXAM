@@ -27,13 +27,13 @@ class Student {
 			$stmt2->bind_param("sssss", $username,sha1($password),$fname,$lname,$level);
 			$stmt2->execute();				
 
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,username,password) VALUES(?,?,?,?,?,?)')){
-				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$username,sha1($password));
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno) VALUES(?,?,?,?)')){
+				$stmt->bind_param("ssss", $studid,$fname,$lname,$mobileno);
 				$stmt->execute();
 
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
-				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
+				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n" . $mysqli->error),JSON_PRETTY_PRINT);
 			}
 		}        
 	}
@@ -94,7 +94,7 @@ class Student {
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{
-				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
+				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 			}
 		}
 	}
@@ -108,7 +108,7 @@ class Student {
 			$stmt->close();
 			print json_encode(array('success' =>true,'msg' =>'Record successfully deleted'),JSON_PRETTY_PRINT);
 		}else{
-			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
+			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 		}
 	}
 }

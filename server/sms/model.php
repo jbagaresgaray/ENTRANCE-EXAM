@@ -65,7 +65,7 @@ class SMS {
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
-				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
+				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 			}
 		}        
 	}
@@ -86,14 +86,14 @@ class SMS {
 			  $start = ($page-1)*$limit;
 			}
 
-			$query1 ="SELECT * FROM courses c;";
+			$query1 ="SELECT * FROM sms c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
 			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
 				array_push($data,$row);
 			}
-			print json_encode(['success' =>true,'courses' =>$data],JSON_PRETTY_PRINT);
+			print json_encode(['success' =>true,'sms' =>$data],JSON_PRETTY_PRINT);
 		}
 	}
 
@@ -104,11 +104,11 @@ class SMS {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query ="SELECT * FROM courses c WHERE id=$id LIMIT 1;";
+			$query ="SELECT * FROM sms c WHERE id=$id LIMIT 1;";
 			$mysqli->set_charset("utf8");
 			$result = $mysqli->query($query);
 			if($row = $result->fetch_array(MYSQLI_ASSOC)){
-				print json_encode(array('success' =>true,'category' =>$row),JSON_PRETTY_PRINT);
+				print json_encode(array('success' =>true,'sms' =>$row),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
 			}
@@ -118,13 +118,13 @@ class SMS {
 	public function delete($id){
 		$config= new Config();		
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
-		if($stmt = $mysqli->prepare("DELETE FROM courses WHERE id =?")){
+		if($stmt = $mysqli->prepare("DELETE FROM sms WHERE id =?")){
 			$stmt->bind_param("s", $id);
 			$stmt->execute();
 			$stmt->close();
 			print json_encode(array('success' =>true,'msg' =>'Record successfully deleted'),JSON_PRETTY_PRINT);
 		}else{
-			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n", $mysqli->error),JSON_PRETTY_PRINT);
+			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 		}
 	}
 }
