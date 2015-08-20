@@ -44,7 +44,7 @@
 <body>
 
     <div id="wrapper">
-
+        <div id="target1"></div>
         <!-- Navigation -->
         <?php include('includes/nav-bar.php'); ?>
 

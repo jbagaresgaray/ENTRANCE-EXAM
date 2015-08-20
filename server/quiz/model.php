@@ -18,7 +18,7 @@ class Quiz {
 		}        
 	}
 
-	public function read($page,$search){
+	public function read(){
 		$limit = 10;
 		$adjacent = 3;
 		$config= new Config();
@@ -27,12 +27,6 @@ class Quiz {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-
-			if($page==1){
-			   $start = 0;
-			}else{
-			  $start = ($page-1)*$limit;
-			}
 
 		}
 	}

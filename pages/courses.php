@@ -38,7 +38,7 @@
 <body>
 
     <div id="wrapper">
-
+        <div id="target1"></div>
         <!-- Navigation -->
         <?php include('includes/nav-bar.php'); ?>
 
@@ -122,7 +122,8 @@
     
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
-
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../js/pages/courses.js" type="text/javascript"></script>

@@ -54,6 +54,13 @@ function refresh() {
 
 function fetch_all_student() {
     $('#tbl_students tbody > tr').remove();
+    var target = document.getElementById('target1')
+    var spinner = new Spinner({
+        radius: 30,
+        length: 0,
+        width: 10,
+        trail: 40
+    }).spin(target);
 
     $.ajax({
         url: '../server/student/',
@@ -84,6 +91,7 @@ function fetch_all_student() {
                                 </tr>';
                         $("#tbl_students tbody").append(html);
                     }
+                    spinner.stop();
                     $.notify("All records display", "info");
                 }
             }

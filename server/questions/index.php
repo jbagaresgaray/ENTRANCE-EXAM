@@ -26,14 +26,20 @@
 			}
 	    break;
 	  case 'POST':
-	    	$data = [
-	    	];
-	    	Questions::create($data);
+			Questions::create($_POST,$_FILES);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
-	  		$id = $request[0];
-	  		Questions::detail($id);
+	  		if ($request[0] == 'category'){
+	  			$id = $request[1];
+	  			Questions::byCategory($id);
+	  		}else if($request[0] == 'course'){
+	  			$id = $request[1];
+	  			Questions::byCourse($id);
+	  		}else{
+	  			$id = $request[0];
+	  			Questions::detail($id);
+	  		}
 	  	}else{
 	  		Questions::read();
 	  	}

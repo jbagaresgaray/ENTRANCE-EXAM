@@ -1,19 +1,19 @@
 <div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>Manage Questions</h3>
-            </div>
-            <div class="modal-body">
-                <form role="form">
+            <form role="form" id="frmQuestions" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h3>Manage Questions</h3>
+                </div>
+                <div class="modal-body">
                     <input type="hidden" name="question_id" id="question_id">
                     <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control" id="select_category" name="select_category"></select>
+                        <select class="form-control" id="category_id" name="category_id"></select>
                     </div>
                     <div class="form-group">
                         <label>Course</label>
-                        <select class="form-control" id="select_course" name="select_course"></select>
+                        <select class="form-control" id="course_id" name="course_id"></select>
                     </div>
                     <div class="form-group">
                         <label>Question</label>
@@ -52,12 +52,12 @@
                         <label>Image: </label>
                         <input type="file" name="pic4" id="pic4" class="form-control" accept="image/*" />
                     </div>      
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a id="btn-save" class="btn btn-primary" onclick="save()">Submit</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn-save" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -19,6 +19,34 @@ $(document).ready(function() {
     fetch_questions();
 });
 
+$(document).on("click", ".remove-icon", function() {
+    var id = $(this).data('id');
+
+    BootstrapDialog.show({
+        title: 'Delete',
+        message: 'Are you sure to delete this record?',
+        buttons: [{
+            label: 'Yes',
+            cssClass: 'btn-primary',
+            action: function(dialog) {
+                deletedata(id);
+                dialog.close();
+            }
+        }, {
+            label: 'No',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }]
+    });
+});
+
+$(document).on("click", ".edit-icon", function() {
+    var id = $(this).data('id');
+    getData(id);
+});
+
 
 function create_question() {
     $('#questionsModal').modal('show');
@@ -35,10 +63,18 @@ function refresh() {
 }
 
 function fetch_all_questions() {
-    $('#tbl_students tbody > tr').remove();
+    $('#tbl_questions tbody > tr').remove();
+
+    var target = document.getElementById('target1')
+    var spinner = new Spinner({
+        radius: 30,
+        length: 0,
+        width: 10,
+        trail: 40
+    }).spin(target);
 
     $.ajax({
-        url: '../server/student/',
+        url: '../server/questions/',
         async: true,
         type: 'GET',
         crossDomain: true,
@@ -47,12 +83,13 @@ function fetch_all_questions() {
             var decode = response;
             console.log('decode: ', decode);
             if (decode) {
-                if (decode.student.length > 0) {
-                    for (var i = 0; i < decode.student.length; i++) {
-                        var row = decode.student;
+                if (decode.questions.length > 0) {
+                    for (var i = 0; i < decode.questions.length; i++) {
+                        var row = decode.questions;
                         var html = '<tr class="odd">\
-                                        <td class="sorting">' + row[i].lname + ', ' + row[i].fname + '</td>\
-                                        <td class="sorting">' + row[i].mobileno + '</td>\
+                                        <td class="sorting" width="100px">' + row[i].content + '</td>\
+                                        <td class="sorting">' + row[i].category + '</td>\
+                                        <td class="sorting">' + row[i].courses + '</td>\
                                         <td class=" ">\
                                           <div class="text-right">\
                                             <a class="edit-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
@@ -64,10 +101,11 @@ function fetch_all_questions() {
                                           </div>\
                                         </td>\
                                 </tr>';
-                        $("#tbl_students tbody").append(html);
+                        $("#tbl_questions tbody").append(html);
                     }
                     $.notify("All records display", "info");
                 }
+                spinner.stop();
             }
         },
         error: function(error) {
@@ -95,9 +133,9 @@ function validate() {
     var CKEDITOR = $().CKEditorValFor('content');
 
     if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-      $.notify('The File APIs are not fully supported in this browser.','error');
-      return;
-    }  
+        $.notify('The File APIs are not fully supported in this browser.', 'error');
+        return;
+    }
 
     if ($('#select_category').val() == '') {
         $('#select_category').next('p').text('Question Category is required.');
@@ -138,89 +176,24 @@ function validate() {
     return empty;
 }
 
-function save() {
-
+$("form#frmQuestions").submit(function(e){
+    e.preventDefault();
     if (validate() !== true) {
-
-        var data = {
-            course_id: $('#select_course').val(),
-            category_id: $('#select_category').val(),
-            content: $().CKEditorValFor('content'),
-            answer: $('#answer').val(),
-            choice2: $('#choice2').val(),
-            choice3: $('#choice3').val(),
-            choice4: $('#choice4').val()
-        };
-
-        if ($("#mainpic").get(0).files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                data.file = e.target.result;
-            }
-            reader.readAsArrayBuffer($("#mainpic").get(0).files[0]);
-        } else {
-            data.file = '';
-        }
-
-
-        if ($("#correctpic").get(0).files[0]) {
-            if ($("#correctpic").get(0).files[0].result) {
-                data.correctpic = $("#correctpic").get(0).files[0].result;
-            } else {
-                data.correctpic = '';
-            }
-        } else {
-            data.correctpic = '';
-        }
-
-        if ($("#pic2").get(0).files[0]) {
-            if ($("#pic2").get(0).files[0].result) {
-                data.pic2 = $("#pic2").get(0).files[0].result;
-            } else {
-                data.pic2 = '';
-            }
-        } else {
-            data.pic2 = '';
-        }
-
-        if ($("#pic3").get(0).files[0]) {
-            if ($("#pic3").get(0).files[0].result) {
-                data.pic3 = $("#pic3").get(0).files[0].result;
-            } else {
-                data.pic3 = '';
-            }
-        } else {
-            data.pic3 = '';
-        }
-
-        if ($("#pic4").get(0).files[0]) {
-            if ($("#pic4").get(0).files[0].result) {
-                data.pic4 = $("#pic4").get(0).files[0].result;
-            } else {
-                data.pic4 = '';
-            }
-        } else {
-            data.pic4 = '';
-        }
-
-        console.log('data: ', data);
-
-        /* if ($("#question_id").val() === '') {
+        var formData = new FormData($(this)[0]);
+        if ($("#question_id").val() === '') {
              $.ajax({
                  url: '../server/questions/',
                  async: false,
                  type: 'POST',
-                 crossDomain: true,
-                 dataType: 'json',
-                 data: data,
+                 data: formData,
                  success: function(response) {
                      var decode = response;
+                     console.log('decode: ', decode);
                      if (decode.success == true) {
-                         $('#addcourse').modal('hide');
+                         $('#questionsModal').modal('hide');
                          refresh();
                          $.notify("Record successfully saved", "success");
                      } else if (decode.success === false) {
-                         $('#btn-save').button('reset');
                          $.notify(decode.msg, "error");
                          return;
                      }
@@ -232,17 +205,17 @@ function save() {
                      return;
                  }
              });
-         } else {
+        } else {
              $.ajax({
                  url: '../server/questions/' + $('#question_id').val(),
                  async: false,
                  type: 'PUT',
-                 data: data,
+                 data: formData,
                  success: function(response) {
                      var decode = response;
                      console.log('decode: ', decode);
                      if (decode.success == true) {
-                         $('#addcourse').modal('hide');
+                         $('#questionsModal').modal('hide');
                          refresh();
                          $.notify("Record successfully updated", "success");
                      } else if (decode.success === false) {
@@ -257,10 +230,9 @@ function save() {
                      return;
                  }
              });
-         }*/
+        }
     }
-
-}
+});
 
 function fetch_categories() {
     $.ajax({
@@ -270,12 +242,11 @@ function fetch_categories() {
         dataType: 'json',
         success: function(response) {
             var decode = response;
-            console.log('data: ', response);
-            $('#select_category').empty();
+            $('#category_id').empty();
             for (var i = 0; i < decode.category.length; i++) {
                 var row = decode.category;
                 var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].name + '</option>';
-                $("#select_category").append(html);
+                $("#category_id").append(html);
             }
         },
         error: function(error) {
@@ -295,12 +266,11 @@ function fetch_questions() {
         dataType: 'json',
         success: function(response) {
             var decode = response;
-            console.log('data: ', response);
-            $('#select_course').empty();
+            $('#course_id').empty();
             for (var i = 0; i < decode.courses.length; i++) {
                 var row = decode.courses;
                 var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].coursename + '</option>';
-                $("#select_course").append(html);
+                $("#course_id").append(html);
             }
         },
         error: function(error) {
@@ -308,6 +278,44 @@ function fetch_questions() {
             console.log(error.responseText);
             console.log(error.message);
             return;
+        }
+    });
+}
+
+function deletedata(id) {
+    $.ajax({
+        url: '../server/questions/' + id,
+        async: true,
+        type: 'DELETE',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify("Record successfully deleted", "success");
+                refresh();
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return;
+            }
+
+        }
+    });
+}
+
+function getData(id) {
+    $.ajax({
+        url: '../server/questions/' + id,
+        async: true,
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            console.log('response: ', decode);
+            if (decode.success == true) {
+                $('#questionsModal').modal('show');
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return;
+            }
+
         }
     });
 }

@@ -23,6 +23,14 @@ function resetRegular(){
 function send() {
 	resetHelpInLine();
 
+    var target = document.getElementById('target1')
+    var spinner = new Spinner({
+        radius: 30,
+        length: 0,
+        width: 10,
+        trail: 40
+    }).spin(target);
+
     var empty = false;
 
     $('input[type="text"]').each(function() {
@@ -57,8 +65,10 @@ function send() {
             if (decode.number == 0) {
             	$.notify(decode.response, "success");
                 resetRegular();
+                spinner.stop();
             } else {
                 $.notify(decode.response, "error");
+                spinner.stop();
                 return;
             }
 

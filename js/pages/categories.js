@@ -14,10 +14,11 @@ $(document).ready(function() {
 
 });
 
-$('#pagination').on('click', '.page-numbers', function() {
-    var page = $(this).attr('data-id');
-
-    fetch_all_category(page);
+$('#category_name').keypress(function(e) {
+    if(e.which == 13) {
+        save();
+        e.preventDefault();
+    }
 });
 
 $('#addcategory').on('hide.bs.modal', function(e) {
@@ -125,7 +126,7 @@ function save() {
             },
             success: function(response) {
                 var decode = response;
-                console.log('decode: ',decode);
+                console.log('decode: ', decode);
                 if (decode.success == true) {
                     $('#addcategory').modal('hide');
                     refresh();
@@ -157,6 +158,14 @@ function create_category() {
 }
 
 function fetch_all_category(page) {
+    var target = document.getElementById('target1')
+    var spinner = new Spinner({
+        radius: 30,
+        length: 0,
+        width: 10,
+        trail: 40
+    }).spin(target);
+
     $('#tbl_category tbody > tr').remove();
 
     $.ajax({
@@ -186,9 +195,9 @@ function fetch_all_category(page) {
                                 </tr>';
                         $("#tbl_category tbody").append(html);
                     }
-                    $('#pagination').html(decode.pagination);
                     $.notify("All records display", "info");
                 }
+                spinner.stop();
             }
         },
         error: function(error) {

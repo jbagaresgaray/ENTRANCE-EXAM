@@ -41,6 +41,7 @@
     "bootstrap3-dialog": "~1.34.5",
     "notifyjs": "~0.3.2",
     "bootstrap-material-design": "~0.3.0",
-    "ckeditor": "~4.5.2"
+    "ckeditor": "~4.5.2",
+    "spin.js": "~2.3.2"
   }
 }

@@ -25,6 +25,13 @@ function clear(){
 
 function save() {
     resetHelpInLine();
+    var target = document.getElementById('target1')
+    var spinner = new Spinner({
+        radius: 30,
+        length: 0,
+        width: 10,
+        trail: 40
+    }).spin(target);
 
     var empty = false;
 
@@ -102,12 +109,15 @@ function save() {
             if (decode.success == true) {
                 clear();
                 $.notify("Record successfully saved", "success");
+                spinner.stop();
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
+                spinner.stop();
                 return;
             }
         },
         error: function(error) {
+            spinner.stop();
             console.log("Error:");
             console.log(error.responseText);
             console.log(error.message);

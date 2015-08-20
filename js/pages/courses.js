@@ -14,6 +14,19 @@ $(document).ready(function() {
 
 });
 
+$('#passing_score').keypress(function(e) {
+    if(e.which == 13) {
+        save();
+        e.preventDefault();
+    }
+});
+
+$('#course_name').keypress(function(e) {
+    if(e.which == 13) {
+        save();
+        e.preventDefault();
+    }
+});
 
 $('#addcourse').on('hide.bs.modal', function(e) {
     $("#btn-save").attr('disabled', true);
@@ -163,6 +176,14 @@ function create_course() {
 function fetch_all_course() {
     $('#tbl_courses tbody > tr').remove();
 
+    var target = document.getElementById('target1')
+    var spinner = new Spinner({
+        radius: 30,
+        length: 0,
+        width: 10,
+        trail: 40
+    }).spin(target);
+
     $.ajax({
         url: '../server/courses/',
         async: true,
@@ -192,9 +213,9 @@ function fetch_all_course() {
                                 </tr>';
                         $("#tbl_courses tbody").append(html);
                     }
-                    $('#pagination').html(decode.pagination);
                     $.notify("All records display", "info");
                 }
+                spinner.stop();
             }
         },
         error: function(error) {
