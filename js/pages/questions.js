@@ -1,3 +1,7 @@
+jQuery.fn.CKEditorValFor = function(element_id) {
+    return CKEDITOR.instances[element_id].getData();
+}
+
 $(document).ready(function() {
     var user = JSON.parse(window.localStorage['user'] || '{}');
 
@@ -7,9 +11,8 @@ $(document).ready(function() {
         responsive: true
     });
 
-    $(function() {
-        CKEDITOR.replace('content');
-    });
+
+    CKEDITOR.replace('content');
 
     fetch_categories();
     fetch_all_questions();
@@ -89,7 +92,12 @@ function validate() {
         $(this).val($(this).val().trim());
     });
 
-    var CKEDITOR = CKEDITOR.instances['content'].getData();
+    var CKEDITOR = $().CKEditorValFor('content');
+
+    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+      $.notify('The File APIs are not fully supported in this browser.','error');
+      return;
+    }  
 
     if ($('#select_category').val() == '') {
         $('#select_category').next('p').text('Question Category is required.');
@@ -124,7 +132,7 @@ function validate() {
 
     if (empty == true) {
         $.notify('Please input all the required fields correctly.', "error");
-        return true;
+        return;
     }
 
     return empty;
@@ -137,7 +145,7 @@ function save() {
         var data = {
             course_id: $('#select_course').val(),
             category_id: $('#select_category').val(),
-            content:  CKEDITOR.instances['content'].getData(),
+            content: $().CKEditorValFor('content'),
             answer: $('#answer').val(),
             choice2: $('#choice2').val(),
             choice3: $('#choice3').val(),
@@ -145,13 +153,11 @@ function save() {
         };
 
         if ($("#mainpic").get(0).files[0]) {
-            if ($("#mainpic").get(0).files[0].result) {
-                data.file = $("#mainpic").get(0).files[0].result;
-            } else {
-                data.file = '';
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                data.file = e.target.result;
             }
-        } else if (path !== '') {
-            data.file = path;
+            reader.readAsArrayBuffer($("#mainpic").get(0).files[0]);
         } else {
             data.file = '';
         }
@@ -163,8 +169,6 @@ function save() {
             } else {
                 data.correctpic = '';
             }
-        } else if (path !== '') {
-            data.correctpic = path;
         } else {
             data.correctpic = '';
         }
@@ -175,8 +179,6 @@ function save() {
             } else {
                 data.pic2 = '';
             }
-        } else if (path !== '') {
-            data.pic2 = path;
         } else {
             data.pic2 = '';
         }
@@ -187,8 +189,6 @@ function save() {
             } else {
                 data.pic3 = '';
             }
-        } else if (path !== '') {
-            data.pic3 = path;
         } else {
             data.pic3 = '';
         }
@@ -199,67 +199,65 @@ function save() {
             } else {
                 data.pic4 = '';
             }
-        } else if (path !== '') {
-            data.pic4 = path;
         } else {
             data.pic4 = '';
         }
 
-        console.log('data: ',data);
+        console.log('data: ', data);
 
-       /* if ($("#question_id").val() === '') {
-            $.ajax({
-                url: '../server/questions/',
-                async: false,
-                type: 'POST',
-                crossDomain: true,
-                dataType: 'json',
-                data: data,
-                success: function(response) {
-                    var decode = response;
-                    if (decode.success == true) {
-                        $('#addcourse').modal('hide');
-                        refresh();
-                        $.notify("Record successfully saved", "success");
-                    } else if (decode.success === false) {
-                        $('#btn-save').button('reset');
-                        $.notify(decode.msg, "error");
-                        return;
-                    }
-                },
-                error: function(error) {
-                    console.log("Error:");
-                    console.log(error.responseText);
-                    console.log(error.message);
-                    return;
-                }
-            });
-        } else {
-            $.ajax({
-                url: '../server/questions/' + $('#question_id').val(),
-                async: false,
-                type: 'PUT',
-                data: data,
-                success: function(response) {
-                    var decode = response;
-                    console.log('decode: ', decode);
-                    if (decode.success == true) {
-                        $('#addcourse').modal('hide');
-                        refresh();
-                        $.notify("Record successfully updated", "success");
-                    } else if (decode.success === false) {
-                        $.notify(decode.msg, "error");
-                        return;
-                    }
-                },
-                error: function(error) {
-                    console.log("Error:");
-                    console.log(error.responseText);
-                    console.log(error.message);
-                    return;
-                }
-            });
-        }*/
+        /* if ($("#question_id").val() === '') {
+             $.ajax({
+                 url: '../server/questions/',
+                 async: false,
+                 type: 'POST',
+                 crossDomain: true,
+                 dataType: 'json',
+                 data: data,
+                 success: function(response) {
+                     var decode = response;
+                     if (decode.success == true) {
+                         $('#addcourse').modal('hide');
+                         refresh();
+                         $.notify("Record successfully saved", "success");
+                     } else if (decode.success === false) {
+                         $('#btn-save').button('reset');
+                         $.notify(decode.msg, "error");
+                         return;
+                     }
+                 },
+                 error: function(error) {
+                     console.log("Error:");
+                     console.log(error.responseText);
+                     console.log(error.message);
+                     return;
+                 }
+             });
+         } else {
+             $.ajax({
+                 url: '../server/questions/' + $('#question_id').val(),
+                 async: false,
+                 type: 'PUT',
+                 data: data,
+                 success: function(response) {
+                     var decode = response;
+                     console.log('decode: ', decode);
+                     if (decode.success == true) {
+                         $('#addcourse').modal('hide');
+                         refresh();
+                         $.notify("Record successfully updated", "success");
+                     } else if (decode.success === false) {
+                         $.notify(decode.msg, "error");
+                         return;
+                     }
+                 },
+                 error: function(error) {
+                     console.log("Error:");
+                     console.log(error.responseText);
+                     console.log(error.message);
+                     return;
+                 }
+             });
+         }*/
     }
 
 }
