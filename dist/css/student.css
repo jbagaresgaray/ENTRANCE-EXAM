@@ -8,3 +8,9 @@ body {
         padding: 2px 0px !important;
     }
 }
+
+.help-inline {
+    font-size: 12px;
+    color: red;
+    font-style: italic;
+}

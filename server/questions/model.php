@@ -12,6 +12,7 @@ class Questions {
 
        	if (!file_exists($upload_dir)) {
 		    self::mkdir_r($upload_dir, 0777);
+		    self::mkdir_r($upload_dir.'thumbs/', 0777);
 		}
 
 		if (is_dir($upload_dir) && is_writable($upload_dir)) {
@@ -35,6 +36,7 @@ class Questions {
 	} 
 
     private function make_thumb($src, $dest, $desired_width) {
+
         $source_image = imagecreatefromjpeg($src);
         $width = imagesx($source_image);
         $height = imagesy($source_image);
@@ -58,7 +60,6 @@ class Questions {
 			$allow = array("jpg", "jpeg", "gif", "png");
 
 			$category_id = $mysqli->real_escape_string($data['category_id']);
-			$course_id = $mysqli->real_escape_string($data['course_id']);
 			$content = $data['content'];
 
 			$answer = $mysqli->real_escape_string($data['answer']);
@@ -147,8 +148,8 @@ class Questions {
 			}
 		
 
-			$stmt = $mysqli->prepare("INSERT INTO question(content,file,category_id,course_id) VALUES(?,?,?,?)");
-			$stmt->bind_param("ssss", $content,$name_main_pic,$category_id,$course_id);
+			$stmt = $mysqli->prepare("INSERT INTO question(content,file,category_id) VALUES(?,?,?)");
+			$stmt->bind_param("sss", $content,$name_main_pic,$category_id);
 			$stmt->execute();
 			$last_id = $mysqli->insert_id;
 
@@ -180,8 +181,7 @@ class Questions {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query1 ="SELECT *,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category,
-			(SELECT coursename FROM courses WHERE id=c.course_id LIMIT 1) AS courses FROM question c;";
+			$query1 ="SELECT *,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category FROM question c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
@@ -199,8 +199,7 @@ class Questions {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query1 ="SELECT * ,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category,
-			(SELECT coursename FROM courses WHERE id=c.course_id LIMIT 1) AS courses FROM question c WHERE c.category_id=$id;";
+			$query1 ="SELECT * ,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category FROM question c WHERE c.category_id=$id;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
@@ -218,8 +217,7 @@ class Questions {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query1 ="SELECT * ,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category,
-			(SELECT coursename FROM courses WHERE id=c.course_id LIMIT 1) AS courses FROM question c WHERE c.course_id=$id;";
+			$query1 ="SELECT * ,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category FROM question c WHERE c.course_id=$id;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
@@ -237,12 +235,20 @@ class Questions {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query ="SELECT * ,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category,
-			(SELECT coursename FROM courses WHERE id=c.course_id LIMIT 1) AS courses FROM question c WHERE id=$id LIMIT 1;";
+			$query ="SELECT * ,(SELECT name FROM category WHERE id=c.category_id LIMIT 1) AS category FROM question c WHERE id=$id LIMIT 1;";
 			$mysqli->set_charset("utf8");
 			$result = $mysqli->query($query);
+
+			$query2 ="SELECT * FROM choice c WHERE c.questionid=$id;";
+			$mysqli->set_charset("utf8");
+			$result1 = $mysqli->query($query2);
+			$data = array();
+			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
+				array_push($data,$row);
+			}
+
 			if($row = $result->fetch_array(MYSQLI_ASSOC)){
-				return print json_encode(array('success' =>true,'question' =>$row),JSON_PRETTY_PRINT);
+				return print json_encode(array('success' =>true,'question' =>$row,'choices'=>$data),JSON_PRETTY_PRINT);
 			}else{
 				return print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
 			}
@@ -260,7 +266,7 @@ class Questions {
 
 			$category_id = $mysqli->real_escape_string($data['category_id']);
 			$course_id = $mysqli->real_escape_string($data['course_id']);
-			$content = $mysqli->real_escape_string($data['content']);
+			$content = $data['content'];
 
 			$answer = $mysqli->real_escape_string($data['answer']);
 			$choice2 = $mysqli->real_escape_string($data['choice2']);
@@ -358,8 +364,8 @@ class Questions {
 			}
 		
 
-			$stmt = $mysqli->prepare("UPDATE question SET content=?,file=?,category_id=?,course_id=? WHERE id=?");
-			$stmt->bind_param("sssss", $content,$name_main_pic,$category_id,$course_id,$id);
+			$stmt = $mysqli->prepare("UPDATE question SET content=?,file=?,category_id=? WHERE id=?");
+			$stmt->bind_param("ssss", $content,$name_main_pic,$category_id,$id);
 			$stmt->execute();
 			$last_id = $mysqli->insert_id;
 

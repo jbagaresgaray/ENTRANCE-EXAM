@@ -70,7 +70,6 @@ CREATE TABLE IF NOT EXISTS `question` (
   `content` text NOT NULL,
   `file` text NOT NULL,
   `category_id` int(11) NOT NULL,
-  `course_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
@@ -86,10 +85,8 @@ CREATE TABLE IF NOT EXISTS `question` (
 CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stud_id` varchar(50) NOT NULL,
-  `question_id` int(11) NOT NULL,
   `score` int(11) NOT NULL,
   `total` int(11) NOT NULL,
-  `try` int(11) NOT NULL,
   `date` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
@@ -107,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stud_id` varchar(50) NOT NULL,
   `question_id` int(11) NOT NULL,
-  `has_quiz` varchar(50) NOT NULL,
+  `has_quiz` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
@@ -174,13 +171,18 @@ CREATE TABLE IF NOT EXISTS `userdata` (
 
 
 ALTER TABLE `question`
-  ADD KEY `FK_question_1` (`category_id`),ADD KEY `FK_question_2` (`course_id`),
-  ADD CONSTRAINT `FK_question_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_question_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD KEY `FK_question_1` (`category_id`),
+  ADD CONSTRAINT `FK_question_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-
-ALTER TABLE `choices`
+ALTER TABLE `choice`
   ADD KEY `FK_choices_1` (`questionid`),
   ADD CONSTRAINT `FK_choices_1` FOREIGN KEY (`questionid`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `result`
+  ADD KEY `FK_result_1` (`stud_id`),
+  ADD CONSTRAINT `FK_result_1` FOREIGN KEY (`stud_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `status`
+  ADD KEY `FK_status_1` (`stud_id`),ADD KEY `FK_status_2` (`question_id`),
+  ADD CONSTRAINT `FK_status_1` FOREIGN KEY (`stud_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_status_2` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

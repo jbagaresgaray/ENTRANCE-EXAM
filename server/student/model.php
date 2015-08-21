@@ -1,6 +1,6 @@
 <?php
 require_once '../../server/connection.php';
-
+require_once '../../server/sms/model.php';
 
 class Student {
 
@@ -20,16 +20,19 @@ class Student {
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
 			$username = $mysqli->real_escape_string($data['username']);
 			$password = $mysqli->real_escape_string($data['password']);
-
+			$email = $mysqli->real_escape_string($data['email']);
 			$level = $mysqli->real_escape_string($data['level']);
 
-			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,fname,lname,level) VALUES(?,?,?,?,?)');
-			$stmt2->bind_param("sssss", $username,sha1($password),$fname,$lname,$level);
+			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,fname,lname,email,mobileno,level) VALUES(?,?,?,?,?,?,?)');
+			$stmt2->bind_param("sssssss", $username,sha1($password),$fname,$lname,$email,$mobileno,$level);
 			$stmt2->execute();				
 
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno) VALUES(?,?,?,?)')){
-				$stmt->bind_param("ssss", $studid,$fname,$lname,$mobileno);
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email) VALUES(?,?,?,?,?)')){
+				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email);
 				$stmt->execute();
+
+				/*$message = '';
+				$res = SMS::itexmo_less($mobileno);*/
 
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -88,11 +91,32 @@ class Student {
 			$fname = $mysqli->real_escape_string($data['fname']);
 			$lname = $mysqli->real_escape_string($data['lname']);
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
+			$email = $mysqli->real_escape_string($data['email']);
 
-			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=? WHERE id=?')){
-				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$id);
+			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=?,email=? WHERE id=?')){
+				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$email,$id);
 				$stmt->execute();
-				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
+				print json_encode(array('success' =>true,'msg' =>'Profile successfully updated'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public function updateAccount($id,$data){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$username = $mysqli->real_escape_string($data['username']);
+			$password = $mysqli->real_escape_string($data['password']);
+
+			if ($stmt = $mysqli->prepare('UPDATE student SET username=?,password=? WHERE id=?')){
+				$stmt->bind_param("sss", $username,$password,$id);
+				$stmt->execute();
+				print json_encode(array('success' =>true,'msg' =>'Account successfully updated'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 			}

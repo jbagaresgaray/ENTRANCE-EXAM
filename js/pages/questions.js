@@ -16,7 +16,6 @@ $(document).ready(function() {
 
     fetch_categories();
     fetch_all_questions();
-    fetch_questions();
 });
 
 $(document).on("click", ".remove-icon", function() {
@@ -59,7 +58,6 @@ function clear() {
 function refresh() {
     fetch_categories();
     fetch_all_questions();
-    fetch_questions();
 }
 
 function fetch_all_questions() {
@@ -81,16 +79,14 @@ function fetch_all_questions() {
         dataType: 'json',
         success: function(response) {
             var decode = response;
-            console.log('decode: ', decode);
             if (decode) {
                 if (decode.questions.length > 0) {
                     for (var i = 0; i < decode.questions.length; i++) {
                         var row = decode.questions;
                         var html = '<tr class="odd">\
-                                        <td class="sorting" width="100px">' + row[i].content + '</td>\
-                                        <td class="sorting">' + row[i].category + '</td>\
-                                        <td class="sorting">' + row[i].courses + '</td>\
-                                        <td class=" ">\
+                                        <td class="sorting" width="65%">' + $(row[i].content).text() + '</td>\
+                                        <td class="sorting" width="35%">' + row[i].category + '</td>\
+                                        <td class=" " width="15%">\
                                           <div class="text-right">\
                                             <a class="edit-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
                                               <i class="fa fa-pencil"></i>\
@@ -176,60 +172,63 @@ function validate() {
     return empty;
 }
 
-$("form#frmQuestions").submit(function(e){
-    e.preventDefault();
+$("form#frmQuestions").submit(function(e) {
     if (validate() !== true) {
         var formData = new FormData($(this)[0]);
         if ($("#question_id").val() === '') {
-             $.ajax({
-                 url: '../server/questions/',
-                 async: false,
-                 type: 'POST',
-                 data: formData,
-                 success: function(response) {
-                     var decode = response;
-                     console.log('decode: ', decode);
-                     if (decode.success == true) {
-                         $('#questionsModal').modal('hide');
-                         refresh();
-                         $.notify("Record successfully saved", "success");
-                     } else if (decode.success === false) {
-                         $.notify(decode.msg, "error");
-                         return;
-                     }
-                 },
-                 error: function(error) {
-                     console.log("Error:");
-                     console.log(error.responseText);
-                     console.log(error.message);
-                     return;
-                 }
-             });
+            $.ajax({
+                url: '../server/questions/',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#questionsModal').modal('hide');
+                        refresh();
+                        $.notify("Record successfully saved", "success");
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    return;
+                }
+            });
+            e.preventDefault();
         } else {
-             $.ajax({
-                 url: '../server/questions/' + $('#question_id').val(),
-                 async: false,
-                 type: 'PUT',
-                 data: formData,
-                 success: function(response) {
-                     var decode = response;
-                     console.log('decode: ', decode);
-                     if (decode.success == true) {
-                         $('#questionsModal').modal('hide');
-                         refresh();
-                         $.notify("Record successfully updated", "success");
-                     } else if (decode.success === false) {
-                         $.notify(decode.msg, "error");
-                         return;
-                     }
-                 },
-                 error: function(error) {
-                     console.log("Error:");
-                     console.log(error.responseText);
-                     console.log(error.message);
-                     return;
-                 }
-             });
+            $.ajax({
+                url: '../server/questions/' + $('#question_id').val(),
+                contentType: false,
+                processData: false,
+                type: 'PUT',
+                data: formData,
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#questionsModal').modal('hide');
+                        refresh();
+                        $.notify("Record successfully updated", "success");
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    return;
+                }
+            });
+            e.preventDefault();
         }
     }
 });
@@ -247,30 +246,6 @@ function fetch_categories() {
                 var row = decode.category;
                 var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].name + '</option>';
                 $("#category_id").append(html);
-            }
-        },
-        error: function(error) {
-            console.log("Error:");
-            console.log(error.responseText);
-            console.log(error.message);
-            return;
-        }
-    });
-}
-
-function fetch_questions() {
-    $.ajax({
-        url: '../server/courses/',
-        async: true,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            var decode = response;
-            $('#course_id').empty();
-            for (var i = 0; i < decode.courses.length; i++) {
-                var row = decode.courses;
-                var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].coursename + '</option>';
-                $("#course_id").append(html);
             }
         },
         error: function(error) {
@@ -308,8 +283,45 @@ function getData(id) {
         type: 'GET',
         success: function(response) {
             var decode = response;
-            console.log('response: ', decode);
             if (decode.success == true) {
+                $('#category_id').val(decode.question.category_id);
+                // $('#content').val(decode.question.content);
+                CKEDITOR.instances['content'].setData(decode.question.content);
+
+                $('#answer').val(decode.choices[0].answer);
+                $('#answerid').val(decode.choices[0].id);
+
+                $('#choice2').val(decode.choices[1].answer);
+                $('#choice2id').val(decode.choices[1].id);
+
+                $('#choice3').val(decode.choices[2].answer);
+                $('#choice3id').val(decode.choices[2].id);
+
+                $('#choice4').val(decode.choices[3].answer);
+                $('#choice4id').val(decode.choices[3].id);
+
+                $('#tmp_main').val(decode.question.file);
+                $('#tmp_correct').val(decode.choices[0].file);
+                $('#tmp_pic2').val(decode.choices[1].file);
+                $('#tmp_pic3').val(decode.choices[2].file);
+                $('#tmp_pic4').val(decode.choices[3].file);
+
+                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
+                $(txt).insertAfter($('#mainpic').next('p'));
+
+                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
+                $(txt).insertAfter('#correctpic');
+
+                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
+                $(txt).insertAfter('#pic2');
+
+                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
+                $(txt).insertAfter('#pic3');
+
+                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
+                $(txt).insertAfter('#pic4');
+
+
                 $('#questionsModal').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");

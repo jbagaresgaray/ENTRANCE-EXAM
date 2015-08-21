@@ -84,7 +84,6 @@
                                         <tr>
                                             <th>Question</th>
                                             <th>Category</th>
-                                            <th>Course</th>
                                             <th></th>
                                         </tr>
                                     </thead>

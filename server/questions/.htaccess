@@ -11,4 +11,7 @@ DirectoryIndex index.php
 
 	RewriteCond %{REQUEST_FILENAME} -s
 	RewriteRule ^(.*)$ index.php [QSA,NC,L]
+
+	php_value post_max_size 16M
+	php_value upload_max_filesize 6M
 </IfModule>

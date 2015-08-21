@@ -12,10 +12,6 @@
                         <select class="form-control" id="category_id" name="category_id"></select>
                     </div>
                     <div class="form-group">
-                        <label>Course</label>
-                        <select class="form-control" id="course_id" name="course_id"></select>
-                    </div>
-                    <div class="form-group">
                         <label>Question</label>
                         <textarea class="ckeditor" name="content" id="content"></textarea>
                     </div>
@@ -51,7 +47,18 @@
                         <p class="help-inline"></p>
                         <label>Image: </label>
                         <input type="file" name="pic4" id="pic4" class="form-control" accept="image/*" />
-                    </div>      
+                    </div>
+
+                    <input type="hidden" name="answerid" id="answerid"/>
+                    <input type="hidden" name="choice2id" id="choice2id"/>
+                    <input type="hidden" name="choice3id" id="choice3id"/>
+                    <input type="hidden" name="choice4id" id="choice4id"/>  
+                    
+                    <input type="hidden" name="tmp_main" id="tmp_main"/>
+                    <input type="hidden" name="tmp_correct" id="tmp_correct"/>
+                    <input type="hidden" name="tmp_pic2" id="tmp_pic2"/>
+                    <input type="hidden" name="tmp_pic3" id="tmp_pic3"/>
+                    <input type="hidden" name="tmp_pic4" id="tmp_pic4"/>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn-save" class="btn btn-primary">Submit</button>
