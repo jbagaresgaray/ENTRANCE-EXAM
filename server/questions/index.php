@@ -7,6 +7,10 @@
 
 	switch ($method) {
 	  case 'PUT':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
   			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
 			foreach ($_PUT as $key => $value){
 					unset($_PUT[$key]);
@@ -26,9 +30,17 @@
 			}
 	    break;
 	  case 'POST':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 			Questions::create($_POST,$_FILES);
 	    break;
 	  case 'GET':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		if ($request[0] == 'category'){
 	  			$id = $request[1];
@@ -45,6 +57,10 @@
 	  	}
 	    break;
 	  case 'DELETE':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
 	  		Questions::delete($id);

@@ -7,6 +7,10 @@
 
 	switch ($method) {
 		case 'PUT':
+			session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+			
 			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
 			foreach ($_PUT as $key => $value){
 					unset($_PUT[$key]);
@@ -26,6 +30,10 @@
 			}
 			break;
 	  	case 'POST':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 		  	if(isset($_POST['category_id'])&&!empty($_POST['category_id'])){
 		  		
 		  	}else{
@@ -36,6 +44,10 @@
 		  	}
 		    break;
 	  	case 'GET':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		$id = $request[0];
 		  		Category::detail($id);

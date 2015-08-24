@@ -7,6 +7,10 @@
 
 	switch ($method) {
 	  case 'PUT':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
   			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
 			foreach ($_PUT as $key => $value){
 					unset($_PUT[$key]);
@@ -31,6 +35,10 @@
 			}
 	    break;
 	  case 'POST':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 	    $data = [
 	    	'studid' => $_POST['studid'],
 	    	'fname' => $_POST['fname'],
@@ -45,6 +53,10 @@
 	    Student::create($data);
 	    break;
 	  case 'GET':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
 	  		Student::detail($id);
@@ -53,6 +65,10 @@
 	  	}
 	    break;
 	  case 'DELETE':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+			
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
 			Student::delete($id);

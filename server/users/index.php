@@ -6,45 +6,96 @@
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 
 	switch ($method) {
-	  switch ($method) {
 	  case 'PUT':
-  			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
+			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
 			foreach ($_PUT as $key => $value){
 					unset($_PUT[$key]);
 					$_PUT[str_replace('amp;', '', $key)] = $value;
 			}
 			$_REQUEST = array_merge($_REQUEST, $_PUT);
-
-			$data = [];
-
 			if(isset($request) && !empty($request) && $request[0] !== ''){
-				$id = $request[0];
-				
-			}else{
-				
+				if ($request[0] == 'account'){
+					$id = $request[1];
+					$data = [
+						"username" => $_REQUEST['username'],
+						"password" => $_REQUEST['password'],
+					];
+					Users::updateAccount($id,$data);
+				}else if ($request[0] == 'profile'){
+					$id = $request[1];
+					$data = [
+						"email" => $_REQUEST['email'],
+						"mobileno" => $_REQUEST['mobileno'],
+						"fname" => $_REQUEST['fname'],
+						"lname" => $_REQUEST['lname'],
+					];
+					Users::updateProfile($id,$data);
+				}else{
+					$id = $request[0];
+					$data = [
+						"username" => $_REQUEST['username'],
+						"email" => $_REQUEST['email'],
+						"mobileno" => $_REQUEST['mobileno'],
+						"fname" => $_REQUEST['fname'],
+						"lname" => $_REQUEST['lname'],
+						"level" => $_REQUEST['level']
+					];
+					Users::update($id,$data);
+				}
 			}
 	    break;
 	  case 'POST':
-	    
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
+		  	$data = [
+				"username" => $_POST['username'],
+				"password" => $_POST['password'],
+				"email" => $_POST['email'],
+				"mobileno" => $_POST['mobileno'],
+				"fname" => $_POST['fname'],
+				"lname" => $_POST['lname'],
+				"level" => $_POST['level']
+			];
+			Users::create($data);
 	    break;
 	  case 'GET':
+	  	session_start();
+		$headers = apache_request_headers();	
+		$token = $headers['X-Auth-Token'];
+
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
-	  		$id = $request[0];
-	  		
-	  	}else{
-	  		
+	  		if ($request[0] == 'auth'){
+	  			session_start();
+				$headers = apache_request_headers();	
+				$token = $headers['X-Auth-Token'];
+				
+				Users::currentUser();
+			}else{
+		  		$id = $request[0];
+				Users::detail($id);
+			}
 	  	}
 	    break;
 	  case 'DELETE':
+	  	session_start();
+		$headers = apache_request_headers();	
+		$token = $headers['X-Auth-Token'];
+		
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
-	  		
-	  	}   
+			Users::delete($id);
+	  	}
 	    break;
 	  default:
 	    print json_encode('ENTRANCE EXAM API v.0.1 developed by: Philip Cesar B. Garay');
 	    break;
 	}
 	exit();
-	
+
 ?>

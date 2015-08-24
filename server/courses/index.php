@@ -7,6 +7,10 @@
 
 	switch ($method) {
 	  case 'PUT':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
   			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
 			foreach ($_PUT as $key => $value){
 					unset($_PUT[$key]);
@@ -27,6 +31,10 @@
 			}
 	    break;
 	  case 'POST':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+
 	    	$data = [
 		    	'coursename' => $_POST['coursename'],
 		    	'passing_score' => $_POST['passing_score']
@@ -34,14 +42,20 @@
 		    Courses::create($data);
 	    break;
 	  case 'GET':
-	  	if(isset($request) && !empty($request) && $request[0] !== ''){
-	  		$id = $request[0];
-	  		Courses::detail($id);
-	  	}else{
-	  		Courses::read();
-	  	}
-	    break;
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
+		  	if(isset($request) && !empty($request) && $request[0] !== ''){
+		  		$id = $request[0];
+		  		Courses::detail($id);
+		  	}else{
+		  		Courses::read();
+		  	}
+		    break;
 	  case 'DELETE':
+	  		session_start();
+			$headers = apache_request_headers();	
+			$token = $headers['X-Auth-Token'];
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
 	  		Courses::delete($id);
