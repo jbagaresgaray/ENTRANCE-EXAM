@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
+    header("Location: index.php");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +78,9 @@
                    <div class="form-inline form-padding">
                         <form id="frmSearch" role="form">                               
                             <a onclick="create_question()" class="btn btn-primary">Add Question</a>
-                            <a onclick="refresh()" class="btn btn-success">Refresh</a>
+                            <a onclick="refresh()" class="btn btn-info">Refresh</a>
+                            <input type="text" class="form-control" id="inputSearch" placeholder="Search">
+                            <a onclick="fetch_all_category()" class="btn btn-success">Search</a>
                         </form>
                     </div>
                     <br>
@@ -87,6 +98,7 @@
                                             <th></th>
                                         </tr>
                                     </thead>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>

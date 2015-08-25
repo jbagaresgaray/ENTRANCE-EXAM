@@ -51,9 +51,6 @@
                     <li>
                         <a href="blank.php">Manage Users</a>
                     </li>
-                    <li>
-                        <a href="index.php">Login Page</a>
-                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

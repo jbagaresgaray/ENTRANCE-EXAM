@@ -66,8 +66,9 @@ function fetch_all_student() {
         url: '../server/student/',
         async: true,
         type: 'GET',
-        crossDomain: true,
-        dataType: 'json',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             console.log('decode: ', decode);
@@ -97,7 +98,11 @@ function fetch_all_student() {
             }
         },
         error: function(error) {
-            $('#btn-save').button('reset');
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
             return;
         }
     });
@@ -108,6 +113,9 @@ function deletedata(id) {
         url: '../server/student/' + id,
         async: true,
         type: 'DELETE',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             if (decode.success == true) {
@@ -118,6 +126,14 @@ function deletedata(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }
@@ -127,6 +143,9 @@ function getData(id) {
         url: '../server/student/' + id,
         async: true,
         type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             console.log('response: ', decode);
@@ -146,6 +165,14 @@ function getData(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }
@@ -233,8 +260,9 @@ function save() {
             url: '../server/student/',
             async: false,
             type: 'POST',
-            crossDomain: true,
-            dataType: 'json',
+            headers: {
+                'X-Auth-Token': $("input[name='csrf']").val()
+            },
             data: {
                 studid: $('#studid').val(),
                 fname: $('#fname').val(),
@@ -259,6 +287,10 @@ function save() {
                 console.log("Error:");
                 console.log(error.responseText);
                 console.log(error.message);
+                if (error.responseText) {
+                    var msg = JSON.parse(error.responseText)
+                    $.notify(msg.msg, "error");
+                }
                 return;
             }
         });
@@ -267,6 +299,9 @@ function save() {
             url: '../server/student/' + $('#id').val(),
             async: false,
             type: 'PUT',
+            headers: {
+                'X-Auth-Token': $("input[name='csrf']").val()
+            },
             data: {
                 studid: $('#studid').val(),
                 fname: $('#fname').val(),
@@ -291,6 +326,10 @@ function save() {
                 console.log("Error:");
                 console.log(error.responseText);
                 console.log(error.message);
+                if (error.responseText) {
+                    var msg = JSON.parse(error.responseText)
+                    $.notify(msg.msg, "error");
+                }
                 return;
             }
         });

@@ -3,7 +3,7 @@ $(document).ready(function() {
 
     $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
 
-   clear();
+    clear();
 });
 
 function resetHelpInLine() {
@@ -12,7 +12,7 @@ function resetHelpInLine() {
     });
 }
 
-function clear(){
+function clear() {
     $('#studid').val('');
     $('#fname').val('');
     $('#lname').val('');
@@ -93,8 +93,9 @@ function save() {
         url: '../server/student/',
         async: false,
         type: 'POST',
-        crossDomain: true,
-        dataType: 'json',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         data: {
             studid: $('#studid').val(),
             fname: $('#fname').val(),
@@ -121,6 +122,10 @@ function save() {
             console.log("Error:");
             console.log(error.responseText);
             console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
             return;
         }
     });

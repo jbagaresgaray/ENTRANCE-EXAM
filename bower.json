@@ -42,6 +42,7 @@
     "notifyjs": "~0.3.2",
     "bootstrap-material-design": "~0.3.0",
     "ckeditor": "~4.5.2",
-    "spin.js": "~2.3.2"
+    "spin.js": "~2.3.2",
+    "lodash": "~3.10.1"
   }
 }

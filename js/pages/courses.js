@@ -1,28 +1,21 @@
 $(document).ready(function() {
-    var user = JSON.parse(window.localStorage['user'] || '{}');
-
-    $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
     $("#category_name").prop('disabled', true);
     $("#btn-save").attr('disabled', true);
     $("#btn-reset").hide();
-
-    $('#tbl_courses').DataTable({
-        responsive: true
-    });
 
     fetch_all_course();
 
 });
 
 $('#passing_score').keypress(function(e) {
-    if(e.which == 13) {
+    if (e.which == 13) {
         save();
         e.preventDefault();
     }
 });
 
 $('#course_name').keypress(function(e) {
-    if(e.which == 13) {
+    if (e.which == 13) {
         save();
         e.preventDefault();
     }
@@ -104,8 +97,9 @@ function save() {
             url: '../server/courses/',
             async: false,
             type: 'POST',
-            crossDomain: true,
-            dataType: 'json',
+            headers: {
+                'X-Auth-Token': $("input[name='csrf']").val()
+            },
             data: {
                 coursename: $('#course_name').val(),
                 passing_score: $('#passing_score').val()
@@ -126,6 +120,10 @@ function save() {
                 console.log("Error:");
                 console.log(error.responseText);
                 console.log(error.message);
+                if (error.responseText) {
+                    var msg = JSON.parse(error.responseText)
+                    $.notify(msg.msg, "error");
+                }
                 return;
             }
         });
@@ -134,13 +132,16 @@ function save() {
             url: '../server/courses/' + $('#course_id').val(),
             async: false,
             type: 'PUT',
+            headers: {
+                'X-Auth-Token': $("input[name='csrf']").val()
+            },
             data: {
                 coursename: $('#course_name').val(),
                 passing_score: $('#passing_score').val()
             },
             success: function(response) {
                 var decode = response;
-                console.log('decode: ',decode);
+                console.log('decode: ', decode);
                 if (decode.success == true) {
                     $('#addcourse').modal('hide');
                     refresh();
@@ -154,6 +155,10 @@ function save() {
                 console.log("Error:");
                 console.log(error.responseText);
                 console.log(error.message);
+                if (error.responseText) {
+                    var msg = JSON.parse(error.responseText)
+                    $.notify(msg.msg, "error");
+                }
                 return;
             }
         });
@@ -188,11 +193,11 @@ function fetch_all_course() {
         url: '../server/courses/',
         async: true,
         type: 'GET',
-        crossDomain: true,
-        dataType: 'json',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
-            console.log('decode: ',decode);
             if (decode) {
                 if (decode.courses.length > 0) {
                     for (var i = 0; i < decode.courses.length; i++) {
@@ -219,7 +224,11 @@ function fetch_all_course() {
             }
         },
         error: function(error) {
-            $('#btn-save').button('reset');
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
             return;
         }
     });
@@ -230,6 +239,9 @@ function deletedata(id) {
         url: '../server/courses/' + id,
         async: true,
         type: 'DELETE',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             if (decode.success == true) {
@@ -240,6 +252,14 @@ function deletedata(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }
@@ -249,6 +269,9 @@ function getData(id) {
         url: '../server/courses/' + id,
         async: true,
         type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             console.log('response: ', decode);
@@ -265,6 +288,14 @@ function getData(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }

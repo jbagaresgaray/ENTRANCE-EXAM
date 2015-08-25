@@ -56,6 +56,7 @@ function send() {
         url: '../server/sms/',
         async: true,
         type: 'POST',
+        
         data:{
         	number: $('#mobileNo').val(),
         	message: $('#txtMessages').val()
@@ -72,6 +73,14 @@ function send() {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }

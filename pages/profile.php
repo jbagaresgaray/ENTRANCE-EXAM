@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
+    header("Location: index.php");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,63 +71,77 @@
                             Manage Profile
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist" id="myTabs">                                    
+                                <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Security Accounts</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="profile">
+                                    <br>
+                                    <form role="form"  id="frmProfile" class="padding-top">
+                                        <input type="hidden" name="user_id" value="<?php echo $_SESSION['users']['id'];?>">
+                                        <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
+                                        <div class="form-group col-md-6" >
                                             <label>First Name</label>
-                                            <input class="form-control" type="text">
+                                            <input class="form-control" type="text" name="fname" id="fname" placeholder="First Name"/>
+                                            <span class="help-inline"></span>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
+                                            <label>Last Name</label>
+                                            <input class="form-control" type="text" name="lname" id="lname" placeholder="Last Name"/ >
+                                            <span class="help-inline"></span>
+                                        </div>
+                                        <div class="form-group col-md-6">
                                             <label>Email</label>
-                                            <input class="form-control" type="email">
+                                            <input class="form-control" type="email" name="email" id= "email" placeholder="Email Address"/>
+                                            <span class="help-inline"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Contact Number</label>
-                                            <input class="form-control" type="email">
+                                        <div class="form-group col-md-6">
+                                            <label>Mobile No.</label>
+                                            <input class="form-control" type="text" name="mobileno" id="mobileno" placeholder="Mobile No."/>
+                                            <span class="help-inline"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Address</label>
-                                            <textarea class="form-control" rows="3"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Male
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Female
-                                                </label>
-                                            </div>
+                                        <div class="form-group col-md-12">
+                                            <a id="btn-save" class="btn btn-primary" onclick="saveProfile()">Update</a>
+                                            <button type="button" class="btn btn-warning" data-dismiss="modal">Clear</button>
                                         </div>
                                     </form>
                                 </div>
-                                <!-- /.col-lg-6 (nested) -->
-                                <div class="col-lg-6">
-                                    <h1>Accounts</h1>
-                                    <form role="form">
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="Username">
+                                <div role="tabpanel" class="tab-pane" id="settings">
+                                    <br>
+                                    <form role="form"  id="frmAccount" class="padding-top">
+                                        <input type="hidden" id="user_id" name="user_id" value="<?php echo $_SESSION['users']['id'];?>">
+                                        <div class="form-group">
+                                            <div class="col-md-6">
+                                                <label>Username</label>
+                                                <input class="form-control" type="text" name="username" id="username" placeholder="Username" />
+                                                <span class="help-inline"></span>
+                                            </div>
                                         </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">*</span>
-                                            <input type="password" class="form-control" placeholder="Password">
+                                        <div class="form-group col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Password</label>
+                                                    <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
+                                                    <span class="help-inline"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Confirm Password</label>
+                                                    <input class="form-control" type="password" name="password2" id="password2" placeholder="Confirm Password" />
+                                                    <span class="help-inline"></span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </form>
-                                    <button class="btn btn-primary">Submit Button</button>
-                                    <button class="btn btn-warning">Reset Button</button>
+                                        <div class="form-group col-md-12">
+                                            <a id="btn-save" class="btn btn-primary" onclick="saveAccount()">Update</a>
+                                            <button type="button" class="btn btn-warning" data-dismiss="modal">Clear</button>
+                                        </div>
+                                    </form>                                        
                                 </div>
-                                <!-- /.col-lg-6 (nested) -->
                             </div>
-                            <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -143,6 +166,7 @@
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
+    <script src="../js/pages/profile.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
 
 </body>

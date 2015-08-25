@@ -1,3 +1,11 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
+    header("Location: index.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,6 +79,7 @@
                                         <input type="hidden" name="id" />
                                         <div class="form-group">
                                             <input type="hidden" name="id" id="id"/>
+                                            <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                                             <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID" />
                                             <span class="help-inline"></span>
                                         </div>

@@ -1,16 +1,12 @@
 <?php
 	include('../../server/cors.php');
-	include( __DIR__.'/model.php');
+	include( __DIR__.'/controller.php');
 
 	$method = $_SERVER['REQUEST_METHOD'];
 	$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 
 	switch ($method) {
-		case 'PUT':
-			session_start();
-			$headers = apache_request_headers();	
-			$token = $headers['X-Auth-Token'];
-			
+		case 'PUT':		
 			$data=parse_str( file_get_contents( 'php://input' ), $_PUT );
 			foreach ($_PUT as $key => $value){
 					unset($_PUT[$key]);
@@ -18,47 +14,28 @@
 			}
 			$_REQUEST = array_merge($_REQUEST, $_PUT);
 
-			$data = [
-				"category_name" => $_REQUEST['category_name']
-			];
-
 			if(isset($request) && !empty($request) && $request[0] !== ''){
 				$id = $request[0];
-				Category::update($id,$data);
+				CategoryController::update($id,$_REQUEST);
 			}else{
-				Category::update(null,$data);
+				header('Route Not Found', true, 404);
 			}
 			break;
 	  	case 'POST':
-	  		session_start();
-			$headers = apache_request_headers();	
-			$token = $headers['X-Auth-Token'];
-
-		  	if(isset($_POST['category_id'])&&!empty($_POST['category_id'])){
-		  		
-		  	}else{
-		  		$data = [
-					"category_name" => $_POST['category_name']
-				];
-				Category::create($data);
-		  	}
+		  	CategoryController::create($_POST);
 		    break;
 	  	case 'GET':
-	  		session_start();
-			$headers = apache_request_headers();	
-			$token = $headers['X-Auth-Token'];
-
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		$id = $request[0];
-		  		Category::detail($id);
+		  		CategoryController::detail($id);
 		  	}else{
-				Category::read();
+				CategoryController::read();
 		  	}
 		    break;
 	  	case 'DELETE':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		$id = $request[0];
-		  		Category::delete($id);
+		  		CategoryController::delete($id);
 		  	}   
 		    break;
 	  	default:

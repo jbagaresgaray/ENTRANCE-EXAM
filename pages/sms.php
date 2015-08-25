@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
+    header("Location: index.php");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,6 +101,7 @@
                                 </div> -->
                                 <div class="form-group">
                                     <label>Mobile No.</label>
+                                    <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                                     <input type="text" class="form-control" placeholder="Mobile No." id="mobileNo" name="mobileNo">
                                     <span class="help-inline"></span>
                                 </div>

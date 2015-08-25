@@ -5,7 +5,7 @@ require_once '../server/connection.php';
 session_start();
 
 /*** check if the users is already logged in ***/
-if(isset( $_SESSION['users'] )){
+if(isset( $_SESSION['entrance'] )){
     header("Location: main.php");
 }
 
@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] =='POST'){
                 if ($result) {
                     if($row = $result->fetch_assoc()){
                         /*** set the session user_id variable ***/
-                        $_SESSION['users'] = $row;
+                        $_SESSION['entrance'] = $row;
                         /*** set a form token ***/
                         $form_token = md5( uniqid('auth', true) );
 

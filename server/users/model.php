@@ -6,6 +6,28 @@ class Users {
 	function __construct(){
     }
 
+    public static function currentUser(){
+		session_start();
+		
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'status'=>400,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$id = $_SESSION['entrance']['id'];
+			$query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata WHERE id = '$id' LIMIT 1;";
+	        $result = $mysqli->query($query1);
+	        if($result){
+	            if($row = $result->fetch_assoc()){
+	                $_SESSION['entrance'] = $row;
+	                return print_r(json_encode($_SESSION['entrance']));
+	            }
+	        }
+	    }
+	}
+
+
 	public function create($data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);

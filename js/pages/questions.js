@@ -3,14 +3,6 @@ jQuery.fn.CKEditorValFor = function(element_id) {
 }
 
 $(document).ready(function() {
-    var user = JSON.parse(window.localStorage['user'] || '{}');
-
-    $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
-
-    $('#tbl_questions').DataTable({
-        responsive: true
-    });
-
 
     CKEDITOR.replace('content');
 
@@ -75,8 +67,9 @@ function fetch_all_questions() {
         url: '../server/questions/',
         async: true,
         type: 'GET',
-        crossDomain: true,
-        dataType: 'json',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             if (decode) {
@@ -105,14 +98,18 @@ function fetch_all_questions() {
             }
         },
         error: function(error) {
-            $('#btn-save').button('reset');
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
             return;
         }
     });
 }
 
 function resetHelpInLine() {
-    $('span.help-inline').each(function() {
+    $('p.help-inline').each(function() {
         $(this).text('');
     });
 }
@@ -172,15 +169,45 @@ function validate() {
     return empty;
 }
 
-$("form#frmQuestions").submit(function(e) {
+// $("form#frmQuestions").submit(function(e) {
+function save() {
     if (validate() !== true) {
-        var formData = new FormData($(this)[0]);
+        var CKEDITOR = $().CKEditorValFor('content');
+
+        var formData = new FormData();
+        formData.append('content', CKEDITOR);
+        formData.append('category_id', $('#category_id').val());
+
+        formData.append('mainpic', $('#mainpic')[0].files[0]);
+        formData.append('correctpic', $('#correctpic')[0].files[0]);
+        formData.append('pic2', $('#pic2')[0].files[0]);
+        formData.append('pic3', $('#pic3')[0].files[0]);
+
+        formData.append('answer', $('#answer').val());
+        formData.append('choice2', $('#choice2').val());
+        formData.append('choice3', $('#choice3').val());
+        formData.append('choice4', $('#choice4').val());
+
+        formData.append('answerid', $('#answerid').val());
+        formData.append('choice2id', $('#choice2id').val());
+        formData.append('choice3id', $('#choice3id').val());
+        formData.append('choice4id', $('#choice4id').val());
+
+        formData.append('tmp_main', $('#tmp_main').val());
+        formData.append('tmp_correct', $('#tmp_correct').val());
+        formData.append('tmp_pic2', $('#tmp_pic2').val());
+        formData.append('tmp_pic3', $('#tmp_pic3').val());
+        formData.append('tmp_pic4', $('#tmp_pic4').val());
+
         if ($("#question_id").val() === '') {
             $.ajax({
                 url: '../server/questions/',
                 type: 'POST',
                 contentType: false,
                 processData: false,
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
                 data: formData,
                 success: function(response) {
                     var decode = response;
@@ -198,10 +225,13 @@ $("form#frmQuestions").submit(function(e) {
                     console.log("Error:");
                     console.log(error.responseText);
                     console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
                     return;
                 }
             });
-            e.preventDefault();
         } else {
             $.ajax({
                 url: '../server/questions/' + $('#question_id').val(),
@@ -209,6 +239,9 @@ $("form#frmQuestions").submit(function(e) {
                 processData: false,
                 type: 'PUT',
                 data: formData,
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
                 success: function(response) {
                     var decode = response;
                     console.log('decode: ', decode);
@@ -225,20 +258,26 @@ $("form#frmQuestions").submit(function(e) {
                     console.log("Error:");
                     console.log(error.responseText);
                     console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
                     return;
                 }
             });
-            e.preventDefault();
         }
     }
-});
+// });
+}
 
 function fetch_categories() {
     $.ajax({
         url: '../server/category/',
         async: true,
         type: 'GET',
-        dataType: 'json',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             $('#category_id').empty();
@@ -252,6 +291,10 @@ function fetch_categories() {
             console.log("Error:");
             console.log(error.responseText);
             console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
             return;
         }
     });
@@ -262,6 +305,9 @@ function deletedata(id) {
         url: '../server/questions/' + id,
         async: true,
         type: 'DELETE',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             if (decode.success == true) {
@@ -272,6 +318,16 @@ function deletedata(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }
@@ -281,6 +337,9 @@ function getData(id) {
         url: '../server/questions/' + id,
         async: true,
         type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             if (decode.success == true) {
@@ -328,6 +387,16 @@ function getData(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }

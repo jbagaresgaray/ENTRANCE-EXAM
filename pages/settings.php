@@ -69,6 +69,7 @@
                                 <div class="col-lg-12">
                                     <form role="form">
                                         <input type="hidden" name="id" />
+                                        <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="studid" id="studid" placeholder="Username" />
                                         </div>

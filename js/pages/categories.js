@@ -1,21 +1,14 @@
 $(document).ready(function() {
-    var user = JSON.parse(window.localStorage['user'] || '{}');
-
-    $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
     $("#category_name").prop('disabled', true);
     $("#btn-save").attr('disabled', true);
     $("#btn-reset").hide();
 
-    $('#tbl_category').DataTable({
-        responsive: true
-    });
-
-    fetch_all_category('1');
+    fetch_all_category();
 
 });
 
 $('#category_name').keypress(function(e) {
-    if(e.which == 13) {
+    if (e.which == 13) {
         save();
         e.preventDefault();
     }
@@ -26,6 +19,7 @@ $('#addcategory').on('hide.bs.modal', function(e) {
     $("#btn-save").attr('disabled', true);
     $("#btn-reset").hide();
     $("#category_name").val('');
+    $("#category_id").val('');
 });
 
 
@@ -92,8 +86,9 @@ function save() {
             url: '../server/category/',
             async: false,
             type: 'POST',
-            crossDomain: true,
-            dataType: 'json',
+            headers: {
+                'X-Auth-Token': $("input[name='csrf']").val()
+            },
             data: {
                 category_name: $('#category_name').val()
             },
@@ -113,6 +108,10 @@ function save() {
                 console.log("Error:");
                 console.log(error.responseText);
                 console.log(error.message);
+                if (error.responseText) {
+                    var msg = JSON.parse(error.responseText)
+                    $.notify(msg.msg, "error");
+                }
                 return;
             }
         });
@@ -121,6 +120,9 @@ function save() {
             url: '../server/category/' + $('#category_id').val(),
             async: false,
             type: 'PUT',
+            headers: {
+                'X-Auth-Token': $("input[name='csrf']").val()
+            },
             data: {
                 category_name: $('#category_name').val()
             },
@@ -132,7 +134,6 @@ function save() {
                     refresh();
                     $.notify("Record successfully updated", "success");
                 } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
                     $.notify(decode.msg, "error");
                     return;
                 }
@@ -141,6 +142,10 @@ function save() {
                 console.log("Error:");
                 console.log(error.responseText);
                 console.log(error.message);
+                if (error.responseText) {
+                    var msg = JSON.parse(error.responseText)
+                    $.notify(msg.msg, "error");
+                }
                 return;
             }
         });
@@ -172,8 +177,9 @@ function fetch_all_category(page) {
         url: '../server/category/',
         async: true,
         type: 'GET',
-        crossDomain: true,
-        dataType: 'json',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             if (decode) {
@@ -201,7 +207,11 @@ function fetch_all_category(page) {
             }
         },
         error: function(error) {
-            $('#btn-save').button('reset');
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
             return;
         }
     });
@@ -211,6 +221,9 @@ function deletedata(id) {
     $.ajax({
         url: '../server/category/' + id,
         async: true,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         type: 'DELETE',
         success: function(response) {
             var decode = response;
@@ -223,6 +236,14 @@ function deletedata(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }
@@ -232,6 +253,9 @@ function getData(id) {
         url: '../server/category/' + id,
         async: true,
         type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
         success: function(response) {
             var decode = response;
             console.log('response: ', decode);
@@ -249,6 +273,14 @@ function getData(id) {
                 return;
             }
 
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
         }
     });
 }

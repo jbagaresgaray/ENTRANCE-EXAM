@@ -9,6 +9,7 @@
                     <div class="form-group">
                         <label class="control-label">Course Name:</label>
                         <input type="hidden" id="course_id" name="course_id">
+                        <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                         <input type="text" class="form-control" id="course_name" name="course_name">
                         <span class="help-inline"></span>
                     </div>
