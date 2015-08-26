@@ -1,17 +1,5 @@
 $(document).ready(function() {
-    var user = JSON.parse(window.localStorage['user'] || '{}');
-
-    $('#current_user').html(user.FullName + ' (' + user.GroupName + ')');
-    $("#category_name").prop('disabled', true);
-    $("#btn-save").attr('disabled', true);
-    $("#btn-reset").hide();
-
-    $('#tbl_students').DataTable({
-        responsive: true
-    });
-
     fetch_all_student();
-
 });
 
 $(document).on("click", ".remove-icon", function() {
@@ -92,9 +80,9 @@ function fetch_all_student() {
                                 </tr>';
                         $("#tbl_students tbody").append(html);
                     }
-                    spinner.stop();
                     $.notify("All records display", "info");
                 }
+                spinner.stop();
             }
         },
         error: function(error) {
@@ -270,6 +258,7 @@ function save() {
                 mobileno: $('#mobileno').val(),
                 username: $('#username').val(),
                 password: $('#password').val(),
+                email : $('#email').val()
             },
             success: function(response) {
                 var decode = response;
@@ -309,6 +298,7 @@ function save() {
                 mobileno: $('#mobileno').val(),
                 username: $('#username').val(),
                 password: $('#password').val(),
+                email : $('#email').val()
             },
             success: function(response) {
                 var decode = response;

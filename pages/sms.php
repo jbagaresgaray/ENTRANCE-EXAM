@@ -51,7 +51,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">SMS</h1>
+                    <h2 class="page-header">SMS</h2>
                     <ol class="breadcrumb">
                         <li>
                             <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>

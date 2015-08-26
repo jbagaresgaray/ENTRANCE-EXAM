@@ -31,9 +31,6 @@ class Student {
 				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email);
 				$stmt->execute();
 
-				/*$message = '';
-				$res = SMS::itexmo_less($mobileno);*/
-
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n" . $mysqli->error),JSON_PRETTY_PRINT);
@@ -80,6 +77,24 @@ class Student {
 		}
 	}
 
+	public function checkID($studentID){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM student c WHERE studid=$studentID LIMIT 1;";
+			$mysqli->set_charset("utf8");
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Student already existed'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
 	public function update($id,$data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
@@ -112,6 +127,28 @@ class Student {
 		}else{
 			$username = $mysqli->real_escape_string($data['username']);
 			$password = $mysqli->real_escape_string($data['password']);
+
+			if ($stmt = $mysqli->prepare('UPDATE student SET username=?,password=? WHERE id=?')){
+				$stmt->bind_param("sss", $username,$password,$id);
+				$stmt->execute();
+				print json_encode(array('success' =>true,'msg' =>'Account successfully updated'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public function updateProfile($id,$data){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$fname = $mysqli->real_escape_string($data['fname']);
+			$lname = $mysqli->real_escape_string($data['lname']);
+			$mobileno = $mysqli->real_escape_string($data['mobileno']);
+			$email = $mysqli->real_escape_string($data['email']);
 
 			if ($stmt = $mysqli->prepare('UPDATE student SET username=?,password=? WHERE id=?')){
 				$stmt->bind_param("sss", $username,$password,$id);

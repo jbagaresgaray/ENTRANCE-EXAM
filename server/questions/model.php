@@ -82,12 +82,14 @@ class Questions {
             $name_pic4 = $files["pic4"]["name"];
             $pic4 = $files["pic4"]["tmp_name"];
 
-	  		if(!!$main_pic){
+	  		if($name_main_pic){
 			    $info = explode('.', strtolower($name_main_pic));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($main_pic);
 		            if($size){
 		            	self::do_upload($name_main_pic,$main_pic);
+		            }else{
+		                $name_main_pic = $data['tmp_main'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Content image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
@@ -95,12 +97,14 @@ class Questions {
 			    }
 			}
 
-			if(!!$name_correct_pic){
+			if($name_correct_pic){
 			    $info = explode('.', strtolower($name_correct_pic));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($correct_pic);
 		            if($size){
 		            	self::do_upload($name_correct_pic,$correct_pic);
+		            }else{
+		                $name_correct_pic = $data['tmp_correct'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Content image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
@@ -108,12 +112,14 @@ class Questions {
 			    }
 			}
 
-			if(!!$name_pic2){
+			if($name_pic2){
 			    $info = explode('.', strtolower($name_pic2));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($pic2);
 		            if($size){
 		            	self::do_upload($name_pic2,$pic2);
+		            }else{
+		                $name_pic2 = $data['tmp_pic2'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Choices image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
@@ -121,12 +127,14 @@ class Questions {
 			    }
 			}
 
-			if(!!$name_pic3){
+			if($name_pic3){
 			    $info = explode('.', strtolower($name_pic3));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($pic3);
 		            if($size){
 		            	self::do_upload($name_pic3,$pic3);
+		            }else{
+		                $name_pic3 = $data['tmp_pic3'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Choices image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
@@ -134,12 +142,14 @@ class Questions {
 			    }
 			}
 
-			if(!!$name_pic4){
+			if($name_pic4){
 			    $info = explode('.', strtolower($name_pic4));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($pic4);
 		            if($size){
 		            	self::do_upload($name_pic4,$pic4);
+		            }else{
+		            	$name_pic4 = $data['tmp_pic4'];
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Choices image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
@@ -255,7 +265,7 @@ class Questions {
 		}
 	}
 
-	public function update($id,$data,$files){
+	public function update($data,$files){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
@@ -265,13 +275,18 @@ class Questions {
 			$allow = array("jpg", "jpeg", "gif", "png");
 
 			$category_id = $mysqli->real_escape_string($data['category_id']);
-			$course_id = $mysqli->real_escape_string($data['course_id']);
 			$content = $data['content'];
+			$id = $data['question_id'];
 
 			$answer = $mysqli->real_escape_string($data['answer']);
 			$choice2 = $mysqli->real_escape_string($data['choice2']);
 			$choice3 = $mysqli->real_escape_string($data['choice3']);
 			$choice4 = $mysqli->real_escape_string($data['choice4']);
+
+			$answerid = $data['answerid'];
+            $choice2id = $data['choice2id'];
+            $choice3id = $data['choice3id'];
+            $choice4id = $data['choice4id'];
 
 	  		$name_main_pic = $files["mainpic"]["name"];
 			$main_pic = $files["mainpic"]["tmp_name"];
@@ -288,59 +303,65 @@ class Questions {
             $name_pic4 = $files["pic4"]["name"];
             $pic4 = $files["pic4"]["tmp_name"];
 
-	  		if(!!$main_pic){
+	  		if($name_main_pic){
 			    $info = explode('.', strtolower($name_main_pic));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($main_pic);
 		            if($size){
 		            	self::do_upload($name_main_pic,$main_pic);
 		            }else{
-		                $name_correct_pic = $_POST['tmp_main'];   
+		                $name_main_pic = $data['tmp_main'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Content image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
 			    	die();
 			    }
-			}
+			}else{
+                $name_main_pic = $data['tmp_main'];   
+            }
 
-			if(!!$name_correct_pic){
+			if($name_correct_pic){
 			    $info = explode('.', strtolower($name_correct_pic));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($correct_pic);
 		            if($size){
 		            	self::do_upload($name_correct_pic,$correct_pic);
 		            }else{
-		                $name_correct_pic = $_POST['tmp_correct'];   
+		                $name_correct_pic = $data['tmp_correct'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Content image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
 			    	die();
 			    }
-			}
+			}else{
+                $name_correct_pic = $data['tmp_correct'];   
+            }
 
-			if(!!$name_pic2){
+			if($name_pic2){
 			    $info = explode('.', strtolower($name_pic2));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($pic2);
 		            if($size){
 		            	self::do_upload($name_pic2,$pic2);
 		            }else{
-		                $name_pic2 = $_POST['tmp_pic2'];   
+		                $name_pic2 = $data['tmp_pic2'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Choices image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
 			    	die();
 			    }
-			}
+			}else{
+                $name_pic2 = $data['tmp_pic2'];   
+            }
 
-			if(!!$name_pic3){
+			if($name_pic3){
 			    $info = explode('.', strtolower($name_pic3));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($pic3);
 		            if($size){
 		            	self::do_upload($name_pic3,$pic3);
 		            }else{
-		                $name_pic3 = $_POST['tmp_pic3'];   
+		                $name_pic3 = $data['tmp_pic3'];   
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Choices image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
@@ -348,20 +369,22 @@ class Questions {
 			    }
 			}
 
-			if(!!$name_pic4){
+			if($name_pic4){
 			    $info = explode('.', strtolower($name_pic4));
 			    if (in_array(end($info),$allow)){
 			    	$size = getimagesize($pic4);
 		            if($size){
 		            	self::do_upload($name_pic4,$pic4);
 		            }else{
-		            	$name_pic4 = $_POST['tmp_pic4'];
+		            	$name_pic4 = $data['tmp_pic4'];
 		            }
 			    }else{
 			        return print json_encode(array('success' =>false,'msg' =>'Invalid file type for Choices image. Supported files allowed are JPG,JPEG,GIF,PNG.'),JSON_PRETTY_PRINT);
 			        die();
 			    }
-			}
+			}else{
+            	$name_pic4 = $data['tmp_pic4'];
+            }
 		
 
 			$stmt = $mysqli->prepare("UPDATE question SET content=?,file=?,category_id=? WHERE id=?");
@@ -369,20 +392,20 @@ class Questions {
 			$stmt->execute();
 			$last_id = $mysqli->insert_id;
 
-			$stmt1 = $mysqli->prepare("UPDATE choice SET choice=?, file='? where id=");
+			$stmt1 = $mysqli->prepare("UPDATE choice SET choice=?, file=? where id=?");
 			$stmt1->bind_param("sss",$answer,$name_correct_pic,$answerid);
 			$stmt1->execute();
 
-			$stmt2 = $mysqli->prepare("UPDATE choice set choice='$choice2', file='$name_pic2' where id=$choice2id");
-			$stmt2->bind_param("sss", $last_id,$choice2,$name_pic2);
+			$stmt2 = $mysqli->prepare("UPDATE choice SET choice=?, file=? where id=?");
+			$stmt2->bind_param("sss",$choice2,$name_pic2,$choice2id);
 			$stmt2->execute();
 
-			$stmt3 = $mysqli->prepare("UPDATE choice set choice='$choice3', file='$name_pic3' where id=$choice3id");
-			$stmt3->bind_param("sss", $last_id,$choice3,$name_pic3);
+			$stmt3 = $mysqli->prepare("UPDATE choice SET choice=?, file=? where id=?");
+			$stmt3->bind_param("sss",$choice3,$name_pic3,$choice3id);
 			$stmt3->execute();
 
-			$stmt4 = $mysqli->prepare("UPDATE choice set choice='$choice4', file='$name_pic4' where id=$choice4id");
-			$stmt4->bind_param("sss", $last_id,$choice4,$name_pic4);
+			$stmt4 = $mysqli->prepare("UPDATE choice SET choice=?, file=? where id=?");
+			$stmt4->bind_param("sss",$choice4,$name_pic4,$choice4id);
 			$stmt4->execute();
 
 			return print json_encode(array('success' =>true,'msg' =>'Record successfully saved '),JSON_PRETTY_PRINT);
@@ -396,6 +419,37 @@ class Questions {
 			$stmt->bind_param("s", $id);
 			$stmt->execute();
 			$stmt->close();
+			print json_encode(array('success' =>true,'msg' =>'Record successfully deleted'),JSON_PRETTY_PRINT);
+		}else{
+			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
+		}
+	}
+
+	public function deleteQuestionFile($id,$file){
+		$config= new Config();		
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if($stmt = $mysqli->prepare("UPDATE question SET file=null WHERE id =?")){
+			$stmt->bind_param("s", $id);
+			$stmt->execute();
+			$stmt->close();
+			unlink('../upload/choice/'.$file);
+			unlink('../upload/choice/thumbs/'.$file);
+
+			print json_encode(array('success' =>true,'msg' =>'Record successfully deleted'),JSON_PRETTY_PRINT);
+		}else{
+			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
+		}
+	}
+
+	public function deleteChoiceFile($id,$file){
+		$config= new Config();		
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if($stmt = $mysqli->prepare("UPDATE choice SET file=null WHERE id =?")){
+			$stmt->bind_param("s", $id);
+			$stmt->execute();
+			$stmt->close();
+			unlink('../upload/choice/'.$file);
+			unlink('../upload/choice/thumbs/'.$file);
 			print json_encode(array('success' =>true,'msg' =>'Record successfully deleted'),JSON_PRETTY_PRINT);
 		}else{
 			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);

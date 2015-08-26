@@ -60,7 +60,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Students</h1>
+                    <h2 class="page-header">Students</h2>
                     <ol class="breadcrumb">
                         <li>
                             <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
@@ -77,9 +77,11 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                 <div class="col-lg-12">
                     <div class="form-inline form-padding">
                         <form id="frmSearch" role="form">
-                            <a onclick="refresh()" class="btn btn-success">Refresh</a>
                             <a onclick="create_student()" class="btn btn-primary">Add Student</a>
-                            <a onclick="create_student_bulk()" class="btn btn-info">Add Student in Bulk</a>
+                            <a onclick="create_student_bulk()" class="btn btn-primary">Add Student in Bulk</a>
+                            <a onclick="refresh()" class="btn btn-info">Refresh</a>
+                            <input type="text" class="form-control" id="inputSearch" placeholder="Search">
+                            <a onclick="fetch_all_student()" class="btn btn-success">Search</a>
                         </form>
                     </div>
                     <br>
@@ -98,6 +100,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                                             <th></th>
                                         </tr>
                                     </thead>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>
@@ -136,6 +139,9 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
     
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
+
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

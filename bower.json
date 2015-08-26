@@ -43,6 +43,7 @@
     "bootstrap-material-design": "~0.3.0",
     "ckeditor": "~4.5.2",
     "spin.js": "~2.3.2",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "fancybox": "~2.1.5"
   }
 }

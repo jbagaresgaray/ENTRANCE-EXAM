@@ -41,6 +41,11 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
     <!-- Custom Fonts -->
     <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <link rel="stylesheet" type="text/css" href="../bower_components/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../bower_components/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+    <link rel="stylesheet" type="text/css" href="../bower_components/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -60,7 +65,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Questions</h1>
+                    <h2 class="page-header">Questions</h2>
                     <ol class="breadcrumb">
                         <li>
                             <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
@@ -137,8 +142,19 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
     
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
+    
     <!-- spinJS -->
     <script src="../bower_components/spin.js/spin.js"></script>
+
+    <!-- fancyBox -->
+    <!-- Add fancyBox main JS and CSS files -->
+    <script type="text/javascript" src="../bower_components/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
+    <!-- Add Button helper (this is optional) -->
+    <script type="text/javascript" src="../bower_components/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <!-- Add Thumbnail helper (this is optional) -->
+    <script type="text/javascript" src="../bower_components/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <!-- Add Media helper (this is optional) -->
+    <script type="text/javascript" src="../bower_components/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

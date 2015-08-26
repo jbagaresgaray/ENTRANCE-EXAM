@@ -26,7 +26,7 @@
                         <a href="ae_student.php">Create New</a>
                     </li>
                     <li>
-                        <a href="tables.php">Manage</a>
+                        <a href="students.php">Manage</a>
                     </li>
                 </ul>
             </li>

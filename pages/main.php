@@ -44,7 +44,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    <h2 class="page-header">Dashboard</h2>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

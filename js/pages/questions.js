@@ -6,8 +6,14 @@ $(document).ready(function() {
 
     CKEDITOR.replace('content');
 
+    $('.fancybox').fancybox();
+
     fetch_categories();
     fetch_all_questions();
+});
+
+$(document).on("click", ".confirmation", function() {
+
 });
 
 $(document).on("click", ".remove-icon", function() {
@@ -182,6 +188,7 @@ function save() {
         formData.append('correctpic', $('#correctpic')[0].files[0]);
         formData.append('pic2', $('#pic2')[0].files[0]);
         formData.append('pic3', $('#pic3')[0].files[0]);
+        formData.append('pic4', $('#pic4')[0].files[0]);
 
         formData.append('answer', $('#answer').val());
         formData.append('choice2', $('#choice2').val());
@@ -192,6 +199,7 @@ function save() {
         formData.append('choice2id', $('#choice2id').val());
         formData.append('choice3id', $('#choice3id').val());
         formData.append('choice4id', $('#choice4id').val());
+        formData.append('question_id', $('#question_id').val());
 
         formData.append('tmp_main', $('#tmp_main').val());
         formData.append('tmp_correct', $('#tmp_correct').val());
@@ -216,6 +224,9 @@ function save() {
                         $('#questionsModal').modal('hide');
                         refresh();
                         $.notify("Record successfully saved", "success");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
                     } else if (decode.success === false) {
                         $.notify(decode.msg, "error");
                         return;
@@ -234,10 +245,10 @@ function save() {
             });
         } else {
             $.ajax({
-                url: '../server/questions/' + $('#question_id').val(),
+                url: '../server/questions/update',
                 contentType: false,
                 processData: false,
-                type: 'PUT',
+                type: 'POST',
                 data: formData,
                 headers: {
                     'X-Auth-Token': $("input[name='csrf']").val()
@@ -249,6 +260,9 @@ function save() {
                         $('#questionsModal').modal('hide');
                         refresh();
                         $.notify("Record successfully updated", "success");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
                     } else if (decode.success === false) {
                         $.notify(decode.msg, "error");
                         return;
@@ -267,7 +281,7 @@ function save() {
             });
         }
     }
-// });
+    // });
 }
 
 function fetch_categories() {
@@ -347,6 +361,8 @@ function getData(id) {
                 // $('#content').val(decode.question.content);
                 CKEDITOR.instances['content'].setData(decode.question.content);
 
+                $('#question_id').val(decode.question.id);
+
                 $('#answer').val(decode.choices[0].answer);
                 $('#answerid').val(decode.choices[0].id);
 
@@ -365,22 +381,28 @@ function getData(id) {
                 $('#tmp_pic3').val(decode.choices[2].file);
                 $('#tmp_pic4').val(decode.choices[3].file);
 
-                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
-                $(txt).insertAfter($('#mainpic').next('p'));
+                if (decode.question.file !== null) {
+                    var txt = '<div><a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="../server/upload/choice/' + decode.question.file + '" class="fancybox"><font class="text-primary">' + decode.question.file + '</font></a><br /></div>';
+                    $(txt).insertAfter($('#mainpic').next('p'));
+                }
+                if (decode.choices[0].file !== null) {
+                    var txt = '<div><a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="../server/upload/choice/' + decode.choices[0].file + '" class="fancybox"><font class="text-primary">' + decode.choices[0].file + '</font></a><br /></div>';
+                    $(txt).insertAfter('#correctpic');
+                }
+                if (decode.choices[1].file !== null) {
+                    var txt = '<div><a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="../server/upload/choice/' + decode.choices[1].file + '" class="fancybox"><font class="text-primary">' + decode.choices[1].file + '</font></a><br /></div>';
+                    $(txt).insertAfter('#pic2');
+                }
+                if (decode.choices[2].file !== null) {
+                    var txt = '<div><a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="../server/upload/choice/' + decode.choices[2].file + '" class="fancybox"><font class="text-primary">' + decode.choices[2].file + '</font></a><br /></div>';
+                    $(txt).insertAfter('#pic3');
+                }
+                if (decode.choices[3].file !== null) {
+                    var txt = '<div><a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="../server/upload/choice/' + decode.choices[3].file + '" class="fancybox"><font class="text-primary">' + decode.choices[3].file + '</font></a><br /></div>';
+                    $(txt).insertAfter('#pic4');
+                }
 
-                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
-                $(txt).insertAfter('#correctpic');
-
-                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
-                $(txt).insertAfter('#pic2');
-
-                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
-                $(txt).insertAfter('#pic3');
-
-                var txt = '<a href="#" class="text-danger confirmation"><i class="fa fa-times"></i> Remove </a> | <a href="#" target="_blank"><font class="text-primary">' + decode.question.file + '</font></a><br />';
-                $(txt).insertAfter('#pic4');
-
-
+                $('.fancybox').fancybox();
                 $('#questionsModal').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
@@ -400,3 +422,38 @@ function getData(id) {
         }
     });
 }
+
+$('#questionsModal').on('hidden.bs.modal', function(e) {
+    $('#mainpic').next().next('div').remove();
+    $('#correctpic').next('div').remove();
+    $('#pic2').next('div').remove();
+    $('#pic3').next('div').remove();
+    $('#pic4').next('div').remove();
+
+    $('#question_id').val('');
+
+    CKEDITOR.instances['content'].setData('');
+    $('#mainpic').val('');
+    $('#correctpic').val('');
+    $('#pic2').val('');
+    $('#pic3').val('');
+    $('#pic4').val('');
+    
+    $('#answer').val('');
+    $('#answerid').val('');
+
+    $('#choice2').val('');
+    $('#choice2id').val('');
+
+    $('#choice3').val('');
+    $('#choice3id').val('');
+
+    $('#choice4').val('');
+    $('#choice4id').val('');
+
+    $('#tmp_main').val('');
+    $('#tmp_correct').val('');
+    $('#tmp_pic2').val('');
+    $('#tmp_pic3').val('');
+    $('#tmp_pic4').val('');
+})

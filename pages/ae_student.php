@@ -50,13 +50,13 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Student</h1>
+                    <h2 class="page-header">Student</h2>
                     <ol class="breadcrumb">
                         <li>
                             <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
                         </li>
                         <li>
-                            <a href="tables.php"> Students</a>
+                            <a href="students.php"> Students</a>
                         </li>
                         <li class="active">
                            Manage Student

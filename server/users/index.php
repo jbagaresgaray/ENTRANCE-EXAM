@@ -26,6 +26,8 @@
 					$id = $request[0];
 					UsersController::update($id,$_REQUEST);
 				}
+			}else{
+				header('Route Not Found', true, 404);
 			}
 	    break;
 	  case 'POST':
