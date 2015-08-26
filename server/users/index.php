@@ -41,13 +41,9 @@
 		  		$id = $request[0];
 				UsersController::detail($id);
 			}
-  	}
+  		}
 	    break;
 	  case 'DELETE':
-	  	session_start();
-		$headers = apache_request_headers();
-		$token = $headers['X-Auth-Token'];
-
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		$id = $request[0];
 			UsersController::delete($id);

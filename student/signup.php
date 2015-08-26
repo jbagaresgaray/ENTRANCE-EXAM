@@ -57,20 +57,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-lg-3 control-label">Password</label>
-                    <div class="col-lg-9">
-                        <input type="password" class="form-control" id="password" placeholder="Password">
-                        <span class="help-inline"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password2" class="col-lg-3 control-label">Confirm Password</label>
-                    <div class="col-lg-9">
-                        <input type="password" class="form-control" id="password2" placeholder="Confirm Password">
-                        <span class="help-inline"></span>
-                    </div>
-                </div>
-                <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         <a class="btn btn-primary" onclick="save()">Register</a>
                         <a class="btn btn-warning" onclick="clearFields()">Cancel</a>

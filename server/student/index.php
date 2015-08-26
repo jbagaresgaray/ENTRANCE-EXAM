@@ -29,8 +29,14 @@
 			}
 	    	break;
 	  	case 'POST':
-	  		StudentController::create($_POST);
-	    break;
+	  		if(isset($request) && !empty($request) && $request[0] !== ''){
+				if ($request[0] == 'signup'){
+					StudentController::signup($_POST);
+				}else{
+					StudentController::create($_POST);
+				}
+			}
+	    	break;
 	  	case 'GET':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		$id = $request[0];

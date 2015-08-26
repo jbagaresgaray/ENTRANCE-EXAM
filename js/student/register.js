@@ -85,7 +85,7 @@ function save() {
     }
 
     $.ajax({
-        url: '../server/student/',
+        url: '../server/student/signup',
         async: false,
         type: 'POST',
         crossDomain: true,
@@ -96,7 +96,6 @@ function save() {
             lname: $('#lname').val(),
             mobileno: $('#mobileno').val(),
             username: $('#username').val(),
-            password: $('#password').val(),
             email: $('#email').val()
         },
         success: function(response) {
@@ -105,7 +104,7 @@ function save() {
                 $.notify("Record successfully saved", "success");
                 clearFields();
                 setTimeout(function() {
-                    window.location.href = "index.php";
+                    window.location.href = "thank.php";
                 }, 1000);
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");

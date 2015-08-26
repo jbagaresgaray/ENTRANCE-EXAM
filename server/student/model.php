@@ -1,5 +1,6 @@
 <?php
 require_once '../../server/connection.php';
+require_once('../../server/pagination.php');
 require_once '../../server/sms/model.php';
 
 class Student {
@@ -23,9 +24,57 @@ class Student {
 			$email = $mysqli->real_escape_string($data['email']);
 			$level = $mysqli->real_escape_string($data['level']);
 
-			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,fname,lname,email,mobileno,level) VALUES(?,?,?,?,?,?,?)');
-			$stmt2->bind_param("sssssss", $username,sha1($password),$fname,$lname,$email,$mobileno,$level);
+			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,email,mobileno,level) VALUES(?,?,?,?,?,?,?,?)');
+			$stmt2->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$level);
 			$stmt2->execute();				
+
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email) VALUES(?,?,?,?,?)')){
+				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email);
+				$stmt->execute();
+
+				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n" . $mysqli->error),JSON_PRETTY_PRINT);
+			}
+		}        
+	}
+
+	public function signup($data){
+		$config= new Config();
+		$func= new Functions();
+
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$studid = $mysqli->real_escape_string($data['studid']);
+			$fname = $mysqli->real_escape_string($data['fname']);
+			$lname = $mysqli->real_escape_string($data['lname']);
+			$mobileno = $mysqli->real_escape_string($data['mobileno']);
+			$username = $mysqli->real_escape_string($data['username']);
+			$email = $mysqli->real_escape_string($data['email']);
+			$level = $mysqli->real_escape_string($data['level']);
+
+			$password = $func->generatePassword(5,1);
+
+			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,email,mobileno,level) VALUES (?,?,?,?,?,?,?,?);');
+			$stmt2->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$level);
+			$stmt2->execute();
+
+			$message = 'Hello there! Thank you for using our mobile app. Your App Password: ' . $password. ' .';
+			$url = 'https://www.itexmo.com/php_api/api.php';
+			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
+			$param = array(
+			    'http' => array(	
+			        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+			        'method'  => 'POST',
+			        'content' => http_build_query($itexmo),
+			    ),
+			);
+			$context  = stream_context_create($param);
+			$result = file_get_contents($url, false, $context);
+			$response = $config->sms_response($result);			
 
 			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email) VALUES(?,?,?,?,?)')){
 				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email);

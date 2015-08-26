@@ -41,8 +41,8 @@ class Users {
 			$lname = $mysqli->real_escape_string($data['lname']);
 			$level = $mysqli->real_escape_string($data['level']);
 
-			if ($stmt = $mysqli->prepare('INSERT INTO userdata(username,password,fname,lname,level) VALUES(?,?,?,?,?)')){
-				$stmt->bind_param("sssss", $username,sha1($password),$fname,$lname,$level);
+			if ($stmt = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,level) VALUES(?,?,?,?,?,?)')){
+				$stmt->bind_param("ssssss", $username,sha1($password),$password,$fname,$lname,$level);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -101,8 +101,8 @@ class Users {
 			$lname = $mysqli->real_escape_string($data['lname']);
 			$level = $mysqli->real_escape_string($data['level']);
 
-			if ($stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,fname=?,lname=?,level=? WHERE id=?')){
-				$stmt->bind_param("ssssss", $username,$password,$fname,$lname,$level,$id);
+			if ($stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,str_password=?,fname=?,lname=?,level=? WHERE id=?')){
+				$stmt->bind_param("sssssss", $username,sha1($password),$password,$fname,$lname,$level,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

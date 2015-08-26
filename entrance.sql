@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `userdata` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `str_password` varchar(100) NOT NULL,
   `fname` varchar(100) NOT NULL,
   `lname` varchar(100) NOT NULL,
   `email` varchar(45) NOT NULL,
@@ -166,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `userdata` (
 
 --
 -- Dumping data for table `userdata`
-INSERT INTO `userdata` VALUES ('1', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997','Admin','Admin','sample@email.com','12345678910','Admin');
+INSERT INTO `userdata` VALUES ('1', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997','admin','Admin','Admin','sample@email.com','12345678910','Admin');
 
 
 
@@ -182,7 +183,7 @@ ALTER TABLE `choice`
 ALTER TABLE `result`
   ADD KEY `FK_result_1` (`stud_id`);
 
-ALTER TABLE `status`
+/*ALTER TABLE `status`
   ADD KEY `FK_status_1` (`stud_id`),ADD KEY `FK_status_2` (`question_id`),
   ADD CONSTRAINT `FK_status_1` FOREIGN KEY (`stud_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_status_2` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_status_2` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;*/
