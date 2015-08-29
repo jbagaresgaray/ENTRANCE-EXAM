@@ -14,7 +14,7 @@ USE `entrance`;
 --
 -- Table structure for table `category`
 --
-
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 --
 -- Table structure for table `choice`
 --
-
+DROP TABLE IF EXISTS `choice`;
 CREATE TABLE IF NOT EXISTS `choice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `questionid` int(11) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `choice` (
 --
 -- Table structure for table `courses`
 --
-
+DROP TABLE IF EXISTS `courses`;
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coursename` varchar(100) NOT NULL,
@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS `courses` (
 --
 -- Table structure for table `lesson`
 --
-
+DROP TABLE IF EXISTS `question`;
 CREATE TABLE IF NOT EXISTS `question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` text NOT NULL,
-  `file` text NOT NULL,
+  `file` text NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `question` (
 --
 -- Table structure for table `result`
 --
-
+DROP TABLE IF EXISTS `result`;
 CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stud_id` varchar(50) NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `result` (
 --
 -- Table structure for table `status`
 --
-
+DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stud_id` varchar(50) NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `status` (
 --
 -- Table structure for table `sms`
 --
-
+DROP TABLE IF EXISTS `sms`;
 CREATE TABLE IF NOT EXISTS `sms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mobileno` varchar(45) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `sms` (
 --
 -- Table structure for table `student`
 --
-
+DROP TABLE IF EXISTS `student`;
 CREATE TABLE IF NOT EXISTS `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `studid` varchar(50) NOT NULL,
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `student` (
 --
 -- Table structure for table `userdata`
 --
-
+DROP TABLE IF EXISTS `userdata`;
 CREATE TABLE IF NOT EXISTS `userdata` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,

@@ -32,9 +32,11 @@
 	  		if(isset($request) && !empty($request) && $request[0] !== ''){
 				if ($request[0] == 'signup'){
 					StudentController::signup($_POST);
-				}else{
-					StudentController::create($_POST);
+				}else if($request[0] == 'auth'){
+					StudentController::auth($_POST);
 				}
+			}else{
+				StudentController::create($_POST);
 			}
 	    	break;
 	  	case 'GET':

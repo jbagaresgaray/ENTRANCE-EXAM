@@ -152,6 +152,8 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
     <!-- Notify -->
     <script src="../bower_components/notifyjs/dist/notify.js"></script>
     <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

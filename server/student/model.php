@@ -221,5 +221,36 @@ class Student {
 			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 		}
 	}
+
+	public function auth($username,$phpro_password){
+		$config= new Config();
+        $mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+        if ($mysqli->connect_errno) {
+            print json_encode(array('success' =>false,'status'=>400,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+            return;
+        }else{
+            $query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata WHERE username = '$username' AND password = '$phpro_password' LIMIT 1;";
+            $result = $mysqli->query($query1);
+            if ($result) {
+                if($row = $result->fetch_assoc()){
+                	session_start();
+                    /*** set the session user_id variable ***/
+                    $_SESSION['entrance_student'] = $row;
+                    /*** set a form token ***/
+                    $form_token = md5( uniqid('auth', true) );
+
+                    /*** set the session form token ***/
+                    $_SESSION['student_form_token'] = $form_token;
+                    /*** tell the user we are logged in ***/
+                    
+                    print json_encode(array('success' =>true,'student_form_token' =>$form_token,'url'=>'main.php'),JSON_PRETTY_PRINT);
+                }else{
+                    print json_encode(array('success' =>false,'msg' =>'Login Failed'),JSON_PRETTY_PRINT);
+                }
+            }else{
+                print json_encode(array('success' =>false,'msg' =>'Error with SQL' . $query1),JSON_PRETTY_PRINT);
+            }
+        }
+	}
 }
 ?>

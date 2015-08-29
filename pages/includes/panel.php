@@ -49,6 +49,9 @@
                 <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
+                        <a href="blank.php">Manage Groups and Permissions</a>
+                    </li>
+                    <li>
                         <a href="blank.php">Manage Users</a>
                     </li>
                 </ul>

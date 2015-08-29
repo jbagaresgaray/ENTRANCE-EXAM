@@ -1,3 +1,14 @@
+<?php 
+
+/*** begin our session ***/
+session_start();
+
+/*** check if the users is already logged in ***/
+if(isset( $_SESSION['entrance_student'] )){
+    header("Location: main.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,13 +31,15 @@
                         <form role="form">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="Username" name="username" id="username" type="text" autofocus>
+                                    <span class="help-inline"></span>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+                                    <span class="help-inline"></span>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="main.php" class="btn btn-lg btn-primary btn-block">Login</a>
+                                <a href="#" class="btn btn-lg btn-primary btn-block btn-login">Login</a>
                                 <a href="signup.php" class="btn btn-lg btn-success btn-block">Register</a>
                             </fieldset>
                         </form>
@@ -49,13 +62,13 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $.material.init();
-        });
-    </script>
+    <script src="../js/student/login.js" type="text/javascript"></script>
 </body>
 
 </html>

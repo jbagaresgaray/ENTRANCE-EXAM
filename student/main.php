@@ -1,3 +1,11 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])){
+    header("Location: login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,14 +17,14 @@
 
 <body>
 
-    <?php include('includes/nav2.php'); ?>
+    <?php include('includes/nav1.php'); ?>
 
     <div class="container">
         <div class="starter-template">
             <h1 class="text-center">Welcome To</h1>
             <p class="lead">Use this document as a way to quickly start any new project.</p>
             <a href="lessons.php" class="btn btn-primary btn-lg btn-block">Start Test</a>
-            <a href="javascript:void(0)" class="btn btn-info btn-lg btn-block">View Results</a>
+            <a href="results.php" class="btn btn-info btn-lg btn-block">View Results</a>
         </div>
     </div><!-- /.container -->
 

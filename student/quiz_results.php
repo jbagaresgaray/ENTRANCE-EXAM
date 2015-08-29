@@ -10,19 +10,24 @@
 <body>
 
     <?php include('includes/nav3.php'); ?>
-    <div class="jumbotron">
-        <h1 class="text-center">Entrance Test</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.</p>
-    </div>
     <div class="container">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h3 class="panel-title"></h3>
-            </div>
-            <div class="panel-body">
-                <h3>Jumbotron</h3>
-                <p><a class="btn btn-warning" href="quiz.php">Take Test</a></p>
-            </div>
+        <div class="starter-template">
+            <h1 class="text-center">RESULT</h1>
+        </div>
+    </div><!-- /.container -->
+    <div class="container">
+        <div class="table-responsive bg-primary">
+            <table class="table table-hover table-bordered table-striped">
+                <thead class="bg-primary" style="font-size:1.5em;">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Question</th>
+                        <th class="text-center">Your Answer</th>
+                        <th class="text-center">Correct Answer</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div><!-- /.container -->
 
