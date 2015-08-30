@@ -8,7 +8,11 @@ class StudentController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 			die();
@@ -87,9 +91,14 @@ class StudentController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Student::read();
 		}
@@ -100,9 +109,14 @@ class StudentController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Student::detail($id);
 		}
@@ -113,7 +127,11 @@ class StudentController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 			die();
@@ -157,9 +175,14 @@ class StudentController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Student::delete($id);
 		}
@@ -178,6 +201,54 @@ class StudentController {
 	        $phpro_password = sha1($password);
 
 	        Student::auth($username,$phpro_password);	
+		}
+	}
+
+	public static function updateAccount($data){
+		session_start();
+		$headers = apache_request_headers();	
+		$token = $headers['X-Auth-Token'];
+
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if(isset($data['username']) && empty($data['username'])){
+			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Please enter a valid username'),JSON_PRETTY_PRINT);
+			die();
+		}else if(isset($data['password']) && empty($data['password'])){
+			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Please enter a valid password'),JSON_PRETTY_PRINT);
+			die();
+		}else if(isset($data['password2']) && empty($data['password2'])){
+			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Please enter a valid confirmed password'),JSON_PRETTY_PRINT);
+			die();
+		}else{
+            $id = $_SESSION['entrance_student']['id'];
+			Student::updateAccount($id,$data);
+		}
+		
+	}
+
+	public static function updateProfile($data){
+		session_start();
+		$headers = apache_request_headers();	
+		$token = $headers['X-Auth-Token'];
+
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'1msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else{
+			$id = $_SESSION['entrance_student']['id'];
+			Student::updateProfile($id,$data);
 		}
 	}
 }

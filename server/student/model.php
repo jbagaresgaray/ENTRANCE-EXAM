@@ -26,10 +26,11 @@ class Student {
 
 			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,email,mobileno,level) VALUES(?,?,?,?,?,?,?,?)');
 			$stmt2->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$level);
-			$stmt2->execute();				
+			$stmt2->execute();
+			$user_id = $mysqli->insert_id;				
 
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email) VALUES(?,?,?,?,?)')){
-				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email);
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,user_id) VALUES(?,?,?,?,?,?)')){
+				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email,$user_id);
 				$stmt->execute();
 
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
@@ -61,24 +62,25 @@ class Student {
 			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,email,mobileno,level) VALUES (?,?,?,?,?,?,?,?);');
 			$stmt2->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$level);
 			$stmt2->execute();
+			$user_id = $mysqli->insert_id;		
 
-			$message = 'Hello there! Thank you for using our mobile app. Your App Password: ' . $password. ' .';
-			$url = 'https://www.itexmo.com/php_api/api.php';
-			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
-			$param = array(
-			    'http' => array(	
-			        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-			        'method'  => 'POST',
-			        'content' => http_build_query($itexmo),
-			    ),
-			);
-			$context  = stream_context_create($param);
-			$result = file_get_contents($url, false, $context);
-			$response = $config->sms_response($result);			
-
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email) VALUES(?,?,?,?,?)')){
-				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email);
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,user_id) VALUES(?,?,?,?,?,?)')){
+				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email,$user_id);
 				$stmt->execute();
+
+				$message = 'Hello there! Thank you for using our mobile app. Your App Password: ' . $password. ' .';
+				$url = 'https://www.itexmo.com/php_api/api.php';
+				$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
+				$param = array(
+				    'http' => array(	
+				        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+				        'method'  => 'POST',
+				        'content' => http_build_query($itexmo),
+				    ),
+				);
+				$context  = stream_context_create($param);
+				$result = file_get_contents($url, false, $context);
+				$response = $config->sms_response($result);
 
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -177,10 +179,34 @@ class Student {
 			$username = $mysqli->real_escape_string($data['username']);
 			$password = $mysqli->real_escape_string($data['password']);
 
-			if ($stmt = $mysqli->prepare('UPDATE student SET username=?,password=? WHERE id=?')){
-				$stmt->bind_param("sss", $username,$password,$id);
+			if ($stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,str_password=? WHERE id=?')){
+				$stmt->bind_param("ssss", $username,sha1($password),$password,$id);
 				$stmt->execute();
-				print json_encode(array('success' =>true,'msg' =>'Account successfully updated'),JSON_PRETTY_PRINT);
+
+				$query1 ="SELECT u.id,u.username,u.email,u.mobileno,u.fname,u.lname,u.level,s.studid FROM userdata u LEFT JOIN student s ON u.id = s.user_id WHERE u.id = $id;";
+	            $result = $mysqli->query($query1);
+	            if ($result) {
+	                if($row = $result->fetch_assoc()){
+	                    /*** set the session user_id variable ***/
+	                    $_SESSION['entrance_student'] = $row;
+
+        				$message = 'Hello there! You have successfully changed your password. Your New App Password: ' . $password. ' .';
+						$url = 'https://www.itexmo.com/php_api/api.php';
+						$itexmo = array('1' => $row['mobileno'], '2' => $message, '3' => $config->sms_api_code);
+						$param = array(
+						    'http' => array(	
+						        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+						        'method'  => 'POST',
+						        'content' => http_build_query($itexmo),
+						    ),
+						);
+						$context  = stream_context_create($param);
+						$result = file_get_contents($url, false, $context);
+						$response = $config->sms_response($result);
+	                }
+	            }
+
+				print json_encode(array('success' =>true,'msg' =>'User Account successfully updated'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 			}
@@ -194,15 +220,27 @@ class Student {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$fname = $mysqli->real_escape_string($data['fname']);
-			$lname = $mysqli->real_escape_string($data['lname']);
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
 			$email = $mysqli->real_escape_string($data['email']);
 
-			if ($stmt = $mysqli->prepare('UPDATE student SET username=?,password=? WHERE id=?')){
-				$stmt->bind_param("sss", $username,$password,$id);
+			if ($stmt = $mysqli->prepare('UPDATE student SET mobileno=?,email=? WHERE user_id=?')){
+				$stmt->bind_param("sss", $mobileno,$email,$id);
 				$stmt->execute();
-				print json_encode(array('success' =>true,'msg' =>'Account successfully updated'),JSON_PRETTY_PRINT);
+
+				$stmt1 = $mysqli->prepare('UPDATE userdata SET mobileno=?,email=? WHERE id=?');
+				$stmt1->bind_param("sss", $mobileno,$email,$id);
+				$stmt1->execute();
+
+				$query1 ="SELECT u.id,u.username,u.email,u.mobileno,u.fname,u.lname,u.level,s.studid FROM userdata u LEFT JOIN student s ON u.id = s.user_id WHERE u.id = $id;";
+	            $result = $mysqli->query($query1);
+	            if ($result) {
+	                if($row = $result->fetch_assoc()){
+	                    /*** set the session user_id variable ***/
+	                    $_SESSION['entrance_student'] = $row;
+	                }
+	            }
+
+				print json_encode(array('success' =>true,'msg' =>'User Profile successfully updated'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
 			}
@@ -229,7 +267,7 @@ class Student {
             print json_encode(array('success' =>false,'status'=>400,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
             return;
         }else{
-            $query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata WHERE username = '$username' AND password = '$phpro_password' LIMIT 1;";
+            $query1 ="SELECT u.id,u.username,u.email,u.mobileno,u.fname,u.lname,u.level,s.studid FROM userdata u LEFT JOIN student s ON u.id = s.user_id WHERE u.username = '$username' AND u.password = '$phpro_password' LIMIT 1;";
             $result = $mysqli->query($query1);
             if ($result) {
                 if($row = $result->fetch_assoc()){
@@ -240,10 +278,10 @@ class Student {
                     $form_token = md5( uniqid('auth', true) );
 
                     /*** set the session form token ***/
-                    $_SESSION['student_form_token'] = $form_token;
+                    $_SESSION['form_token'] = $form_token;
                     /*** tell the user we are logged in ***/
                     
-                    print json_encode(array('success' =>true,'student_form_token' =>$form_token,'url'=>'main.php'),JSON_PRETTY_PRINT);
+                    print json_encode(array('success' =>true,'form_token' =>$form_token,'url'=>'main.php'),JSON_PRETTY_PRINT);
                 }else{
                     print json_encode(array('success' =>false,'msg' =>'Login Failed'),JSON_PRETTY_PRINT);
                 }

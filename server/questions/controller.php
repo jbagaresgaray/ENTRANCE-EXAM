@@ -8,9 +8,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}elseif(isset($data['content']) && empty($data['content'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Content is required'),JSON_PRETTY_PRINT);
 			die();		
@@ -84,9 +89,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Questions::read();
 		}
@@ -97,9 +107,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Questions::detail($id);
 		}
@@ -110,9 +125,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}elseif(isset($data['content']) && empty($data['content'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Content is required'),JSON_PRETTY_PRINT);
 			die();		
@@ -190,9 +210,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Questions::delete($id);
 		}
@@ -203,9 +228,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Questions::deleteQuestionFile($id);
 		}
@@ -216,9 +246,14 @@ class QuestionsController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			Questions::deleteChoiceFile($id,$file);
 		}

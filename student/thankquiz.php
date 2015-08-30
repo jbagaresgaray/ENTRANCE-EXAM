@@ -1,11 +1,3 @@
-<?php 
-session_start();
-
-if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])){
-    header("Location: login.php");
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,15 +8,15 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
 </head>
 
 <body>
-    <?php include('includes/nav3.php'); ?>
-    <div id="target1"></div>
+
+    <?php include('includes/nav1.php'); ?>
     <div class="jumbotron">
-        <h1 class="text-center">Entrance Test</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.</p>
+        <h4>Thank you for using our app. <br><br>Our System will send you a message about your Examination Results.</h4>
+        </br>
+        <small>If you still not receive the Exam Result. <br>Go to the View Results or Detailed Results at your Profile.</small>
     </div>
     <div class="container">
-        <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
-        <div id="lessons"></div>
+        <a href="main.php" class="btn btn-primary btn-lg btn-block">Go to Home</a>
     </div><!-- /.container -->
 
 
@@ -40,12 +32,14 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    <!-- spinJS -->
-    <script src="../bower_components/spin.js/spin.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-    <script src="../js/student/lessons.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            $.material.init();
+        });
+    </script>
 </body>
 
 </html>

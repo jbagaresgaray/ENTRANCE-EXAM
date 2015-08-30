@@ -21,6 +21,7 @@ if(isset( $_SESSION['entrance_student'] )){
 <body>
 
     <div class="container">
+        <div id="target1"></div>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-primary">
@@ -65,6 +66,8 @@ if(isset( $_SESSION['entrance_student'] )){
     <!-- Notify -->
     <script src="../bower_components/notifyjs/dist/notify.js"></script>
     <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

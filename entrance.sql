@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `question` (
 DROP TABLE IF EXISTS `result`;
 CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
   `stud_id` varchar(50) NOT NULL,
   `score` int(11) NOT NULL,
   `total` int(11) NOT NULL,
@@ -104,6 +105,8 @@ CREATE TABLE IF NOT EXISTS `status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stud_id` varchar(50) NOT NULL,
   `question_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `choice_id` int(11) NOT NULL,
   `has_quiz` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
@@ -140,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `lname` varchar(100) NOT NULL,
   `mobileno` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 

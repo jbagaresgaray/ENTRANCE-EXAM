@@ -24,7 +24,9 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
             <h1 class="text-center">Welcome To</h1>
             <p class="lead">Use this document as a way to quickly start any new project.</p>
             <a href="lessons.php" class="btn btn-primary btn-lg btn-block">Start Test</a>
-            <a href="results.php" class="btn btn-info btn-lg btn-block">View Results</a>
+            <br><br>
+            <a href="profile.php" class="btn btn-inverse btn-lg btn-block">Profile</a>
+            <a href="logout.php" class="btn btn-inverse btn-lg btn-block">Logout</a>
         </div>
     </div><!-- /.container -->
 

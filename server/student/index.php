@@ -17,12 +17,12 @@
 		
 			if(isset($request) && !empty($request) && $request[0] !== ''){
 				if ($request[0] == 'account'){
-					
+					StudentController::updateAccount($_REQUEST);
 				}else if ($request[0] == 'profile'){
-					
+					StudentController::updateProfile($_REQUEST);
 				}else{
 					$id = $request[0];
-					StudentController::update($id,$data);
+					StudentController::update($id,$_REQUEST);
 				}
 			}else{
 				header('Route Not Found', true, 404);

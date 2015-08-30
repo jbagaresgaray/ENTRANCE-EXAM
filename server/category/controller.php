@@ -8,7 +8,10 @@ class CategoryController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 		}else if(isset($data['category_name']) && empty($data['category_name'])){
@@ -27,7 +30,10 @@ class CategoryController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 		}else{
@@ -40,7 +46,10 @@ class CategoryController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 		}else{
@@ -53,7 +62,10 @@ class CategoryController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 		}else if(isset($data['category_name']) && empty($data['category_name'])){
@@ -71,7 +83,10 @@ class CategoryController {
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
 
-		if($token != $_SESSION['form_token']){
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 		}else{
