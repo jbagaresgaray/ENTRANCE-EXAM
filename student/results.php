@@ -1,3 +1,11 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])){
+    header("Location: login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,14 +18,16 @@
 <body>
 
     <?php include('includes/nav3.php'); ?>
+    <div id="target1"></div>
     <div class="container">
         <div class="starter-template">
-            <h1 class="text-center">RESULT</h1>
+            <h1 class="text-center">EXAMINATION RESULT</h1>
         </div>
     </div><!-- /.container -->
     <div class="container">
         <div class="table-responsive bg-primary">
-            <table class="table table-hover table-bordered table-striped">
+            <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
+            <table class="table table-hover table-bordered" id="tblResults">
                 <thead class="bg-primary" style="font-size:1.5em;">
                     <tr>
                         <th>#</th>
@@ -30,6 +40,11 @@
                 <tbody></tbody>
             </table>
         </div>
+        <div class="clearfix"></div>
+        <p class="lead">By thorough checking and review of your examination results. You are qualified to enroll with this following courses</p>
+        <h3 class="text-left text-danger">BS-IT (25 Passing Rate)</h3>
+        <h3 class="text-left text-danger">BS-CS (25 Passing Rate)</h3>
+        <h3 class="text-left text-danger">BS-HRM (25 Passing Rate)</h3>
     </div><!-- /.container -->
 
 
@@ -45,14 +60,13 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
+
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $.material.init();
-        });
-    </script>
+    <script src="../js/student/results.js" type="text/javascript"></script>
 </body>
 
 </html>

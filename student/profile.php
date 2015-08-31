@@ -27,7 +27,7 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
         <input type="hidden" id="student_id" name="student_id" value="<?php echo  $_SESSION['entrance_student']['studid']; ?>">
         <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
         <a href="results.php" class="btn btn-primary btn-lg btn-block">View Results</a>
-        <a href="quiz_results.php" class="btn btn-primary btn-lg btn-block">View Detailed Results</a>
+        <a href="category.php" class="btn btn-primary btn-lg btn-block">View Detailed Results</a>
         <a href="#" data-toggle="modal"  data-target="#profileModal" class="btn btn-info btn-lg btn-block">Update Profile</a>
         <a href="#" data-toggle="modal"  data-target="#accountModal" class="btn btn-info btn-lg btn-block">Update Account</a>
         <a href="logout.php" class="btn btn-inverse btn-lg btn-block">Logout</a>

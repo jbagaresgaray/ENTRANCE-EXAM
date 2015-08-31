@@ -42,7 +42,7 @@
 	  	case 'GET':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		$id = $request[0];
-		  		StudentController::detail($id);
+	  			StudentController::detail($id);
 		  	}else{
 		  		StudentController::read();
 		  	}

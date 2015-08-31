@@ -59,7 +59,7 @@ function resetHelpInLine() {
 
 
 function refresh() {
-    fetch_all_category('1');
+    fetch_all_category();
 }
 
 function save() {
@@ -162,7 +162,7 @@ function create_category() {
     $('#addcategory').modal('show');
 }
 
-function fetch_all_category(page) {
+function fetch_all_category() {
     var target = document.getElementById('target1')
     var spinner = new Spinner({
         radius: 30,

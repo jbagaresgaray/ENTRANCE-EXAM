@@ -30,7 +30,7 @@ class Quiz {
                 }
                 $mysqli->query("INSERT INTO status VALUES (null,'$student_id',$ques,$category_id,$ans,1)");
             }
-            $mysqli->query("INSERT INTO result VALUES (null,'$student_id',$category_id,$score,$row,NOW())");
+            $mysqli->query("INSERT INTO result VALUES (null,$category_id,'$student_id',$score,$row,NOW())");
 
 			print_r(json_encode(array('success' =>true,'status'=>200,'category_id'=>$category_id,'result'=>$score,'msg'=>'Thank you for participating the examination'),JSON_PRETTY_PRINT));
 		}        
@@ -69,6 +69,28 @@ class Quiz {
 		    return;
 		}else{
 			
+		}
+	}
+
+
+	public function getQuizResults(){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    return print json_encode(array('success' =>false,'status'=>400,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    die();
+		}else{
+			$data = array();
+			$studid = $_SESSION['entrance_student']['studid'];
+			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
+			$result = $mysqli->query($query);
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				@$total= $row['score'] / $row['total'];
+				$p = $total * 100;
+				$row['percent'] = number_format($p,2).'%';
+				array_push($data,$row);			
+			}
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
 		}
 	}
 

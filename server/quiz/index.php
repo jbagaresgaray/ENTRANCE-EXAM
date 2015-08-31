@@ -14,6 +14,8 @@
 	  		if ($request[0] == 'exam'){
 				$id = $request[1];
 				QuizController::getQuestionsByCategory($id);
+			}else if ($request[0] == 'results'){
+				QuizController::getQuizResults();
 			}else{
 				$id = $request[0];
 				QuizController::getQuestionDetail($id);
