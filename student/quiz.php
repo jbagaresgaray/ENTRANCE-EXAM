@@ -19,8 +19,10 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
 
     <?php include('includes/nav1.php'); ?>
     <div id="target1"></div>
-    <div class="alert alert-danger" id="notification">
-       No questions in this lesson!
+    <div class="alert alert-danger" role="alert" id="notification">
+        <!-- <a href="javascript:window.history.back();" class="close"></a> -->
+         <button type="button" class="close" onclick="javascript:window.history.back();" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Warning!</strong> No questions in this lesson!
     </div>
     <div class="container">
         <form class="form-horizontal">

@@ -42,6 +42,9 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <!-- spinJS -->
     <script src="../bower_components/spin.js/spin.js"></script>
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

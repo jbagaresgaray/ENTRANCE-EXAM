@@ -61,14 +61,21 @@ class Quiz {
 		}
 	}
 
-	public function getQuestionDetail($id){
+	public function getQuizDetails($category_id){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			
+			$data = array();
+			$studid = $_SESSION['entrance_student']['studid'];
+			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
+			$result = $mysqli->query($query);
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				array_push($data,$row);			
+			}
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
 		}
 	}
 
@@ -91,6 +98,25 @@ class Quiz {
 				array_push($data,$row);			
 			}
 			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
+		}
+	}
+
+	public function checkIfAlreadyExam($category_id){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$stud_id = $_SESSION['entrance_student']['studid'];
+			$query ="SELECT * FROM result c WHERE c.category_id=$category_id AND c.stud_id='$stud_id' LIMIT 1;";
+			$mysqli->set_charset("utf8");
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Student is already done taking exam on this category.'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
+			}
 		}
 	}
 
