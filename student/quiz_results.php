@@ -1,3 +1,11 @@
+<?php 
+session_start();
+
+if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])){
+    header("Location: login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +25,8 @@
     </div><!-- /.container -->
     <div class="container">
         <div class="table-responsive bg-primary">
-            <table class="table table-hover table-bordered table-striped">
+            <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
+            <table class="table table-hover table-bordered" id="tblResults">
                 <thead class="bg-primary" style="font-size:1.5em;">
                     <tr>
                         <th>#</th>
@@ -44,14 +53,12 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $.material.init();
-        });
-    </script>
+    <script src="../js/student/quiz_results.js" type="text/javascript"></script>
 </body>
 
 </html>

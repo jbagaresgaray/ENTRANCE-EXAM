@@ -41,10 +41,10 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
             </table>
         </div>
         <div class="clearfix"></div>
-        <p class="lead">By thorough checking and review of your examination results. You are qualified to enroll with this following courses</p>
-        <h3 class="text-left text-danger">BS-IT (25 Passing Rate)</h3>
-        <h3 class="text-left text-danger">BS-CS (25 Passing Rate)</h3>
-        <h3 class="text-left text-danger">BS-HRM (25 Passing Rate)</h3>
+        <p class="lead">By checking and reviewing of your examination results. You are qualified to enroll with this following courses</p>
+        <!-- <p class="text-left text-danger">BS-IT (25 Passing Rate)</p>
+        <p class="text-left text-danger">BS-CS (25 Passing Rate)</p>
+        <p class="text-left text-danger">BS-HRM (25 Passing Rate)</p> -->
     </div><!-- /.container -->
 
 

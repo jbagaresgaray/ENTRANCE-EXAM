@@ -102,10 +102,16 @@ function fetch_quiz(id) {
 
                 if (c == count) {
                     html = '<div id="div' + c + '" class="question last">';
-                    html += '<div class="jumbotron">\
-                                <h3>Question No. ' + c + '</h3>' + row.content + '\
-                                <img src="../server/upload/choice/thumbs/' + row.file + '" width="200px" alt="..." class="img-thumbnail img-responsive">\
-                            </div>';
+                    if (row.file == null) {
+                        html += '<div class="jumbotron">\
+                                    <h3>Question No. ' + c + '</h3>' + row.content + '\
+                                </div>';
+                    } else {
+                        html += '<div class="jumbotron">\
+                                    <h3>Question No. ' + c + '</h3>' + row.content + '\
+                                    <img src="../server/upload/choice/thumbs/' + row.file + '" width="200px" alt="..." class="img-thumbnail img-responsive">\
+                                </div>';
+                    }
                 } else {
                     html = '<div id="div' + c + '" class="question">';
                     if (row.file == null) {

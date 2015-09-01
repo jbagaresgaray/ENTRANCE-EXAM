@@ -18,9 +18,13 @@ class Quiz {
 			$category_id = $data['category_id'];
 			$student_id = $_SESSION['entrance_student']['studid'];
 			$questions = json_decode($data['question']);
+			$mobileno = $_SESSION['entrance_student']['mobileno'];
+			$totalScore = 0;
+        	$message = 'Hello there! EXAM Results are :'. "\r\n";
             $row = count($c);
 			$score = 0;
 			$var = array();
+
             for($i = $row; $i > 0; $i--){
                 $ans = isset($data['ans'.$i]) ? $data['ans'.$i] : 'null';
                 $ques = $questions[$i-1];
@@ -31,6 +35,35 @@ class Quiz {
                 $mysqli->query("INSERT INTO status VALUES (null,'$student_id',$ques,$category_id,$ans,1)");
             }
             $mysqli->query("INSERT INTO result VALUES (null,$category_id,'$student_id',$score,$row,NOW())");
+
+			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
+			$result = $mysqli->query($query);
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$total= $row['score'] / $row['total'];
+				$p = $total * 100;
+				$totalScore += $row['score'];
+				$row['percent'] = number_format($p,2).'%';
+
+				array_push($data,$row);
+
+				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'];
+			}
+			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
+			$message .='Please check on the app for more info about the result';
+
+			$url = 'https://www.itexmo.com/php_api/api.php';
+			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
+			$param = array(
+			    'http' => array(	
+			        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+			        'method'  => 'POST',
+			        'content' => http_build_query($itexmo),
+			    ),
+			);
+			$context  = stream_context_create($param);
+			$result = file_get_contents($url, false, $context);
+			$response = $config->sms_response($result);
+            
 
 			print_r(json_encode(array('success' =>true,'status'=>200,'category_id'=>$category_id,'result'=>$score,'msg'=>'Thank you for participating the examination'),JSON_PRETTY_PRINT));
 		}        
@@ -70,7 +103,10 @@ class Quiz {
 		}else{
 			$data = array();
 			$studid = $_SESSION['entrance_student']['studid'];
-			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
+			$query ="SELECT s.*, (SELECT content FROM question WHERE id=s.question_id LIMIT 1) AS questions,
+				(SELECT answer FROM choice WHERE id=s.choice_id LIMIT 1) AS yourchoice, (SELECT answer FROM choice WHERE questionid=s.question_id AND choice='yes' LIMIT 1) AS correctans
+				FROM status s WHERE s.category_id=$category_id AND s.stud_id='$studid' ORDER BY s.id;";
+				
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 				array_push($data,$row);			
@@ -89,15 +125,39 @@ class Quiz {
 		}else{
 			$data = array();
 			$studid = $_SESSION['entrance_student']['studid'];
+			$mobileno = $_SESSION['entrance_student']['mobileno'];
+			$totalScore = 0;
+        	$message = 'Hello there! EXAM Results are :'. "\r\n";
+
 			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				@$total= $row['score'] / $row['total'];
+				$total= $row['score'] / $row['total'];
 				$p = $total * 100;
+				$totalScore += $row['score'];
 				$row['percent'] = number_format($p,2).'%';
-				array_push($data,$row);			
+
+				array_push($data,$row);
+
+				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'];
 			}
-			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
+			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
+			$message .='Please check on the app for more info about the result';
+
+			$url = 'https://www.itexmo.com/php_api/api.php';
+			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
+			$param = array(
+			    'http' => array(	
+			        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+			        'method'  => 'POST',
+			        'content' => http_build_query($itexmo),
+			    ),
+			);
+			$context  = stream_context_create($param);
+			$result = file_get_contents($url, false, $context);
+			$response = $config->sms_response($result);
+
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'message_status'=>$response),JSON_PRETTY_PRINT);
 		}
 	}
 

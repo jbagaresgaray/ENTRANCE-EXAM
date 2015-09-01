@@ -65,7 +65,7 @@ class Student {
 			$user_id = $mysqli->insert_id;		
 
 			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,user_id) VALUES(?,?,?,?,?,?)')){
-				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email,$user_id);
+				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$email,$user_id);
 				$stmt->execute();
 
 				$message = 'Hello there! Thank you for using our mobile app. Your App Password: ' . $password. ' .';

@@ -16,6 +16,9 @@
 				QuizController::getQuestionsByCategory($id);
 			}else if ($request[0] == 'results'){
 				QuizController::getQuizResults();
+			}else if ($request[0] == 'resultsdetailed'){
+				$category_id = $request[1];
+				QuizController::getQuizDetails($category_id);
 			}else if ($request[0] == 'checkexam'){
 				$category_id = $request[1];
 				QuizController::checkIfAlreadyExam($category_id);
