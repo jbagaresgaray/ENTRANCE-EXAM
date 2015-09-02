@@ -22,14 +22,19 @@ class UsersController {
 			die();
 		}else if(isset($data['username']) && empty($data['username'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Username is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['password']) && empty($data['password'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Password is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['email']) && empty($data['email'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Email is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['fname']) && empty($data['fname'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'First Name is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['lname']) && empty($data['lname'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Last Name is required'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			$var = [
 				"username" => $data['username'],
@@ -96,14 +101,19 @@ class UsersController {
 			die();
 		}else if(isset($data['username']) && empty($data['username'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Username is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['password']) && empty($data['password'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Password is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['email']) && empty($data['email'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Email is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['fname']) && empty($data['fname'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'First Name is required'),JSON_PRETTY_PRINT);
+			die();
 		}else if(isset($data['lname']) && empty($data['lname'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Last Name is required'),JSON_PRETTY_PRINT);
+			die();
 		}else{
 			$var = [
 				"username" => $data['username'],

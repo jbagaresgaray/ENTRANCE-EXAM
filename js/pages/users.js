@@ -2,6 +2,11 @@ $(document).ready(function() {
     fetch_all_user();
 });
 
+$('#adduser').on('hide.bs.modal', function(e) {
+    clear();
+});
+
+
 $(document).on("click", ".remove-icon", function() {
     var id = $(this).data('id');
 
@@ -140,14 +145,14 @@ function getData(id) {
             var decode = response;
             console.log('response: ', decode);
             if (decode.success == true) {
-                $("#studid").val(decode.user.studid);
                 $("#fname").val(decode.user.fname);
                 $("#lname").val(decode.user.lname);
                 $("#mobileno").val(decode.user.mobileno);
+                $("#email").val(decode.user.email);
                 $("#username").val(decode.user.username);
-                $("#password").val(decode.user.password);
-                $("#password2").val(decode.user.password2);
+                $("#password").val(decode.user.str_password);
                 $("#id").val(decode.user.id);
+                $("#level").val(decode.user.level);
 
                 $('#adduser').modal('show');
             } else if (decode.success === false) {
@@ -168,12 +173,11 @@ function getData(id) {
 }
 
 
-function create_student() {
+function create_user() {
     $('#adduser').modal('show');
 }
 
 function clear() {
-    $('#studid').val('');
     $('#fname').val('');
     $('#lname').val('');
     $('#mobileno').val('');
@@ -190,11 +194,6 @@ function save() {
     $('input[type="text"]').each(function() {
         $(this).val($(this).val().trim());
     });
-
-    if ($('#studid').val() == '') {
-        $('#studid').next('span').text('Student ID is required.');
-        empty = true;
-    }
 
     if ($('#fname').val() == '') {
         $('#fname').next('span').text('First Name is required.');
@@ -243,20 +242,20 @@ function save() {
 
     if ($("#id").val() === '') {
         $.ajax({
-            url: '../server/student/',
+            url: '../server/users/',
             async: false,
             type: 'POST',
             headers: {
                 'X-Auth-Token': $("input[name='csrf']").val()
             },
             data: {
-                studid: $('#studid').val(),
                 fname: $('#fname').val(),
                 lname: $('#lname').val(),
                 mobileno: $('#mobileno').val(),
                 username: $('#username').val(),
                 password: $('#password').val(),
-                email : $('#email').val()
+                email: $('#email').val(),
+                level: $('#level').val()
             },
             success: function(response) {
                 var decode = response;
@@ -283,20 +282,20 @@ function save() {
         });
     } else {
         $.ajax({
-            url: '../server/student/' + $('#id').val(),
+            url: '../server/users/' + $('#id').val(),
             async: false,
             type: 'PUT',
             headers: {
                 'X-Auth-Token': $("input[name='csrf']").val()
             },
             data: {
-                studid: $('#studid').val(),
                 fname: $('#fname').val(),
                 lname: $('#lname').val(),
                 mobileno: $('#mobileno').val(),
                 username: $('#username').val(),
                 password: $('#password').val(),
-                email : $('#email').val()
+                email: $('#email').val(),
+                level: $('#level').val()
             },
             success: function(response) {
                 var decode = response;
