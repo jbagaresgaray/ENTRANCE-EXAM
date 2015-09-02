@@ -1,11 +1,38 @@
+'use strict';
+
 var quizData = [];
 var c = 1;
 
 $(document).ready(function() {
     $.material.init();
+    
     var id = window.sessionStorage['category_id'];
     fetch_quiz(id);
     $('#div1').addClass('first current');
+
+    var time = $('#time_limit').val();
+    var limit = (time * 60 * 1000);
+    // End time for diff purposes
+    var endTimeDiff = new Date().getTime() + limit;
+    // This is server's time
+    console.log('endTimeDiff: ',endTimeDiff);
+
+    if (time != 0) {
+        setInterval(function() {
+
+            // Submit unfinished Quiz;
+
+            alert('Thank You for taking the quiz!');
+            // window.location.href = 'results.php';
+        }, limit);
+    }
+
+    $('.offset-client .countdown').countdown({
+        date: endTimeDiff,
+        onEnd: function() {
+            $(this.el).addClass('ended');
+        }
+    });
 });
 
 
@@ -87,10 +114,10 @@ function fetch_quiz(id) {
             var count = quizData.length;
             $('#category_id').val(decode.category);
 
-            if(count > 0){
+            if (count > 0) {
                 $('#notification').addClass('hide');
                 $('#next').removeClass('hide');
-            }else{
+            } else {
                 $('#notification').removeClass('hide');
                 $('#next').addClass('hide');
             }
@@ -187,7 +214,7 @@ function submit() {
     var data = {};
     var arr = [];
 
-    $.each($('input[name^="question\\["]').serializeArray(),function() {
+    $.each($('input[name^="question\\["]').serializeArray(), function() {
         data[this.name] = this.value;
         arr.push(data[this.name]);
     });

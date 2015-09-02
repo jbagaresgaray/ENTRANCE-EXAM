@@ -8,13 +8,9 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <?php include('includes/head.php'); ?>
-
 </head>
-
 <body>
 
     <?php include('includes/nav1.php'); ?>
@@ -24,9 +20,13 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
          <button type="button" class="close" onclick="javascript:window.history.back();" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>Warning!</strong> No questions in this lesson!
     </div>
+    <div class="alert alert-warning offset-client" role="alert" id="timer">
+        <div class="countdown offset">1:00:00 PM</div>
+    </div>
     <div class="container">
         <form class="form-horizontal">
             <input type="hidden" id="category_id" name="category_id" />
+            <input type="hidden" id="time_limit" name="hidden" value="2" />
             <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
             <div class="main"></div>
             <div class="col-lg-12">
@@ -58,6 +58,8 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
     <!-- Notify -->
     <script src="../bower_components/notifyjs/dist/notify.js"></script>
     <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+    <!-- jquery.countdown -->
+    <script src="../bower_components/jquery.countdown/dist/jquery.countdown.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
