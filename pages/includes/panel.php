@@ -37,22 +37,22 @@
                         <a href="flot.php">Exam Result</a>
                     </li>
                     <li>
-                        <a href="morris.php">Passers</a>
+                        <a href="grid.php">Passers</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
-            <li>
+            <!-- <li>
                 <a href="sms.php"><i class="fa fa-edit fa-fw"></i> SMS</a>
-            </li>
+            </li> -->
             <li>
                 <a href="#"><i class="fa fa-wrench fa-fw"></i> Settings<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="blank.php">Manage Groups and Permissions</a>
+                        <a href="users.php">Manage Users</a>
                     </li>
                     <li>
-                        <a href="blank.php">Manage Users</a>
+                        <a href="settings.php">Manage Exam Timer</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

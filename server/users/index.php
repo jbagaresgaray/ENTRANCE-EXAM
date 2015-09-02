@@ -41,6 +41,8 @@
 		  		$id = $request[0];
 				UsersController::detail($id);
 			}
+  		}else{
+  			UsersController::read();
   		}
 	    break;
 	  case 'DELETE':

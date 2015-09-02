@@ -59,7 +59,7 @@ class Users {
 		    return;
 		}else{
 
-			$query1 ="SELECT * FROM userdata c;";
+			$query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata c LIMIT 1,30000000;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
