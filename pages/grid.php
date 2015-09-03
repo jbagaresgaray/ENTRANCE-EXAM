@@ -17,6 +17,12 @@
     <!-- MetisMenu CSS -->
     <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
+    <!-- DataTables CSS -->
+    <link href="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -43,297 +49,454 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Passers</h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i> <a href="main.php">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            List of Passers
+                        </li>
+                    </ol>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
+                <div class="col-md-12">
+                    <div class="col-lg-8">
+                        <a class="btn btn-primary" download="passers.xls" onclick="exportToExcel(this, 'dataTables-example', 'Passers Data')">Export to Excel</a>
+                        <a onclick="refresh()" class="btn btn-primary">Refresh</a>
+                        <a onclick="printToPrinter()" class="btn btn-success">Print</a>
+                    </div>
+                    <div class="col-lg-4 pull-right">
+                        <label>Courses</label>
+                        <select class="form-control" id="cboFilters">
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3>Grid options</h3>
+                        <div class="panel-body" id="printTable">
+                            <h2 class="text-center">List of Passers</h2>
                             <p>See how aspects of the Bootstrap grid system work across multiple devices with a handy table.</p>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th></th>
-                                            <th>
-                                                Extra small devices
-                                                <small>Phones (&lt;768px)</small>
-                                            </th>
-                                            <th>
-                                                Small devices
-                                                <small>Tablets (&ge;768px)</small>
-                                            </th>
-                                            <th>
-                                                Medium devices
-                                                <small>Desktops (&ge;992px)</small>
-                                            </th>
-                                            <th>
-                                                Large devices
-                                                <small>Desktops (&ge;1200px)</small>
-                                            </th>
+                                            <th>Rendering engine</th>
+                                            <th>Browser</th>
+                                            <th>Platform(s)</th>
+                                            <th>Engine version</th>
+                                            <th>CSS grade</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th>Grid behavior</th>
-                                            <td>Horizontal at all times</td>
-                                            <td colspan="3">Collapsed to start, horizontal above breakpoints</td>
+                                        <tr class="odd gradeX">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 4.0</td>
+                                            <td>Win 95+</td>
+                                            <td class="center">4</td>
+                                            <td class="center">X</td>
                                         </tr>
-                                        <tr>
-                                            <th>Max container width</th>
-                                            <td>None (auto)</td>
-                                            <td>750px</td>
-                                            <td>970px</td>
-                                            <td>1170px</td>
+                                        <tr class="even gradeC">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 5.0</td>
+                                            <td>Win 95+</td>
+                                            <td class="center">5</td>
+                                            <td class="center">C</td>
                                         </tr>
-                                        <tr>
-                                            <th>Class prefix</th>
-                                            <td>
-                                                <code>.col-xs-</code>
+                                        <tr class="odd gradeA">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 5.5</td>
+                                            <td>Win 95+</td>
+                                            <td class="center">5.5</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="even gradeA">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 6</td>
+                                            <td>Win 98+</td>
+                                            <td class="center">6</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="odd gradeA">
+                                            <td>Trident</td>
+                                            <td>Internet Explorer 7</td>
+                                            <td>Win XP SP2+</td>
+                                            <td class="center">7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="even gradeA">
+                                            <td>Trident</td>
+                                            <td>AOL browser (AOL desktop)</td>
+                                            <td>Win XP</td>
+                                            <td class="center">6</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Firefox 1.0</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Firefox 1.5</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Firefox 2.0</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Firefox 3.0</td>
+                                            <td>Win 2k+ / OSX.3+</td>
+                                            <td class="center">1.9</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Camino 1.0</td>
+                                            <td>OSX.2+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Camino 1.5</td>
+                                            <td>OSX.3+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Netscape 7.2</td>
+                                            <td>Win 95+ / Mac OS 8.6-9.2</td>
+                                            <td class="center">1.7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Netscape Browser 8</td>
+                                            <td>Win 98SE+</td>
+                                            <td class="center">1.7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Netscape Navigator 9</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.0</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.1</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1.1</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.2</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1.2</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.3</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1.3</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.4</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1.4</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.5</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1.5</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.6</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">1.6</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.7</td>
+                                            <td>Win 98+ / OSX.1+</td>
+                                            <td class="center">1.7</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Mozilla 1.8</td>
+                                            <td>Win 98+ / OSX.1+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Seamonkey 1.1</td>
+                                            <td>Win 98+ / OSX.2+</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Gecko</td>
+                                            <td>Epiphany 2.20</td>
+                                            <td>Gnome</td>
+                                            <td class="center">1.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>Safari 1.2</td>
+                                            <td>OSX.3</td>
+                                            <td class="center">125.5</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>Safari 1.3</td>
+                                            <td>OSX.3</td>
+                                            <td class="center">312.8</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>Safari 2.0</td>
+                                            <td>OSX.4+</td>
+                                            <td class="center">419.3</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>Safari 3.0</td>
+                                            <td>OSX.4+</td>
+                                            <td class="center">522.1</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>OmniWeb 5.5</td>
+                                            <td>OSX.4+</td>
+                                            <td class="center">420</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>iPod Touch / iPhone</td>
+                                            <td>iPod</td>
+                                            <td class="center">420.1</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Webkit</td>
+                                            <td>S60</td>
+                                            <td>S60</td>
+                                            <td class="center">413</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 7.0</td>
+                                            <td>Win 95+ / OSX.1+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 7.5</td>
+                                            <td>Win 95+ / OSX.2+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 8.0</td>
+                                            <td>Win 95+ / OSX.2+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 8.5</td>
+                                            <td>Win 95+ / OSX.2+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 9.0</td>
+                                            <td>Win 95+ / OSX.3+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 9.2</td>
+                                            <td>Win 88+ / OSX.3+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera 9.5</td>
+                                            <td>Win 88+ / OSX.3+</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Opera for Wii</td>
+                                            <td>Wii</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Nokia N800</td>
+                                            <td>N800</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Presto</td>
+                                            <td>Nintendo DS browser</td>
+                                            <td>Nintendo DS</td>
+                                            <td class="center">8.5</td>
+                                            <td class="center">C/A<sup>1</sup>
                                             </td>
-                                            <td>
-                                                <code>.col-sm-</code>
-                                            </td>
-                                            <td>
-                                                <code>.col-md-</code>
-                                            </td>
-                                            <td>
-                                                <code>.col-lg-</code>
-                                            </td>
                                         </tr>
-                                        <tr>
-                                            <th># of columns</th>
-                                            <td colspan="4">12</td>
+                                        <tr class="gradeC">
+                                            <td>KHTML</td>
+                                            <td>Konqureror 3.1</td>
+                                            <td>KDE 3.1</td>
+                                            <td class="center">3.1</td>
+                                            <td class="center">C</td>
                                         </tr>
-                                        <tr>
-                                            <th>Max column width</th>
-                                            <td class="text-muted">Auto</td>
-                                            <td>60px</td>
-                                            <td>78px</td>
-                                            <td>95px</td>
+                                        <tr class="gradeA">
+                                            <td>KHTML</td>
+                                            <td>Konqureror 3.3</td>
+                                            <td>KDE 3.3</td>
+                                            <td class="center">3.3</td>
+                                            <td class="center">A</td>
                                         </tr>
-                                        <tr>
-                                            <th>Gutter width</th>
-                                            <td colspan="4">30px (15px on each side of a column)</td>
+                                        <tr class="gradeA">
+                                            <td>KHTML</td>
+                                            <td>Konqureror 3.5</td>
+                                            <td>KDE 3.5</td>
+                                            <td class="center">3.5</td>
+                                            <td class="center">A</td>
                                         </tr>
-                                        <tr>
-                                            <th>Nestable</th>
-                                            <td colspan="4">Yes</td>
+                                        <tr class="gradeX">
+                                            <td>Tasman</td>
+                                            <td>Internet Explorer 4.5</td>
+                                            <td>Mac OS 8-9</td>
+                                            <td class="center">-</td>
+                                            <td class="center">X</td>
                                         </tr>
-                                        <tr>
-                                            <th>Offsets</th>
-                                            <td colspan="4">Yes</td>
+                                        <tr class="gradeC">
+                                            <td>Tasman</td>
+                                            <td>Internet Explorer 5.1</td>
+                                            <td>Mac OS 7.6-9</td>
+                                            <td class="center">1</td>
+                                            <td class="center">C</td>
                                         </tr>
-                                        <tr>
-                                            <th>Column ordering</th>
-                                            <td colspan="4">Yes</td>
+                                        <tr class="gradeC">
+                                            <td>Tasman</td>
+                                            <td>Internet Explorer 5.2</td>
+                                            <td>Mac OS 8-X</td>
+                                            <td class="center">1</td>
+                                            <td class="center">C</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Misc</td>
+                                            <td>NetFront 3.1</td>
+                                            <td>Embedded devices</td>
+                                            <td class="center">-</td>
+                                            <td class="center">C</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Misc</td>
+                                            <td>NetFront 3.4</td>
+                                            <td>Embedded devices</td>
+                                            <td class="center">-</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td>Misc</td>
+                                            <td>Dillo 0.8</td>
+                                            <td>Embedded devices</td>
+                                            <td class="center">-</td>
+                                            <td class="center">X</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td>Misc</td>
+                                            <td>Links</td>
+                                            <td>Text only</td>
+                                            <td class="center">-</td>
+                                            <td class="center">X</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td>Misc</td>
+                                            <td>Lynx</td>
+                                            <td>Text only</td>
+                                            <td class="center">-</td>
+                                            <td class="center">X</td>
+                                        </tr>
+                                        <tr class="gradeC">
+                                            <td>Misc</td>
+                                            <td>IE Mobile</td>
+                                            <td>Windows Mobile 6</td>
+                                            <td class="center">-</td>
+                                            <td class="center">C</td>
+                                        </tr>
+                                        <tr class="gradeC">
+                                            <td>Misc</td>
+                                            <td>PSP browser</td>
+                                            <td>PSP</td>
+                                            <td class="center">-</td>
+                                            <td class="center">C</td>
+                                        </tr>
+                                        <tr class="gradeU">
+                                            <td>Other browsers</td>
+                                            <td>All others</td>
+                                            <td>-</td>
+                                            <td class="center">-</td>
+                                            <td class="center">U</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <p>Grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes, and override grid classes targeted at smaller devices. Therefore, applying any
-                                <code>.col-md-</code> class to an element will not only affect its styling on medium devices but also on large devices if a
-                                <code>.col-lg-</code> class is not present.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3>Example: Stacked-to-horizontal</h3>
-                            <p>Using a single set of
-                                <code>.col-md-*</code> grid classes, you can create a default grid system that starts out stacked on mobile devices and tablet devices (the extra small to small range) before becoming horizontal on desktop (medium) devices. Place grid columns in any
-                                <code>.row</code>.</p>
-                            <div class="row show-grid">
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                                <div class="col-md-1">.col-md-1</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-md-8">.col-md-8</div>
-                                <div class="col-md-4">.col-md-4</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-md-4">.col-md-4</div>
-                                <div class="col-md-4">.col-md-4</div>
-                                <div class="col-md-4">.col-md-4</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-md-6">.col-md-6</div>
-                                <div class="col-md-6">.col-md-6</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3>Example: Mobile and desktop</h3>
-                            <p>Don't want your columns to simply stack in smaller devices? Use the extra small and medium device grid classes by adding
-                                <code>.col-xs-*</code>
-                                <code>.col-md-*</code> to your columns. See the example below for a better idea of how it all works.</p>
-                            <div class="row show-grid">
-                                <div class="col-xs-12 col-md-8">.col-xs-12 .col-md-8</div>
-                                <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-                                <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-                                <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-xs-6">.col-xs-6</div>
-                                <div class="col-xs-6">.col-xs-6</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3>Example: Mobile, tablet, desktops</h3>
-                            <p>Build on the previous example by creating even more dynamic and powerful layouts with tablet
-                                <code>.col-sm-*</code> classes.</p>
-                            <div class="row show-grid">
-                                <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>
-                                <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-                                <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-                                <!-- Optional: clear the XS cols if their content doesn't match in height -->
-                                <div class="clearfix visible-xs"></div>
-                                <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3 id="grid-responsive-resets">Responsive column resets</h3>
-                            <p>With the four tiers of grids available you're bound to run into issues where, at certain breakpoints, your columns don't clear quite right as one is taller than the other. To fix that, use a combination of a
-                                <code>.clearfix</code> and our <a href="#responsive-utilities">responsive utility classes</a>.</p>
-                            <div class="row show-grid">
-                                <div class="col-xs-6 col-sm-3">
-                                    .col-xs-6 .col-sm-3
-                                    <br>Resize your viewport or check it out on your phone for an example.
-                                </div>
-                                <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
-
-                                <!-- Add the extra clearfix for only the required viewport -->
-                                <div class="clearfix visible-xs"></div>
-
-                                <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
-                                <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3 id="grid-offsetting">Offsetting columns</h3>
-                            <p>Move columns to the right using
-                                <code>.col-md-offset-*</code> classes. These classes increase the left margin of a column by
-                                <code>*</code> columns. For example,
-                                <code>.col-md-offset-4</code> moves
-                                <code>.col-md-4</code> over four columns.</p>
-                            <div class="row show-grid">
-                                <div class="col-md-4">.col-md-4</div>
-                                <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-                                <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
-                            </div>
-                            <div class="row show-grid">
-                                <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3 id="grid-nesting">Nesting columns</h3>
-                            <p>To nest your content with the default grid, add a new
-                                <code>.row</code> and set of
-                                <code>.col-md-*</code> columns within an existing
-                                <code>.col-md-*</code> column. Nested rows should include a set of columns that add up to 12.</p>
-                            <div class="row show-grid">
-                                <div class="col-md-9">
-                                    Level 1: .col-md-9
-                                    <div class="row show-grid">
-                                        <div class="col-md-6">
-                                            Level 2: .col-md-6
-                                        </div>
-                                        <div class="col-md-6">
-                                            Level 2: .col-md-6
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3 id="grid-column-ordering">Column ordering</h3>
-                            <p>Easily change the order of our built-in grid columns with
-                                <code>.col-md-push-*</code> and
-                                <code>.col-md-pull-*</code> modifier classes.</p>
-                            <div class="row show-grid">
-                                <div class="col-md-9 col-md-push-3">.col-md-9 .col-md-push-3</div>
-                                <div class="col-md-3 col-md-pull-9">.col-md-3 .col-md-pull-9</div>
                             </div>
                         </div>
                     </div>
@@ -357,7 +520,16 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+    <!-- excellentexport Plugin JavaScript -->
+    <script src="../bower_components/excellentexport/excellentexport.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
+    <script src="../js/pages/passers.js"></script>
+    <script src="../js/pages/print.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
 
 </body>

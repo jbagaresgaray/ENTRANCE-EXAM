@@ -141,7 +141,7 @@ class Quiz {
 
 				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'];
 			}
-			/*$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
+			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
 			$message .='Please check on the app for more info about the result';
 
 			$url = 'https://www.itexmo.com/php_api/api.php';
@@ -155,10 +155,10 @@ class Quiz {
 			);
 			$context  = stream_context_create($param);
 			$result = file_get_contents($url, false, $context);
-			$response = $config->sms_response($result);*/
+			$response = $config->sms_response($result);
 
-			// print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'message_status'=>$response),JSON_PRETTY_PRINT);
-			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'message_status'=>$response),JSON_PRETTY_PRINT);
+			// print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
 		}
 	}
 
