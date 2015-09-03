@@ -95,6 +95,9 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                                             <th class="sorting" >
                                                 Category Name
                                             </th>
+                                            <th class="sorting" >
+                                                Exam Time (Min.)
+                                            </th>
                                             <th width="10%"></th>
                                         </tr>
                                     </thead>

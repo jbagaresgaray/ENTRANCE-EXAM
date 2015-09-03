@@ -15,8 +15,9 @@ class Category {
 		    return;
 		}else{
 			$data = $mysqli->real_escape_string($data['category_name']);
-			if ($stmt = $mysqli->prepare('INSERT INTO category(name) VALUES(?)')){
-				$stmt->bind_param('s', $data);
+			$time = $mysqli->real_escape_string($data['time']);
+			if ($stmt = $mysqli->prepare('INSERT INTO category(name,time) VALUES(??)')){
+				$stmt->bind_param('ss', $data,$time);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -73,9 +74,10 @@ class Category {
 		    return;
 		}else{
 			$category_name = $mysqli->real_escape_string($data['category_name']);
+			$time = $mysqli->real_escape_string($data['time']);
 			// $id = $mysqli->real_escape_string($data['id']);
-			if ($stmt = $mysqli->prepare('UPDATE category SET `name`=? WHERE id=?')){
-				$stmt->bind_param('si', $category_name,$id);
+			if ($stmt = $mysqli->prepare('UPDATE category SET `name`=?,time=? WHERE id=?')){
+				$stmt->bind_param('ssi', $category_name,$time,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

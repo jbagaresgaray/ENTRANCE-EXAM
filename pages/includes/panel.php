@@ -51,9 +51,9 @@
                     <li>
                         <a href="users.php">Manage Users</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="settings.php">Manage Exam Timer</a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

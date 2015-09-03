@@ -1,5 +1,5 @@
 <div class="modal fade" id="addcategory" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Add Category</h3>
@@ -12,6 +12,12 @@
                         <input type="text" class="form-control" id="category_name" name="category_name" required>
                         <span class="help-inline"></span>
                     </div>
+                    <div class="form-group input-group">
+                        <span class="input-group-addon">Time Limit of Quiz</span>
+                        <input type="number" id="time" name="time" class="form-control" value="" required="" min="0">   
+                        <span class="input-group-addon">Min.</span>                 
+                    </div>
+                    <small class="text-danger">(Note: Set time limit to zero[0] to get unlimited time on quiz)</small>
                 </form>
             </div>
             <div class="modal-footer">

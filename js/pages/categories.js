@@ -19,6 +19,7 @@ $('#addcategory').on('hide.bs.modal', function(e) {
     $("#btn-save").attr('disabled', true);
     $("#btn-reset").hide();
     $("#category_name").val('');
+    $("#time").val('');
     $("#category_id").val('');
 });
 
@@ -76,6 +77,11 @@ function save() {
         empty = true;
     }
 
+    if ($('#time').val() == '') {
+        $('#time').next('span').text('Time Limit for Quiz is required.');
+        empty = true;
+    }
+
     if (empty == true) {
         $.notify('Please input all the required fields correctly.', "error");
         return false;
@@ -90,7 +96,8 @@ function save() {
                 'X-Auth-Token': $("input[name='csrf']").val()
             },
             data: {
-                category_name: $('#category_name').val()
+                category_name: $('#category_name').val(),
+                time: $("#time").val()
             },
             success: function(response) {
                 var decode = response;
@@ -124,7 +131,8 @@ function save() {
                 'X-Auth-Token': $("input[name='csrf']").val()
             },
             data: {
-                category_name: $('#category_name').val()
+                category_name: $('#category_name').val(),
+                time: $("#time").val()
             },
             success: function(response) {
                 var decode = response;
@@ -155,9 +163,11 @@ function save() {
 
 function create_category() {
     $("#category_name").prop('disabled', false);
+    $("#time").prop('disabled',false)
     $("#btn-save").removeAttr('disabled');
     $("#btn-reset").show();
     $("#category_name").val('');
+    $("#time").val('');
 
     $('#addcategory').modal('show');
 }
@@ -188,6 +198,7 @@ function fetch_all_category() {
                         var row = decode.category;
                         var html = '<tr class="odd">\
                                         <td class="sorting">' + row[i].name + '</td>\
+                                        <td class="sorting">' + row[i].time + '</td>\
                                         <td class=" ">\
                                           <div class="text-right">\
                                             <a class="edit-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
@@ -261,10 +272,13 @@ function getData(id) {
             console.log('response: ', decode);
             if (decode.success == true) {
                 $("#category_name").prop('disabled', false);
+                $("#time").prop('disabled',false);
+
                 $("#btn-save").removeAttr('disabled');
                 $("#btn-reset").show();
 
                 $("#category_name").val(decode.category.name);
+                $("#time").val(decode.category.time);
                 $("#category_id").val(decode.category.id);
 
                 $('#addcategory').modal('show');
