@@ -36,3 +36,6 @@ body {
 .jumbotron p{
 	font-size: 16px;
 }
+.alert {
+    margin-bottom: 0px;
+}

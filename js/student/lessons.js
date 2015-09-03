@@ -4,7 +4,7 @@ $(document).ready(function() {
     fetch_categories();
 });
 
-function start_quiz(id) {
+function start_quiz(id,time) {
     $.ajax({
         url: '../server/quiz/checkexam/' + id,
         async: false,
@@ -20,6 +20,7 @@ function start_quiz(id) {
                 return;
             } else if (decode.success === false) {
                 window.sessionStorage['category_id'] = id;
+                window.sessionStorage['time'] = time;
                 window.location.href = "quiz.php";
             }
         },
@@ -51,7 +52,7 @@ function fetch_categories() {
                                 </div>\
                                 <div class="panel-body">\
                                     <h3>' + row[i].name + '</h3>\
-                                    <p><a data-id="' + row[i].id + '" class="btn btn-warning" href="javascript:start_quiz(' + row[i].id + ')">Take Test</a></p>\
+                                    <p><a data-id="' + row[i].id + '" class="btn btn-warning" href="javascript:start_quiz(' + row[i].id + ','+ row[i].time +')">Take Test</a></p>\
                                 </div>\
                             </div>';
                 $("#lessons").append(html);

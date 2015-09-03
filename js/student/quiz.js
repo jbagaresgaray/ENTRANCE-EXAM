@@ -5,34 +5,37 @@ var c = 1;
 
 $(document).ready(function() {
     $.material.init();
-    
+
     var id = window.sessionStorage['category_id'];
+    var s_time = window.sessionStorage['time'];
+
+    console.log('check_exam(id);');
+    check_exam(id);
+
     fetch_quiz(id);
+
     $('#div1').addClass('first current');
+    $('#time_limit').val(s_time);
 
     var time = $('#time_limit').val();
     var limit = (time * 60 * 1000);
-    // End time for diff purposes
-    var endTimeDiff = new Date().getTime() + limit;
-    // This is server's time
-    console.log('endTimeDiff: ',endTimeDiff);
+    var endTimeDiff = new Date(new Date().getTime() + limit);
 
     if (time != 0) {
         setInterval(function() {
 
             // Submit unfinished Quiz;
+            submit();
 
             alert('Thank You for taking the quiz!');
-            // window.location.href = 'results.php';
+            window.location.href = 'results.php';
         }, limit);
     }
 
-    $('.offset-client .countdown').countdown({
-        date: endTimeDiff,
-        onEnd: function() {
-            $(this.el).addClass('ended');
-        }
+    $('#countdown').countdown(endTimeDiff, function(event) {
+        $(this).html(event.strftime('%H:%M:%S'));
     });
+
 });
 
 
@@ -91,6 +94,31 @@ $('.confirmend').on('click', function() {
     });
 });
 
+function check_exam(id) {
+    $.ajax({
+        url: '../server/quiz/checkexam/' + id,
+        async: false,
+        type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                alert(decode.msg);
+                window.location.href = "main.php";
+                return;
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            return;
+        }
+    });
+}
+
 function fetch_quiz(id) {
     var target = document.getElementById('target1')
     var spinner = new Spinner({
@@ -116,9 +144,11 @@ function fetch_quiz(id) {
 
             if (count > 0) {
                 $('#notification').addClass('hide');
+                $('#timer').removeClass('hide');
                 $('#next').removeClass('hide');
             } else {
                 $('#notification').removeClass('hide');
+                $('#timer').addClass('hide');
                 $('#next').addClass('hide');
             }
 

@@ -21,7 +21,7 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
         <strong>Warning!</strong> No questions in this lesson!
     </div>
     <div class="alert alert-warning offset-client" role="alert" id="timer">
-        <div class="countdown offset">1:00:00 PM</div>
+        <div class="offset" id="countdown"></div>
     </div>
     <div class="container">
         <form class="form-horizontal">
