@@ -36,7 +36,7 @@ class Quiz {
             }
             $mysqli->query("INSERT INTO result VALUES (null,$category_id,'$student_id',$score,$row,NOW())");
 
-			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
+			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$student_id;";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 				$total= $row['score'] / $row['total'];
@@ -46,7 +46,7 @@ class Quiz {
 
 				array_push($data,$row);
 
-				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'];
+				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] ."\r\n";
 			}
 			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
 			$message .='Please check on the app for more info about the result';
@@ -139,7 +139,7 @@ class Quiz {
 
 				array_push($data,$row);
 
-				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'];
+				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] . "\r\n";
 			}
 			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
 			$message .='Please check on the app for more info about the result';

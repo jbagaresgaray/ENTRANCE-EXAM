@@ -17,24 +17,6 @@ $(document).ready(function() {
     $('#div1').addClass('first current');
     $('#time_limit').val(s_time);
 
-    var time = $('#time_limit').val();
-    var limit = (time * 60 * 1000);
-    var endTimeDiff = new Date(new Date().getTime() + limit);
-
-    if (time != 0) {
-        setInterval(function() {
-
-            // Submit unfinished Quiz;
-            submit();
-
-            alert('Thank You for taking the quiz!');
-            window.location.href = 'results.php';
-        }, limit);
-    }
-
-    $('#countdown').countdown(endTimeDiff, function(event) {
-        $(this).html(event.strftime('%H:%M:%S'));
-    });
 
 });
 
@@ -142,10 +124,29 @@ function fetch_quiz(id) {
             var count = quizData.length;
             $('#category_id').val(decode.category);
 
+            var time = $('#time_limit').val();
+            var limit = (time * 60 * 1000);
+            var endTimeDiff = new Date(new Date().getTime() + limit);
+
             if (count > 0) {
                 $('#notification').addClass('hide');
                 $('#timer').removeClass('hide');
                 $('#next').removeClass('hide');
+
+                if (time != 0) {
+                    setInterval(function() {
+
+                        submit();
+
+                        alert('Thank You for taking the quiz!');
+                        window.location.href = 'results.php';
+                    }, limit);
+                }
+
+                $('#countdown').countdown(endTimeDiff, function(event) {
+                    $(this).html(event.strftime('%H:%M:%S'));
+                });
+                
             } else {
                 $('#notification').removeClass('hide');
                 $('#timer').addClass('hide');

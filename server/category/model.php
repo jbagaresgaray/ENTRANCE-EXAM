@@ -16,7 +16,7 @@ class Category {
 		}else{
 			$data = $mysqli->real_escape_string($data['category_name']);
 			$time = $mysqli->real_escape_string($data['time']);
-			if ($stmt = $mysqli->prepare('INSERT INTO category(name,time) VALUES(??)')){
+			if ($stmt = $mysqli->prepare('INSERT INTO category(name,time) VALUES(?,?)')){
 				$stmt->bind_param('ss', $data,$time);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
