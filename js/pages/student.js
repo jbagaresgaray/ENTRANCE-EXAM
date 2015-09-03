@@ -30,6 +30,11 @@ $(document).on("click", ".edit-icon", function() {
     getData(id);
 });
 
+$(document).on("click", ".result-icon", function() {
+    var id = $(this).data('id');
+    window.location.href='flot.php';
+});
+
 function resetHelpInLine() {
     $('span.help-inline').each(function() {
         $(this).text('');
@@ -69,10 +74,13 @@ function fetch_all_student() {
                                         <td class="sorting">' + row[i].mobileno + '</td>\
                                         <td class=" ">\
                                           <div class="text-right">\
-                                            <a class="edit-icon btn btn-success btn-xs" data-id="' + row[i].id + '">\
+                                            <a class="result-icon btn btn-primary btn-sm" data-id="' + row[i].id + '">\
+                                              <i class="fa fa-file-text-o"></i>\
+                                            </a>\
+                                            <a class="edit-icon btn btn-success btn-sm" data-id="' + row[i].id + '">\
                                               <i class="fa fa-pencil"></i>\
                                             </a>\
-                                            <a class="remove-icon btn btn-danger btn-xs" data-id="' + row[i].id + '">\
+                                            <a class="remove-icon btn btn-danger btn-sm" data-id="' + row[i].id + '">\
                                               <i class="fa fa-remove"></i>\
                                             </a>\
                                           </div>\

@@ -16,7 +16,7 @@ function printToPrinter() {
             <link rel="stylesheet" href="../bower_components/datatables-responsive/css/dataTables.responsive.css">\
             <link rel="stylesheet" href="../dist/css/sb-admin-2.css">\
             <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">\
-		    <style type="text/css" media="print">body {padding-top: 50px;} .dataTables_filter, .dataTables_info, .dataTables_length,.dataTables_paginate,.sorting,.sorting_asc,.sorting_desc { display: none; } </style>\
+		    <style type="text/css" media="print">body {padding-top: 50px;} .dataTables_filter, .dataTables_info, .dataTables_length,.dataTables_paginate { display: none; } </style>\
 		</head>\
     	<body onload="window.print()">\
     	<div class="container">\

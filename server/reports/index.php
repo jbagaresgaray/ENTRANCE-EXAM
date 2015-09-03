@@ -12,7 +12,7 @@
 				// Get summary of results
 				ResultsController::getResultsSummary();
 			}else if ($request[0] == 'passers'){
-				if (isset($request) && !empty($request) && $request[1] !== ''){
+				if (isset($request) && !empty($request) && isset($request[1])){
 					$course_id = $request[1];
 					ResultsController::getPassersByCourse($course_id);
 				}else{

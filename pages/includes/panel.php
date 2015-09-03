@@ -33,9 +33,9 @@
             <li>
                 <a href="#"><i class="fa fa-files-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
+                    <!-- <li>
                         <a href="flot.php">Exam Result</a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="grid.php">Passers</a>
                     </li>
