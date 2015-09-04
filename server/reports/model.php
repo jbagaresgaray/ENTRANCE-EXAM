@@ -63,22 +63,28 @@ class Results {
 		}else{
 
 			$data = array();
-			$query ="SELECT DISTINCT s.category_id FROM status s WHERE s.stud_id = '$student_id' ORDER BY s.id;";
+			$query ="SELECT DISTINCT s.category_id,(SELECT name FROM category WHERE id=s.category_id LIMIT 1) as category_name FROM status s WHERE s.stud_id = '$student_id' ORDER BY s.id;";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				$category_id = $row['studid'];
+				$category_id = $row['category_id'];
 
 				$query1 ="SELECT s.*,(SELECT content FROM question WHERE id = s.question_id LIMIT 1) AS questions,
     			(SELECT answer FROM choice WHERE id = s.choice_id LIMIT 1) AS yourchoice,
-    			(SELECT answer FROM choice WHERE questionid = s.question_id AND choice = 'yes' LIMIT 1) AS correctans
+    			(SELECT answer FROM choice WHERE questionid = s.question_id AND choice = 'yes' LIMIT 1) AS correctans,
+    			(SELECT id FROM choice WHERE questionid = s.question_id AND choice = 'yes' LIMIT 1) AS correctans_id
 				FROM status s WHERE s.stud_id = '$student_id' AND s.category_id = $category_id ORDER BY s.id;";
 
 				$result1 = $mysqli->query($query1);
 				$data1 = array();
 				while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
+					if($row1['choice_id'] === $row1['correctans_id']){
+						$row1['isCorrect'] = true;
+					}else{
+						$row1['isCorrect'] = false;
+					}
 					array_push($data1,$row1);
 				}
-				$row['categories'] = $data1;
+				$row['quiz'] = $data1;
 				array_push($data,$row);
 			}
 			

@@ -39,7 +39,7 @@ class ResultsController {
 		}
 	}
 
-	public function getResultsSummary(){
+	public function getResultsSummary($studentid){
 		session_start();
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
@@ -53,7 +53,7 @@ class ResultsController {
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
 			die();
 		}else{
-			Results::getResultsSummary();
+			Results::getResultsSummary($studentid);
 		}
 	}
 	

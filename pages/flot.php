@@ -73,6 +73,16 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
             </div>
             <!-- /.row -->
             <div class="row">
+                <div class="col-md-12">
+                    <div class="col-lg-8">
+                        <a onclick="refresh()" class="btn btn-primary">Refresh</a>
+                        <a onclick="printToPrinter()" class="btn btn-success">Print</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+             <!-- /.row -->
+            <div class="row">
                 <!-- /.col-lg-12 -->                
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -80,23 +90,9 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <div class="panel-body" id="printTable">
                             <h1 class="text-center">Examination Result</h1>
                             <br>
-                            <p class="lead"><strong>NAME: </strong> PHILIP CESAR B. GARAY</p>
-                            <p class="lead"><strong>TOTAL SCORE: </strong> 100</p>
-                            <div class="dataTable_wrapper" id="wrapTable">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Question</th>
-                                            <th>Your Answer</th>
-                                            <th>Correct Answer</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <p class="lead"><strong>NAME: </strong><span id="StudentName"></span></p>
+                            <hr>
+                            <div class="dataTable_wrapper" id="wrapTable"></div>
                         </div>
                     </div>
                 </div>
@@ -125,6 +121,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../js/pages/print.js"></script>
     <script src="../js/pages/results.js"></script>
 </body>
 

@@ -9,8 +9,8 @@
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		if ($request[0] == 'results'){
-				// Get summary of results
-				ResultsController::getResultsSummary();
+	  			$studentid = $request[1];
+				ResultsController::getResultsSummary($studentid);
 			}else if ($request[0] == 'passers'){
 				if (isset($request) && !empty($request) && isset($request[1])){
 					$course_id = $request[1];

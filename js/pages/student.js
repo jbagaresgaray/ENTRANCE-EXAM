@@ -31,7 +31,11 @@ $(document).on("click", ".edit-icon", function() {
 });
 
 $(document).on("click", ".result-icon", function() {
-    var id = $(this).data('id');
+    var studentid = $(this).data('studentid');
+    var name = $(this).data('name');
+
+    window.sessionStorage['studentid'] = studentid;
+    window.sessionStorage['StudentName'] = name;
     window.location.href='flot.php';
 });
 
@@ -74,7 +78,7 @@ function fetch_all_student() {
                                         <td class="sorting">' + row[i].mobileno + '</td>\
                                         <td class=" ">\
                                           <div class="text-right">\
-                                            <a class="result-icon btn btn-primary btn-sm" data-id="' + row[i].id + '">\
+                                            <a class="result-icon btn btn-primary btn-sm" data-name="' + row[i].lname + ', ' + row[i].fname + '" data-studentid="' + row[i].studid + '">\
                                               <i class="fa fa-file-text-o"></i>\
                                             </a>\
                                             <a class="edit-icon btn btn-success btn-sm" data-id="' + row[i].id + '">\

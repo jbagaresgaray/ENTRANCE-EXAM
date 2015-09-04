@@ -1,14 +1,21 @@
 $(document).ready(function() {
 
-    // fetch_all_passers();
+    var studentid = window.sessionStorage['studentid'];
+    $('#StudentName').text(window.sessionStorage['StudentName']);
+
+    fetch_all_passers(studentid);
 
 });
 
+function refresh() {
+    var studentid = window.sessionStorage['studentid'];
+    $('#StudentName').text(window.sessionStorage['StudentName']);
 
+    fetch_all_passers(studentid);
+}
 
-function fetch_all_passers() {
-    $('#dataTables-example tbody > tr').remove();
-
+function fetch_all_passers(studentid) {
+    $('#wrapTable').empty();
     var target = document.getElementById('target1');
     var spinner = new Spinner({
         radius: 30,
@@ -18,7 +25,7 @@ function fetch_all_passers() {
     }).spin(target);
 
     $.ajax({
-        url: '../server/reports/results',
+        url: '../server/reports/results/' + studentid,
         async: false,
         type: 'GET',
         headers: {
@@ -28,18 +35,33 @@ function fetch_all_passers() {
             var decode = response;
             if (decode) {
                 if (decode.data.length > 0) {
-                    console.log('decode.data: ', decode.data);
                     for (var i = 0; i < decode.data.length; i++) {
                         var row = decode.data;
+                        var table = '<h2 class="text-primary">' + row[i].category_name + '</h2><table class="table table-striped table-bordered table-hover" id="dataTables-example' + i + '">\
+                                    <thead><tr>\
+                                    <th width="5%">#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th width="5%" class="text-center"></th>\
+                                    </tr></thead><tbody></tbody></table>';
+                        $('#wrapTable').append(table);
+                        $('#dataTables-example' + i + ' tbody > tr').remove();
 
-                       var html = '<tr class="odd">\
-                                    <td>' + row[i].studid + '</td>\
-                                    <td>' + row[i].lname + ', ' + row[i].fname + '</td>\
-                                    <td class="text-center">' + row[i].TotalScore + '</td>\
-                                    <td>' + courses + '</td>\
+                        for (var a = 0; a < row[i].quiz.length; a++) {
+                            var row1 = row[i].quiz;
+
+                            if (row1[a].isCorrect === true) {
+                                var isCorrect = '<i class="fa fa-check"></i>';
+                            } else {
+                                var isCorrect = '<i class="fa fa-times"></i>';
+                            }
+
+                            var html = '<tr class="odd">\
+                                    <td>' + (a + 1) + '</td>\
+                                    <td>' + $(row1[a].questions).text() + '</td>\
+                                    <td class="text-center">' + row1[a].yourchoice + '</td>\
+                                    <td>' + row1[a].correctans + '</td>\
+                                    <td>' + isCorrect + '</td>\
                                 </tr>';
-
-                        $("#dataTables-example tbody").append(html);
+                            $("#dataTables-example" + i + " tbody").append(html);
+                        }
                     }
                     $.notify("All records display", "info");
                 }
