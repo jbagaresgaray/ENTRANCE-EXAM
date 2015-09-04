@@ -9,7 +9,7 @@ $(document).ready(function() {
     var id = window.sessionStorage['category_id'];
     var s_time = window.sessionStorage['time'];
 
-    console.log('check_exam(id);');
+    console.log('check_exam(id);',s_time);
     check_exam(id);
 
     fetch_quiz(id);
@@ -124,20 +124,18 @@ function fetch_quiz(id) {
             var count = quizData.length;
             $('#category_id').val(decode.category);
 
-            var time = $('#time_limit').val();
-            var limit = (time * 60 * 1000);
-            var endTimeDiff = new Date(new Date().getTime() + limit);
-
             if (count > 0) {
                 $('#notification').addClass('hide');
                 $('#timer').removeClass('hide');
                 $('#next').removeClass('hide');
 
+                var time = window.sessionStorage['time'];
+                var limit = (time * 60 * 1000);
+                var endTimeDiff = new Date().getTime() + limit;
+
                 if (time != 0) {
                     setInterval(function() {
-
                         submit();
-
                         alert('Thank You for taking the quiz!');
                         window.location.href = 'results.php';
                     }, limit);
@@ -146,7 +144,7 @@ function fetch_quiz(id) {
                 $('#countdown').countdown(endTimeDiff, function(event) {
                     $(this).html(event.strftime('%H:%M:%S'));
                 });
-                
+
             } else {
                 $('#notification').removeClass('hide');
                 $('#timer').addClass('hide');

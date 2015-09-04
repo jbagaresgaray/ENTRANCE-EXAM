@@ -78,7 +78,8 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                     <div class="form-inline form-padding">
                         <form id="frmSearch" role="form">
                             <a onclick="create_student()" class="btn btn-primary">Add Student</a>
-                            <a onclick="create_student_bulk()" class="btn btn-primary">Add Student in Bulk</a>
+                            <!-- <a onclick="create_student_bulk()" class="btn btn-primary">Add Student in Bulk</a> -->
+                            <a class="btn btn-primary" disabled="true">Add Student in Bulk</a>
                             <a onclick="refresh()" class="btn btn-info">Refresh</a>
                             <input type="text" class="form-control" id="inputSearch" placeholder="Search">
                             <a onclick="fetch_all_student()" class="btn btn-success">Search</a>

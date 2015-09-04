@@ -68,7 +68,6 @@ function fetch_all_student() {
         },
         success: function(response) {
             var decode = response;
-            console.log('decode: ', decode);
             if (decode) {
                 if (decode.student.length > 0) {
                     for (var i = 0; i < decode.student.length; i++) {
@@ -155,9 +154,9 @@ function getData(id) {
                 $("#lname").val(decode.student.lname);
                 $("#mobileno").val(decode.student.mobileno);
                 $("#username").val(decode.student.username);
-                $("#password").val(decode.student.password);
-                $("#password2").val(decode.student.password2);
+                $("#email").val(decode.student.email);
                 $("#id").val(decode.student.id);
+                $('#user_id').val(decode.student.user_id);
 
                 $('#addstudent').modal('show');
             } else if (decode.success === false) {
@@ -193,6 +192,7 @@ function clear() {
     $('#mobileno').val('');
     $('#username').val('');
     $('#password').val('');
+    $('#email').val('');
     $('#password2').val('');
 }
 
@@ -297,7 +297,7 @@ function save() {
         });
     } else {
         $.ajax({
-            url: '../server/student/' + $('#id').val(),
+            url: '../server/student/' + ($('#id').val() + '-' + $('#user_id').val()),
             async: false,
             type: 'PUT',
             headers: {
@@ -318,6 +318,7 @@ function save() {
                 if (decode.success == true) {
                     $('#addstudent').modal('hide');
                     refresh();
+                    clear();
                     $.notify("Record successfully updated", "success");
                 } else if (decode.success === false) {
                     $.notify(decode.msg, "error");

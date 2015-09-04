@@ -117,7 +117,7 @@ class Student {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query ="SELECT * FROM student c WHERE id=$id LIMIT 1;";
+			$query ="SELECT c.*,u.username FROM student c INNER JOIN userdata u ON c.user_id = u.id WHERE c.id=$id LIMIT 1;";
 			$mysqli->set_charset("utf8");
 			$result = $mysqli->query($query);
 			if($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -159,9 +159,19 @@ class Student {
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
 			$email = $mysqli->real_escape_string($data['email']);
 
+			$username = $mysqli->real_escape_string($data['username']);
+			$password = $mysqli->real_escape_string($data['password']);
+
+			$newid = explode('-',$id);
+
 			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=?,email=? WHERE id=?')){
-				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$email,$id);
+				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$email,$newid[0]);
 				$stmt->execute();
+
+				$stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,str_password=?,fname=?,lname=?,email=?,mobileno=? WHERE id=?');
+				$stmt->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$newid[1]);
+				$stmt->execute();
+
 				print json_encode(array('success' =>true,'msg' =>'Profile successfully updated'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
