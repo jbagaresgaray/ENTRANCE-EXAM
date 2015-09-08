@@ -5,6 +5,37 @@ $(document).ready(function() {
 
     fetch_all_course();
 
+    $('table.paginated').each(function() {
+        var currentPage = 0;
+        var numPerPage = 10;
+        var $table = $(this);
+        $table.bind('repaginate', function() {
+            $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+        });
+        $table.trigger('repaginate');
+        var numRows = $table.find('tbody tr').length;
+        var numPages = Math.ceil(numRows / numPerPage);
+        var $pager = $('<div class="pagination"></div>');
+        for (var page = 0; page < numPages; page++) {
+            $('<span class="page-number"></span>').text(page + 1).bind('click', {
+                newPage: page
+            }, function(event) {
+                currentPage = event.data['newPage'];
+                $table.trigger('repaginate');
+                $(this).addClass('active').siblings().removeClass('active');
+            }).appendTo($pager).addClass('clickable');
+        }
+        $pager.insertBefore($table).find('span.page-number:first').addClass('active');
+    });
+});
+
+$('#filter').keyup(function() {
+    var rex = new RegExp($(this).val(), 'i');
+    $('.searchable tr').hide();
+    $('.searchable tr').filter(function() {
+        return rex.test($(this).text());
+    }).show();
+
 });
 
 $('#passing_score').keypress(function(e) {
@@ -24,6 +55,7 @@ $('#course_name').keypress(function(e) {
 $('#addcourse').on('hide.bs.modal', function(e) {
     $("#btn-save").attr('disabled', true);
     $("#course_name").val('');
+    $('#course_code').val('');
     $("#passing_score").val('');
     $("#course_id").val('');
 });
@@ -77,6 +109,11 @@ function save() {
         $(this).val($(this).val().trim());
     });
 
+    if ($('#course_code').val() == '') {
+        $('#course_code').next('span').text('Course Code is required.');
+        empty = true;
+    }
+
     if ($('#course_name').val() == '') {
         $('#course_name').next('span').text('Course Name is required.');
         empty = true;
@@ -102,6 +139,7 @@ function save() {
             },
             data: {
                 coursename: $('#course_name').val(),
+                coursecode: $('#course_code').val(),
                 passing_score: $('#passing_score').val()
             },
             success: function(response) {
@@ -137,6 +175,7 @@ function save() {
             },
             data: {
                 coursename: $('#course_name').val(),
+                coursecode: $('#course_code').val(),
                 passing_score: $('#passing_score').val()
             },
             success: function(response) {
@@ -168,10 +207,12 @@ function save() {
 
 function create_course() {
     $("#course_name").prop('disabled', false);
+    $("#course_code").prop('disabled', false);
     $("#passing_score").prop('disabled', false);
     $("#btn-save").removeAttr('disabled');
     $("#btn-reset").show();
     $("#course_name").val('');
+    $('#course_code').val('');
     $("#passing_score").val('');
     $("#course_id").val('');
 
@@ -191,7 +232,7 @@ function fetch_all_course() {
 
     $.ajax({
         url: '../server/courses/',
-        async: true,
+        async: false,
         type: 'GET',
         headers: {
             'X-Auth-Token': $("input[name='csrf']").val()
@@ -203,6 +244,7 @@ function fetch_all_course() {
                     for (var i = 0; i < decode.courses.length; i++) {
                         var row = decode.courses;
                         var html = '<tr class="odd">\
+                                        <td class="sorting">' + row[i].coursecode + '</td>\
                                         <td class="sorting">' + row[i].coursename + '</td>\
                                         <td class="sorting">' + row[i].passing_score + '</td>\
                                         <td class=" ">\
@@ -218,6 +260,8 @@ function fetch_all_course() {
                                 </tr>';
                         $("#tbl_courses tbody").append(html);
                     }
+
+
                     $.notify("All records display", "info");
                 }
                 spinner.stop();
@@ -279,6 +323,7 @@ function getData(id) {
                 $("#btn-save").removeAttr('disabled');
 
                 $("#course_name").val(decode.course.coursename);
+                $('#course_code').val(decode.course.coursecode);
                 $("#passing_score").val(decode.course.passing_score);
                 $("#course_id").val(decode.course.id);
 

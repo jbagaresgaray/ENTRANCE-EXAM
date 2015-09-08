@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `choice` (
 DROP TABLE IF EXISTS `courses`;
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `coursename` varchar(100) NOT NULL,
+  `coursecode` varchar(100) NOT NULL,
+  `coursename` varchar(255) NOT NULL,
   `passing_score` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
@@ -142,8 +143,14 @@ CREATE TABLE IF NOT EXISTS `student` (
   `studid` varchar(50) NOT NULL,
   `fname` varchar(100) NOT NULL,
   `lname` varchar(100) NOT NULL,
+  `gender` varchar(10) NOT NULL,
   `mobileno` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
+  `address` varchar(45) NULL,
+  `birthdate` date NULL,
+  `graduated` date NULL,
+  `last_school` varchar(100) NULL,
+  `pref_course` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
@@ -187,6 +194,12 @@ ALTER TABLE `choice`
 
 ALTER TABLE `result`
   ADD KEY `FK_result_1` (`stud_id`);
+
+ALTER TABLE `student`
+  ADD KEY `FK_student_1` (`pref_course`), ADD KEY `FK_student_2` (`user_id`),
+  ADD CONSTRAINT `FK_student_1` FOREIGN KEY (`pref_course`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_student_2` FOREIGN KEY (`user_id`) REFERENCES `userdata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 /*ALTER TABLE `status`
   ADD KEY `FK_status_1` (`stud_id`),ADD KEY `FK_status_2` (`question_id`),

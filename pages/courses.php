@@ -73,8 +73,9 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <form id="frmSearch" role="form">
                             <a onclick="create_course()" class="btn btn-primary">Add Courses</a>
                             <a onclick="refresh()" class="btn btn-info">Refresh</a>
-                            <input type="text" class="form-control" id="inputSearch" placeholder="Search">
-                            <a onclick="fetch_all_course()" class="btn btn-success">Search</a>
+                            <div class="input-group"> <span class="input-group-addon">Search: </span>
+                                <input id="filter" type="text" class="form-control" placeholder="Type here...">
+                            </div>
                         </form>
                     </div>
                     <br>
@@ -84,19 +85,22 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                              <table class="table table-bordered table-striped" style="margin-bottom:0;" id="tbl_courses">
+                              <table class="table table-bordered table-striped paginated" style="margin-bottom:0;" id="tbl_courses">
                                   <thead>
                                       <tr role="row">
-                                          <th class="sorting" >
-                                              Course Name
-                                          </th>
-                                          <th class="sorting" width="15%">
-                                              Passing Score
-                                          </th>
-                                          <th width="10%"></th>
+                                            <th class="sorting" >
+                                              Course Code
+                                            </th>
+                                            <th class="sorting" >
+                                                Course Description
+                                            </th>
+                                            <th class="sorting" width="15%">
+                                                Passing Score
+                                            </th>
+                                            <th width="10%"></th>
                                       </tr>
                                   </thead>
-                                  <tbody>
+                                  <tbody class="searchable">
                                   </tbody>
                               </table>
                             </div>

@@ -88,8 +88,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                     <div class="panel panel-default">
                          <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                         <div class="panel-body" id="printTable">
-                            <h2 class="text-center">List of Passers</h2>
-                            <p>See how aspects of the Bootstrap grid system work across multiple devices with a handy table.</p>
+                            <h1 class="text-center">List of Passers</h1>
                             <div class="dataTable_wrapper" id="wrapTable">
                             </div>
                         </div>

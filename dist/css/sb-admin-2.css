@@ -367,3 +367,49 @@ table.dataTable thead .sorting:after {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+div.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;}
+
+div.pagination>li:first-child>span {
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+div.pagination>li:last-child>span {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+div.pagination span {
+    display: inline;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+div.pagination>li>span:focus, div.pagination>li>span:hover {
+    z-index: 3;
+    cursor:pointer;
+    color: #23527c;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+div.pagination span.active {
+    z-index: 2;
+    color: #fff;
+    cursor:default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}

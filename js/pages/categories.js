@@ -5,6 +5,38 @@ $(document).ready(function() {
 
     fetch_all_category();
 
+    $('table.paginated').each(function() {
+        var currentPage = 0;
+        var numPerPage = 10;
+        var $table = $(this);
+        $table.bind('repaginate', function() {
+            $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+        });
+        $table.trigger('repaginate');
+        var numRows = $table.find('tbody tr').length;
+        var numPages = Math.ceil(numRows / numPerPage);
+        var $pager = $('<div class="pagination"></div>');
+        for (var page = 0; page < numPages; page++) {
+            $('<span class="page-number"></span>').text(page + 1).bind('click', {
+                newPage: page
+            }, function(event) {
+                currentPage = event.data['newPage'];
+                $table.trigger('repaginate');
+                $(this).addClass('active').siblings().removeClass('active');
+            }).appendTo($pager).addClass('clickable');
+        }
+        $pager.insertBefore($table).find('span.page-number:first').addClass('active');
+    });
+
+});
+
+$('#filter').keyup(function() {
+    var rex = new RegExp($(this).val(), 'i');
+    $('.searchable tr').hide();
+    $('.searchable tr').filter(function() {
+        return rex.test($(this).text());
+    }).show();
+
 });
 
 $('#category_name').keypress(function(e) {
@@ -163,7 +195,7 @@ function save() {
 
 function create_category() {
     $("#category_name").prop('disabled', false);
-    $("#time").prop('disabled',false)
+    $("#time").prop('disabled', false)
     $("#btn-save").removeAttr('disabled');
     $("#btn-reset").show();
     $("#category_name").val('');
@@ -185,7 +217,7 @@ function fetch_all_category() {
 
     $.ajax({
         url: '../server/category/',
-        async: true,
+        async: false,
         type: 'GET',
         headers: {
             'X-Auth-Token': $("input[name='csrf']").val()
@@ -272,7 +304,7 @@ function getData(id) {
             console.log('response: ', decode);
             if (decode.success == true) {
                 $("#category_name").prop('disabled', false);
-                $("#time").prop('disabled',false);
+                $("#time").prop('disabled', false);
 
                 $("#btn-save").removeAttr('disabled');
                 $("#btn-reset").show();

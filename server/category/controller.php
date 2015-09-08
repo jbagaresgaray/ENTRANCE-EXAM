@@ -14,10 +14,10 @@ class CategoryController {
 		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
-		}else if(isset($data['category_name']) && empty($data['category_name'])){
+		}else if(!isset($data['category_name']) && empty($data['category_name'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Category Name is required'),JSON_PRETTY_PRINT);
 			die();
-		}else if(isset($data['time']) && empty($data['time'])){
+		}else if(!isset($data['time']) && empty($data['time'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Time Limit for Quiz is required'),JSON_PRETTY_PRINT);
 			die();
 		}else{
@@ -73,9 +73,9 @@ class CategoryController {
 		}else if($token != $_SESSION['form_token']){
 			header('Invalid CSRF Token', true, 401);
 			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
-		}else if(isset($data['category_name']) && empty($data['category_name'])){
+		}else if(!isset($data['category_name']) && empty($data['category_name'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Category Name is required'),JSON_PRETTY_PRINT);
-		}else if(isset($data['time']) && empty($data['time'])){
+		}else if(!isset($data['time']) && empty($data['time'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Time Limit for Quiz is required'),JSON_PRETTY_PRINT);
 			die();
 		}else{

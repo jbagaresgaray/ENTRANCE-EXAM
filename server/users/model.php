@@ -61,7 +61,7 @@ class Users {
 		    return;
 		}else{
 
-			$query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata c LIMIT 1,30000000;";
+			$query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata c WHERE c.level= 'Admin' LIMIT 1,30000000;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
@@ -125,6 +125,49 @@ class Users {
 			print json_encode(array('success' =>true,'msg' =>'Record successfully deleted'),JSON_PRETTY_PRINT);
 		}else{
 			print json_encode(array('success' =>false,'msg' =>"Error message: %s\n". $mysqli->error),JSON_PRETTY_PRINT);
+		}
+	}
+
+	public static function updateAccount($id,$data){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'status'=>400,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$username = $mysqli->real_escape_string($data['username']);
+			$password = $mysqli->real_escape_string($data['password']);
+
+			if ($stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,str_password=? WHERE id=?')){
+				$stmt->bind_param('ssss',$username,sha1($password),$password,$id);
+				$stmt->execute();
+
+				print json_encode(array('success' =>true,'status'=>200,'msg' =>'User Account successfully updated'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'status'=>200,'msg' =>'Error message: %s\n', $mysqli->error),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public static function updateProfile($id,$data){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'status'=>400,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$fname = $mysqli->real_escape_string($data['fname']);
+			$lname = $mysqli->real_escape_string($data['lname']);
+			$email = $mysqli->real_escape_string($data['email']);
+			$mobileno = $mysqli->real_escape_string($data['mobileno']);
+
+			if ($stmt = $mysqli->prepare('UPDATE userdata SET fname=?,lname=?,email=?,mobileno=? WHERE id=?')){
+				$stmt->bind_param('sssss', $fname,$lname,$email,$mobileno,$id);
+				$stmt->execute();
+				print json_encode(array('success' =>true,'status'=>200,'msg' =>'User Profile successfully updated'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'status'=>200,'msg' =>'Error message: %s\n', $mysqli->error),JSON_PRETTY_PRINT);
+			}
 		}
 	}
 }

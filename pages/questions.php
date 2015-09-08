@@ -84,8 +84,9 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <form id="frmSearch" role="form">                               
                             <a onclick="create_question()" class="btn btn-primary">Add Question</a>
                             <a onclick="refresh()" class="btn btn-info">Refresh</a>
-                            <input type="text" class="form-control" id="inputSearch" placeholder="Search">
-                            <a onclick="fetch_all_category()" class="btn btn-success">Search</a>
+                            <div class="input-group"> <span class="input-group-addon">Search: </span>
+                                <input id="filter" type="text" class="form-control" placeholder="Type here...">
+                            </div>
                         </form>
                     </div>
                     <br>
@@ -95,7 +96,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="tbl_questions">
+                                <table class="table table-striped table-bordered table-hover paginated" id="tbl_questions">
                                     <thead>
                                         <tr>
                                             <th>Question</th>
@@ -103,7 +104,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody class="searchable"></tbody>
                                 </table>
                             </div>
                         </div>

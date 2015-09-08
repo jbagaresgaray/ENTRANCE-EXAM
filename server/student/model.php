@@ -19,18 +19,26 @@ class Student {
 			$fname = $mysqli->real_escape_string($data['fname']);
 			$lname = $mysqli->real_escape_string($data['lname']);
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
-			$username = $mysqli->real_escape_string($data['username']);
-			$password = $mysqli->real_escape_string($data['password']);
 			$email = $mysqli->real_escape_string($data['email']);
 			$level = $mysqli->real_escape_string($data['level']);
+			$address = $mysqli->real_escape_string($data['address']);
+			$birthdate = $mysqli->real_escape_string($data['birthdate']);
+			$graduated = $mysqli->real_escape_string($data['graduated']);
+			$last_school = $mysqli->real_escape_string($data['last_school']);
+			$pref_course = $mysqli->real_escape_string($data['pref_course']);
+			$gender = $mysqli->real_escape_string($data['gender']);
+
+			$username = $mysqli->real_escape_string($data['username']);
+			$password = $mysqli->real_escape_string($data['password']);
+			
 
 			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,email,mobileno,level) VALUES(?,?,?,?,?,?,?,?)');
 			$stmt2->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$level);
 			$stmt2->execute();
 			$user_id = $mysqli->insert_id;				
 
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,user_id) VALUES(?,?,?,?,?,?)')){
-				$stmt->bind_param("sssss", $studid,$fname,$lname,$mobileno,$email,$user_id);
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,address,birthdate,graduated,last_school,pref_course,gender,user_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)')){
+				$stmt->bind_param("ssssssssssss", $studid,$fname,$lname,$mobileno,$email,$address,$birthdate,$graduated,$last_school,$pref_course,$gender,$user_id);
 				$stmt->execute();
 
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);

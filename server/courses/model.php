@@ -13,10 +13,11 @@ class Courses {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
+			$coursecode = $mysqli->real_escape_string($data['coursecode']);
 			$coursename = $mysqli->real_escape_string($data['coursename']);
 			$passing_score = $mysqli->real_escape_string($data['passing_score']);
-			if ($stmt = $mysqli->prepare('INSERT INTO courses(coursename,passing_score) VALUES(?,?)')){
-				$stmt->bind_param("ss", $coursename,$passing_score);
+			if ($stmt = $mysqli->prepare('INSERT INTO courses(coursecode,coursename,passing_score) VALUES(?,?,?)')){
+				$stmt->bind_param("sss", $coursecode,$coursename,$passing_score);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -61,6 +62,24 @@ class Courses {
 		}
 	}
 
+	public static function check($value){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM courses c WHERE coursecode LIKE '%$value%' LIMIT 1;";
+			$mysqli->set_charset("utf8");
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'course' =>$row),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
 	public static function update($id,$data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
@@ -68,11 +87,12 @@ class Courses {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
+			$coursecode = $mysqli->real_escape_string($data['coursecode']);
 			$coursename = $mysqli->real_escape_string($data['coursename']);
 			$passing_score = $mysqli->real_escape_string($data['passing_score']);
 
-			if ($stmt = $mysqli->prepare('UPDATE courses SET coursename=?,passing_score=? WHERE id=?')){
-				$stmt->bind_param("sss", $coursename,$passing_score,$id);
+			if ($stmt = $mysqli->prepare('UPDATE courses SET coursecode=?, coursename=?,passing_score=? WHERE id=?')){
+				$stmt->bind_param("ssss", $coursecode,$coursename,$passing_score,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

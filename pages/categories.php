@@ -78,10 +78,12 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <form id="frmSearch" role="form">
                             <a onclick="create_category()" class="btn btn-primary">Add Category</a>
                             <a onclick="refresh()" class="btn btn-info">Refresh</a>
-                            <input type="text" class="form-control" id="inputSearch" placeholder="Search">
-                            <a onclick="fetch_all_category()" class="btn btn-success">Search</a>
+                            <div class="input-group"> <span class="input-group-addon">Search: </span>
+                                <input id="filter" type="text" class="form-control" placeholder="Type here...">
+                            </div>
                         </form>
                     </div>
+                    
                     <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -89,7 +91,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-bordered table-striped" style="margin-bottom:0;" id="tbl_category">
+                                <table class="table table-bordered table-striped paginated" style="margin-bottom:0;" id="tbl_category">
                                     <thead>
                                         <tr role="row">
                                             <th class="sorting" >
@@ -101,7 +103,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                                             <th width="10%"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="searchable">
                                     </tbody>
                                 </table>
                             </div>

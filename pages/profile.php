@@ -82,7 +82,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                                 <div role="tabpanel" class="tab-pane active" id="profile">
                                     <br>
                                     <form role="form"  id="frmProfile" class="padding-top">
-                                        <input type="hidden" name="user_id" value="<?php echo $_SESSION['users']['id'];?>">
+                                        <input type="hidden" name="user_id" value="<?php echo $_SESSION['entrance']['id'];?>">
                                         <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                                         <div class="form-group col-md-6" >
                                             <label>First Name</label>
@@ -113,7 +113,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                                 <div role="tabpanel" class="tab-pane" id="settings">
                                     <br>
                                     <form role="form"  id="frmAccount" class="padding-top">
-                                        <input type="hidden" id="user_id" name="user_id" value="<?php echo $_SESSION['users']['id'];?>">
+                                        <input type="hidden" id="user_id" name="user_id" value="<?php echo $_SESSION['entrance']['id'];?>">
                                         <div class="form-group">
                                             <div class="col-md-6">
                                                 <label>Username</label>
@@ -164,6 +164,14 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!-- Notify -->
+    <script src="../bower_components/notifyjs/dist/notify.js"></script>
+    <script src="../bower_components/notifyjs/dist/styles/bootstrap/notify-bootstrap.js"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
+    <!-- spinJS -->
+    <script src="../bower_components/spin.js/spin.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../js/pages/profile.js"></script>

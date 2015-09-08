@@ -79,10 +79,11 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <form id="frmSearch" role="form">
                             <a onclick="create_student()" class="btn btn-primary">Add Student</a>
                             <!-- <a onclick="create_student_bulk()" class="btn btn-primary">Add Student in Bulk</a> -->
-                            <a class="btn btn-primary" disabled="true">Add Student in Bulk</a>
+                            <!-- <a class="btn btn-primary" disabled="true">Add Student in Bulk</a> -->
                             <a onclick="refresh()" class="btn btn-info">Refresh</a>
-                            <input type="text" class="form-control" id="inputSearch" placeholder="Search">
-                            <a onclick="fetch_all_student()" class="btn btn-success">Search</a>
+                            <div class="input-group"> <span class="input-group-addon">Search: </span>
+                                <input id="filter" type="text" class="form-control" placeholder="Type here...">
+                            </div>
                         </form>
                     </div>
                     <br>
@@ -93,15 +94,18 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="tbl_students">
+                                <table class="table table-striped table-bordered table-hover paginated" id="tbl_students">
                                     <thead>
                                         <tr>
                                             <th>Fullname</th>
                                             <th>Mobile No</th>
+                                            <th>Gender</th>
+                                            <th>Birthday</th>
+                                            <th>Pref. Course</th>
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody class="searchable"></tbody>
                                 </table>
                             </div>
                         </div>

@@ -14,10 +14,10 @@ class Category {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
-			$data = $mysqli->real_escape_string($data['category_name']);
-			$time = $mysqli->real_escape_string($data['time']);
+			$category_name = $mysqli->real_escape_string($data['category_name']);
+			$time = $data['time'];
 			if ($stmt = $mysqli->prepare('INSERT INTO category(name,time) VALUES(?,?)')){
-				$stmt->bind_param('ss', $data,$time);
+				$stmt->bind_param('ss', $category_name,$time);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -74,8 +74,8 @@ class Category {
 		    return;
 		}else{
 			$category_name = $mysqli->real_escape_string($data['category_name']);
-			$time = $mysqli->real_escape_string($data['time']);
-			// $id = $mysqli->real_escape_string($data['id']);
+			$time = $data['time'];
+			
 			if ($stmt = $mysqli->prepare('UPDATE category SET `name`=?,time=? WHERE id=?')){
 				$stmt->bind_param('ssi', $category_name,$time,$id);
 				$stmt->execute();
