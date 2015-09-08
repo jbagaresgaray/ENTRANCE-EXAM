@@ -1,4 +1,4 @@
-<div class="modal fade" id="addstudent" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -44,6 +44,8 @@
                                 <input type="text" class="form-control" name="mobileno" id="mobileno" placeholder="Mobile No" />
                                 <span class="help-inline"></span>
                             </div>
+                        </div>
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Address</label>
                                 <textarea class="form-control" name="address" id="address" placeholder="Address"></textarea>
@@ -54,8 +56,6 @@
                                 <input type="date" class="form-control" name="birthdate" id="birthdate"/>
                                 <span class="help-inline"></span>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Date Graduated</label>
                                 <input type="date" class="form-control" name="graduated" id="graduated"/>
@@ -70,22 +70,6 @@
                                 <label>Preferred Course</label>
                                 <select class="form-control" id="pref_course" name="pref_course">
                                 </select>
-                                <span class="help-inline"></span>
-                            </div>
-                            <br><hr>
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" id="username" placeholder="Username"/>
-                                <span class="help-inline"></span>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
-                                <span class="help-inline"></span>
-                            </div>
-                            <div class="form-group">
-                                <label>Confirm Password</label>
-                                <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm Password" />
                                 <span class="help-inline"></span>
                             </div>
                         </div>

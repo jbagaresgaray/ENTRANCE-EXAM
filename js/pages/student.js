@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+    fetch_courses();
+
     fetch_all_student();
 
     $('table.paginated').each(function() {
@@ -63,14 +66,52 @@ $(document).on("click", ".edit-icon", function() {
     getData(id);
 });
 
+$(document).on("click", ".key-icon", function() {
+    var id = $(this).data('id');
+    console.log('id: ',id);
+   $('#keyStudent').modal('show');
+});
+
 $(document).on("click", ".result-icon", function() {
     var studentid = $(this).data('studentid');
     var name = $(this).data('name');
 
     window.sessionStorage['studentid'] = studentid;
     window.sessionStorage['StudentName'] = name;
-    window.location.href='flot.php';
+    window.location.href = 'flot.php';
 });
+
+
+function fetch_courses() {
+    $.ajax({
+        url: '../server/courses/',
+        async: true,
+        type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        success: function(response) {
+            var decode = response;
+            $('#pref_course').empty();
+            for (var i = 0; i < decode.courses.length; i++) {
+                var row = decode.courses;
+                var html = '<option value="' + row[i].id + '">' + row[i].coursename + '</option>';
+                $("#pref_course").append(html);
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
+        }
+    });
+}
+
 
 function resetHelpInLine() {
     $('span.help-inline').each(function() {
@@ -108,6 +149,9 @@ function fetch_all_student() {
                         var html = '<tr class="odd">\
                                         <td class="sorting">' + row[i].lname + ', ' + row[i].fname + '</td>\
                                         <td class="sorting">' + row[i].mobileno + '</td>\
+                                        <td class="sorting">' + row[i].gender + '</td>\
+                                        <td class="sorting">' + row[i].birthdate + '</td>\
+                                        <td class="sorting">' + row[i].pref_course1 + '</td>\
                                         <td class=" ">\
                                           <div class="text-right">\
                                             <a class="result-icon btn btn-primary btn-sm" data-name="' + row[i].lname + ', ' + row[i].fname + '" data-studentid="' + row[i].studid + '">\
@@ -115,6 +159,9 @@ function fetch_all_student() {
                                             </a>\
                                             <a class="edit-icon btn btn-success btn-sm" data-id="' + row[i].id + '">\
                                               <i class="fa fa-pencil"></i>\
+                                            </a>\
+                                            <a class="key-icon btn btn-warning btn-sm" data-id="' + row[i].id + '">\
+                                              <i class="fa fa-key"></i>\
                                             </a>\
                                             <a class="remove-icon btn btn-danger btn-sm" data-id="' + row[i].id + '">\
                                               <i class="fa fa-remove"></i>\
@@ -179,19 +226,25 @@ function getData(id) {
             'X-Auth-Token': $("input[name='csrf']").val()
         },
         success: function(response) {
-            var decode = response;
+            var decode = response;;
             console.log('response: ', decode);
             if (decode.success == true) {
                 $("#studid").val(decode.student.studid);
                 $("#fname").val(decode.student.fname);
                 $("#lname").val(decode.student.lname);
                 $("#mobileno").val(decode.student.mobileno);
-                $("#username").val(decode.student.username);
                 $("#email").val(decode.student.email);
+                $('#gender').val(decode.student.gender);
+                $('#address').val(decode.student.address);
+                $('#graduated').val(decode.student.graduated);
+                $('#last_school').val(decode.student.last_school);
+                $('#birthdate').val(decode.student.birthdate);
+                $('#pref_course').val(decode.student.pref_course);
+
                 $("#id").val(decode.student.id);
                 $('#user_id').val(decode.student.user_id);
 
-                $('#addstudent').modal('show');
+                $('#editStudent').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
                 return;
@@ -263,32 +316,38 @@ function save() {
         empty = true;
     }
 
-    if ($('#username').val() == '') {
-        $('#username').next('span').text('Username is required.');
-        empty = true;
-    }
-
-    if ($('#password').val() == '') {
-        $('#password').next('span').text('Password is required.');
-        empty = true;
-    }
-
-    if ($('#password2').val() == '') {
-        $('#password2').next('span').text('Confirm Password is required.');
-        empty = true;
-    }
-
-    if ($('#password').val() !== $('#password2').val()) {
-        $('#password2').next('span').text('Password and Confirm Password must be the same.');
-        empty = true;
-    }
-
     if (empty == true) {
         $.notify('Please input all the required fields correctly.', "error");
         return false;
     }
 
     if ($("#id").val() === '') {
+
+        if ($('#username').val() == '') {
+            $('#username').next('span').text('Username is required.');
+            empty = true;
+        }
+
+        if ($('#password').val() == '') {
+            $('#password').next('span').text('Password is required.');
+            empty = true;
+        }
+
+        if ($('#password2').val() == '') {
+            $('#password2').next('span').text('Confirm Password is required.');
+            empty = true;
+        }
+
+        if ($('#password').val() !== $('#password2').val()) {
+            $('#password2').next('span').text('Password and Confirm Password must be the same.');
+            empty = true;
+        }
+
+        if (empty == true) {
+            $.notify('Please input all the required fields correctly.', "error");
+            return false;
+        }
+
         $.ajax({
             url: '../server/student/',
             async: false,
@@ -301,9 +360,15 @@ function save() {
                 fname: $('#fname').val(),
                 lname: $('#lname').val(),
                 mobileno: $('#mobileno').val(),
+                email: $('#email').val(),
+                address: $('#address').val(),
+                birthdate: $('#birthdate').val(),
+                graduated: $('#graduated').val(),
+                last_school: $('#last_school').val(),
+                pref_course: $('#pref_course').val(),
+                gender: $('#gender').val(),
                 username: $('#username').val(),
-                password: $('#password').val(),
-                email : $('#email').val()
+                password: $('#password').val()
             },
             success: function(response) {
                 var decode = response;
@@ -341,9 +406,15 @@ function save() {
                 fname: $('#fname').val(),
                 lname: $('#lname').val(),
                 mobileno: $('#mobileno').val(),
+                email: $('#email').val(),
+                address: $('#address').val(),
+                birthdate: $('#birthdate').val(),
+                graduated: $('#graduated').val(),
+                last_school: $('#last_school').val(),
+                pref_course: $('#pref_course').val(),
+                gender: $('#gender').val(),
                 username: $('#username').val(),
-                password: $('#password').val(),
-                email : $('#email').val()
+                password: $('#password').val()
             },
             success: function(response) {
                 var decode = response;

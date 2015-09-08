@@ -46,6 +46,12 @@ class StudentController {
 		    	'username' => $data['username'],
 		    	'password' => $data['password'],
 		    	'email' => $data['email'],
+		    	'address' => $data['address'],
+		    	'birthdate' => $data['birthdate'],
+		    	'graduated' => $data['graduated'],
+		    	'last_school' => $data['last_school'],
+		    	'pref_course' => $data['pref_course'],
+		    	'gender' => $data['gender'],
 		    	'level'=> 'Student'
 		    ];
 			Student::create($var);

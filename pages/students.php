@@ -89,7 +89,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                     <br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            List of Students
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -122,6 +122,8 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
         <!-- Modal -->
         <?php include('modals/bulkstudent.php'); ?>
         <?php include('modals/student.php'); ?>
+        <?php include('modals/editStudent.php'); ?>
+        <?php include('modals/keyStudent.php'); ?>
     </div>
     <!-- /#wrapper -->
 

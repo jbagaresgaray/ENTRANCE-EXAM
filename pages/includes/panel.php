@@ -17,7 +17,7 @@
                         <a href="courses.php">Manage Courses</a>
                     </li>
                     <li>
-                        <a href="courses.php">Manage Exam Schedule</a>
+                        <a href="#">Manage Exam Schedule</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

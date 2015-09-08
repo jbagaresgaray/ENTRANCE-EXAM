@@ -107,7 +107,7 @@ class Student {
 		    return;
 		}else{
 
-			$query1 ="SELECT * FROM student c;";
+			$query1 ="SELECT c.*, (SELECT coursecode FROM courses WHERE id=c.pref_course LIMIT 1) AS pref_course1 FROM student c;";
 			$result1 = $mysqli->query($query1);
 			$data = array();
 			while($row = $result1->fetch_array(MYSQLI_ASSOC)){

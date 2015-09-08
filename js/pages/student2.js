@@ -1,5 +1,6 @@
 $(document).ready(function() {
     clear();
+    fetch_courses();
 });
 
 function resetHelpInLine() {
@@ -8,12 +9,49 @@ function resetHelpInLine() {
     });
 }
 
+function fetch_courses() {
+    $.ajax({
+        url: '../server/courses/',
+        async: true,
+        type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        success: function(response) {
+            var decode = response;
+            $('#pref_course').empty();
+            for (var i = 0; i < decode.courses.length; i++) {
+                var row = decode.courses;
+                var html = '<option value="' + row[i].id + '">' + row[i].coursename + '</option>';
+                $("#pref_course").append(html);
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
+        }
+    });
+}
+
+
 function clear() {
     $('#studid').val('');
     $('#fname').val('');
     $('#lname').val('');
     $('#email').val('');
     $('#mobileno').val('');
+    $('#gender').val('');
+    $('#address').val('');
+    $('#last_school').val('');
+    $('#pref_course').val('');
+
+
     $('#username').val('');
     $('#password').val('');
     $('#password2').val('');
@@ -97,9 +135,15 @@ function save() {
             fname: $('#fname').val(),
             lname: $('#lname').val(),
             mobileno: $('#mobileno').val(),
+            email: $('#email').val(),
+            address: $('#address').val(),
+            birthdate: $('#birthdate').val(),
+            graduated: $('#graduated').val(),
+            last_school: $('#last_school').val(),
+            pref_course: $('#pref_course').val(),
+            gender: $('#gender').val(),
             username: $('#username').val(),
-            password: $('#password').val(),
-            email: $('#email').val()
+            password: $('#password').val()
         },
         success: function(response) {
             var decode = response;
