@@ -62,6 +62,25 @@ CREATE TABLE IF NOT EXISTS `courses` (
 --
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `exam_sched`
+--
+DROP TABLE IF EXISTS `exam_sched`;
+CREATE TABLE IF NOT EXISTS `exam_sched` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `decription` varchar(100) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+--
+-- Dumping data for table `courses`
+--
+-- --------------------------------------------------------
+
 
 --
 -- Table structure for table `lesson`

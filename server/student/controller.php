@@ -156,21 +156,19 @@ class StudentController {
 		}else if(isset($data['email']) && empty($data['email'])){
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Email Address is required'),JSON_PRETTY_PRINT);
 			die();
-		}else if(isset($data['username']) && empty($data['username'])){
-			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Username is required'),JSON_PRETTY_PRINT);
-			die();
-		}else if(isset($data['password']) && empty($data['password'])){
-			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Password is required'),JSON_PRETTY_PRINT);
-			die();
 		}else{
 			$var = [
 		    	'studid' => $data['studid'],
 		    	'fname' => $data['fname'],
 		    	'lname' => $data['lname'],
 		    	'mobileno' => $data['mobileno'],
-		    	'username' => $data['username'],
-		    	'password' => $data['password'],
-		    	'email' => $data['email']
+		    	'email' => $data['email'],
+		    	'address' => $data['address'],
+		    	'birthdate' => $data['birthdate'],
+		    	'graduated' => $data['graduated'],
+		    	'last_school' => $data['last_school'],
+		    	'pref_course' => $data['pref_course'],
+		    	'gender' => $data['gender']
 		    ];
 			Student::update($id,$var);
 		}
@@ -233,7 +231,11 @@ class StudentController {
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Please enter a valid confirmed password'),JSON_PRETTY_PRINT);
 			die();
 		}else{
-            $id = $_SESSION['entrance_student']['id'];
+			if(isset($_SESSION['entrance_student'])){
+				$id = $_SESSION['entrance_student']['id'];
+			}else{
+				$id = $data['id'];
+			}  
 			Student::updateAccount($id,$data);
 		}
 		

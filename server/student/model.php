@@ -166,18 +166,21 @@ class Student {
 			$lname = $mysqli->real_escape_string($data['lname']);
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
 			$email = $mysqli->real_escape_string($data['email']);
-
-			$username = $mysqli->real_escape_string($data['username']);
-			$password = $mysqli->real_escape_string($data['password']);
+			$address = $mysqli->real_escape_string($data['address']);
+			$birthdate = $mysqli->real_escape_string($data['birthdate']);
+			$graduated = $mysqli->real_escape_string($data['graduated']);
+			$last_school = $mysqli->real_escape_string($data['last_school']);
+			$pref_course = $mysqli->real_escape_string($data['pref_course']);
+			$gender = $mysqli->real_escape_string($data['gender']);
 
 			$newid = explode('-',$id);
-
-			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=?,email=? WHERE id=?')){
-				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$email,$newid[0]);
+		
+			if ($stmt = $mysqli->prepare('UPDATE student SET studid=?,fname=?,lname=?,mobileno=?,email=?,address=?,birthdate=?,graduated=?,last_school=?,pref_course=?,gender=? WHERE id=?')){
+				$stmt->bind_param("ssssssssssss", $studid,$fname,$lname,$mobileno,$email,$address,$birthdate,$graduated,$last_school,$pref_course,$gender,$newid[0]);
 				$stmt->execute();
 
-				$stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,str_password=?,fname=?,lname=?,email=?,mobileno=? WHERE id=?');
-				$stmt->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$newid[1]);
+				$stmt = $mysqli->prepare('UPDATE userdata SET fname=?,lname=?,email=?,mobileno=? WHERE id=?');
+				$stmt->bind_param("sssss", $fname,$lname,$email,$mobileno,$newid[1]);
 				$stmt->execute();
 
 				print json_encode(array('success' =>true,'msg' =>'Profile successfully updated'),JSON_PRETTY_PRINT);
@@ -197,8 +200,10 @@ class Student {
 			$username = $mysqli->real_escape_string($data['username']);
 			$password = $mysqli->real_escape_string($data['password']);
 
+			$newid = explode('-',$id);
+			
 			if ($stmt = $mysqli->prepare('UPDATE userdata SET username=?,password=?,str_password=? WHERE id=?')){
-				$stmt->bind_param("ssss", $username,sha1($password),$password,$id);
+				$stmt->bind_param("ssss", $username,sha1($password),$password,$newid[1]);
 				$stmt->execute();
 
 				$query1 ="SELECT u.id,u.username,u.email,u.mobileno,u.fname,u.lname,u.level,s.studid FROM userdata u LEFT JOIN student s ON u.id = s.user_id WHERE u.id = $id;";
@@ -206,7 +211,9 @@ class Student {
 	            if ($result) {
 	                if($row = $result->fetch_assoc()){
 	                    /*** set the session user_id variable ***/
-	                    $_SESSION['entrance_student'] = $row;
+	                    if (isset($_SESSION['entrance_student'])) {
+	                    	$_SESSION['entrance_student'] = $row;
+	                    }	                    
 
         				$message = 'Hello there! You have successfully changed your password. Your New App Password: ' . $password. ' .';
 						$url = 'https://www.itexmo.com/php_api/api.php';

@@ -68,8 +68,8 @@ $(document).on("click", ".edit-icon", function() {
 
 $(document).on("click", ".key-icon", function() {
     var id = $(this).data('id');
-    console.log('id: ',id);
-   $('#keyStudent').modal('show');
+    getAccounts(id);
+    $('#keyStudent').modal('show');
 });
 
 $(document).on("click", ".result-icon", function() {
@@ -93,10 +93,12 @@ function fetch_courses() {
         success: function(response) {
             var decode = response;
             $('#pref_course').empty();
+            $('#u_pref_course').empty();
             for (var i = 0; i < decode.courses.length; i++) {
                 var row = decode.courses;
                 var html = '<option value="' + row[i].id + '">' + row[i].coursename + '</option>';
                 $("#pref_course").append(html);
+                $('#u_pref_course').append(html);
             }
         },
         error: function(error) {
@@ -229,22 +231,57 @@ function getData(id) {
             var decode = response;;
             console.log('response: ', decode);
             if (decode.success == true) {
-                $("#studid").val(decode.student.studid);
-                $("#fname").val(decode.student.fname);
-                $("#lname").val(decode.student.lname);
-                $("#mobileno").val(decode.student.mobileno);
-                $("#email").val(decode.student.email);
-                $('#gender').val(decode.student.gender);
-                $('#address').val(decode.student.address);
-                $('#graduated').val(decode.student.graduated);
-                $('#last_school').val(decode.student.last_school);
-                $('#birthdate').val(decode.student.birthdate);
-                $('#pref_course').val(decode.student.pref_course);
+                $("#u_studid").val(decode.student.studid);
+                $("#u_fname").val(decode.student.fname);
+                $("#u_lname").val(decode.student.lname);
+                $("#u_mobileno").val(decode.student.mobileno);
+                $("#u_email").val(decode.student.email);
+                $('#u_gender').val(decode.student.gender);
+                $('#u_address').val(decode.student.address);
+                $('#u_graduated').val(decode.student.graduated);
+                $('#u_last_school').val(decode.student.last_school);
+                $('#u_birthdate').val(decode.student.birthdate);
+                $('#u_pref_course').val(decode.student.pref_course);
 
                 $("#id").val(decode.student.id);
                 $('#user_id').val(decode.student.user_id);
 
                 $('#editStudent').modal('show');
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return;
+            }
+
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
+        }
+    });
+}
+
+function getAccounts(id) {
+    $.ajax({
+        url: '../server/student/' + id,
+        async: true,
+        type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        success: function(response) {
+            var decode = response;;
+            console.log('response: ', decode);
+            if (decode.success == true) {
+                $("#key_username").val(decode.student.username);
+
+                $("#key_id").val(decode.student.id);
+                $('#key_user_id').val(decode.student.user_id);
+
+                $('#keyStudent').modal('show');
             } else if (decode.success === false) {
                 $.notify(decode.msg, "error");
                 return;
@@ -276,10 +313,37 @@ function clear() {
     $('#fname').val('');
     $('#lname').val('');
     $('#mobileno').val('');
+    $('#email').val('');
+    $('#gender').val('');
+    $('#address').val('');
+    $('#birthdate').val('');
+    $('#graduated').val('');
+    $('#last_school').val('');
+    $('#pref_course').val('');
+
     $('#username').val('');
     $('#password').val('');
-    $('#email').val('');
     $('#password2').val('');
+}
+
+function clearEdit() {
+    $('#u_studid').val('');
+    $('#u_fname').val('');
+    $('#u_lname').val('');
+    $('#u_mobileno').val('');
+    $('#u_email').val('');
+    $('#u_gender').val('');
+    $('#u_address').val('');
+    $('#u_birthdate').val('');
+    $('#u_graduated').val('');
+    $('#u_last_school').val('');
+    $('#u_pref_course').val('');
+}
+
+function clearkey() {
+    $('#key_username').val('');
+    $('#key_password').val('');
+    $('#key_password2').val('');
 }
 
 function save() {
@@ -316,129 +380,227 @@ function save() {
         empty = true;
     }
 
+    if ($('#username').val() == '') {
+        $('#username').next('span').text('Username is required.');
+        empty = true;
+    }
+
+    if ($('#password').val() == '') {
+        $('#password').next('span').text('Password is required.');
+        empty = true;
+    }
+
+    if ($('#password2').val() == '') {
+        $('#password2').next('span').text('Confirm Password is required.');
+        empty = true;
+    }
+
+    if ($('#password').val() !== $('#password2').val()) {
+        $('#password2').next('span').text('Password and Confirm Password must be the same.');
+        empty = true;
+    }
+
     if (empty == true) {
         $.notify('Please input all the required fields correctly.', "error");
         return false;
     }
 
-    if ($("#id").val() === '') {
-
-        if ($('#username').val() == '') {
-            $('#username').next('span').text('Username is required.');
-            empty = true;
-        }
-
-        if ($('#password').val() == '') {
-            $('#password').next('span').text('Password is required.');
-            empty = true;
-        }
-
-        if ($('#password2').val() == '') {
-            $('#password2').next('span').text('Confirm Password is required.');
-            empty = true;
-        }
-
-        if ($('#password').val() !== $('#password2').val()) {
-            $('#password2').next('span').text('Password and Confirm Password must be the same.');
-            empty = true;
-        }
-
-        if (empty == true) {
-            $.notify('Please input all the required fields correctly.', "error");
-            return false;
-        }
-
-        $.ajax({
-            url: '../server/student/',
-            async: false,
-            type: 'POST',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                studid: $('#studid').val(),
-                fname: $('#fname').val(),
-                lname: $('#lname').val(),
-                mobileno: $('#mobileno').val(),
-                email: $('#email').val(),
-                address: $('#address').val(),
-                birthdate: $('#birthdate').val(),
-                graduated: $('#graduated').val(),
-                last_school: $('#last_school').val(),
-                pref_course: $('#pref_course').val(),
-                gender: $('#gender').val(),
-                username: $('#username').val(),
-                password: $('#password').val()
-            },
-            success: function(response) {
-                var decode = response;
-                if (decode.success == true) {
-                    $('#addstudent').modal('hide');
-                    refresh();
-                    $.notify("Record successfully saved", "success");
-                } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
-                    $.notify(decode.msg, "error");
-                    return;
-                }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
-                }
+    $.ajax({
+        url: '../server/student/',
+        async: false,
+        type: 'POST',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        data: {
+            studid: $('#studid').val(),
+            fname: $('#fname').val(),
+            lname: $('#lname').val(),
+            mobileno: $('#mobileno').val(),
+            email: $('#email').val(),
+            address: $('#address').val(),
+            birthdate: $('#birthdate').val(),
+            graduated: $('#graduated').val(),
+            last_school: $('#last_school').val(),
+            pref_course: $('#pref_course').val(),
+            gender: $('#gender').val(),
+            username: $('#username').val(),
+            password: $('#password').val()
+        },
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $('#addstudent').modal('hide');
+                refresh();
+                $.notify("Record successfully saved", "success");
+            } else if (decode.success === false) {
+                $('#btn-save').button('reset');
+                $.notify(decode.msg, "error");
                 return;
             }
-        });
-    } else {
-        $.ajax({
-            url: '../server/student/' + ($('#id').val() + '-' + $('#user_id').val()),
-            async: false,
-            type: 'PUT',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                studid: $('#studid').val(),
-                fname: $('#fname').val(),
-                lname: $('#lname').val(),
-                mobileno: $('#mobileno').val(),
-                email: $('#email').val(),
-                address: $('#address').val(),
-                birthdate: $('#birthdate').val(),
-                graduated: $('#graduated').val(),
-                last_school: $('#last_school').val(),
-                pref_course: $('#pref_course').val(),
-                gender: $('#gender').val(),
-                username: $('#username').val(),
-                password: $('#password').val()
-            },
-            success: function(response) {
-                var decode = response;
-                console.log('decode: ', decode);
-                if (decode.success == true) {
-                    $('#addstudent').modal('hide');
-                    refresh();
-                    clear();
-                    $.notify("Record successfully updated", "success");
-                } else if (decode.success === false) {
-                    $.notify(decode.msg, "error");
-                    return;
-                }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
-                }
-                return;
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
             }
-        });
+            return;
+        }
+    });
+}
+
+function update() {
+    resetHelpInLine();
+
+    var empty = false;
+
+    $('input[type="text"]').each(function() {
+        $(this).val($(this).val().trim());
+    });
+
+    if ($('#u_studid').val() == '') {
+        $('#u_studid').next('span').text('Student ID is required.');
+        empty = true;
     }
+
+    if ($('#u_fname').val() == '') {
+        $('#u_fname').next('span').text('First Name is required.');
+        empty = true;
+    }
+
+    if ($('#u_lname').val() == '') {
+        $('#u_lname').next('span').text('Last Name is required.');
+        empty = true;
+    }
+
+    if ($('#u_email').val() == '') {
+        $('#u_email').next('span').text('Email Address is required.');
+        empty = true;
+    }
+
+    if ($('#u_mobileno').val() == '') {
+        $('#u_mobileno').next('span').text('Mobile No is required.');
+        empty = true;
+    }
+
+    if (empty == true) {
+        $.notify('Please input all the required fields correctly.', "error");
+        return false;
+    }
+
+    $.ajax({
+        url: '../server/student/' + ($('#id').val() + '-' + $('#user_id').val()),
+        async: false,
+        type: 'PUT',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        data: {
+            studid: $('#u_studid').val(),
+            fname: $('#u_fname').val(),
+            lname: $('#u_lname').val(),
+            mobileno: $('#u_mobileno').val(),
+            email: $('#u_email').val(),
+            address: $('#u_address').val(),
+            birthdate: $('#u_birthdate').val(),
+            graduated: $('#u_graduated').val(),
+            last_school: $('#u_last_school').val(),
+            pref_course: $('#u_pref_course').val(),
+            gender: $('#u_gender').val()
+        },
+        success: function(response) {
+            var decode = response;
+            console.log('decode: ', decode);
+            if (decode.success == true) {
+                $('#editStudent').modal('hide');
+                refresh();
+                clear();
+                $.notify("Record successfully updated", "success");
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return;
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
+        }
+    });
+}
+
+function updateAccount(){
+    resetHelpInLine();
+
+    var empty = false;
+
+    $('input[type="text"]').each(function() {
+        $(this).val($(this).val().trim());
+    });
+
+    if ($('#key_username').val() == '') {
+        $('#key_username').next('span').text('Username is required.');
+        empty = true;
+    }
+
+    if ($('#key_password').val() == '') {
+        $('#key_password').next('span').text('Password is required.');
+        empty = true;
+    }
+
+    if ($('#key_password2').val() == '') {
+        $('#key_password2').next('span').text('Password is required.');
+        empty = true;
+    }
+
+    if ($('#key_password').val() !== $('#key_password2').val()) {
+        $('#key_password').next('span').text('Password and Confirmed Password should match.');
+        empty = true;
+    }
+
+    if (empty == true) {
+        $.notify('Please input all the required fields correctly.', "error");
+        return false;
+    }
+
+    $.ajax({
+        url: '../server/student/account/' + ($('#key_id').val() + '-' + $('#key_user_id').val()),
+        async: false,
+        type: 'PUT',
+        data: {
+            username: $('#key_username').val(),
+            password: $('#key_password').val(),
+            password2: $('#key_password2').val()
+        },
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify("User Account successfully updated", "success");
+                $('#keyStudent').modal('hide');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return;
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            return;
+        }
+    });
 }

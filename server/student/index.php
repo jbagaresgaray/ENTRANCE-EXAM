@@ -17,7 +17,12 @@
 		
 			if(isset($request) && !empty($request) && $request[0] !== ''){
 				if ($request[0] == 'account'){
-					StudentController::updateAccount($_REQUEST);
+					if(isset($request[1]) && !empty($request[1])){
+						$_REQUEST['id'] = $request[1];
+						StudentController::updateAccount($_REQUEST);
+					}else{
+						StudentController::updateAccount($_REQUEST);
+					}
 				}else if ($request[0] == 'profile'){
 					StudentController::updateProfile($_REQUEST);
 				}else{

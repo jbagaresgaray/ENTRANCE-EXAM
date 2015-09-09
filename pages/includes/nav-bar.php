@@ -6,7 +6,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">EXAMINER v1.0</a>
+        <a class="navbar-brand" href="main.php">
+            EXAMINER v1.0
+        </a>
     </div>
     <!-- /.navbar-header -->
     <?php include('navbar-top-links.php') ?>

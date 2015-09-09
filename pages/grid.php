@@ -88,7 +88,10 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                     <div class="panel panel-default">
                          <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                         <div class="panel-body" id="printTable">
-                            <h1 class="text-center">List of Passers</h1>
+                            <img src="../dist/img/logo2.jpg" alt="DS System" style="width:70px;" class="pull-left">
+                            <img src="../dist/img/logo1.jpg" alt="DS System" style="width:80px;" class="pull-right">
+                            <h1 class="text-center">NONESCOST Examiner</h1>
+                            <h2 class="text-center">List of Passers</h2>
                             <div class="dataTable_wrapper" id="wrapTable">
                             </div>
                         </div>

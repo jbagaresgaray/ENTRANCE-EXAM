@@ -45,8 +45,10 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
             <!-- /.row -->
             <div class="row">
                     <div class="col-lg-12">
+                        <img src="../dist/img/logo2.jpg" alt="DS System" style="width:70px;margin-top:10px;" class="pull-left">
+                        <img src="../dist/img/logo1.jpg" alt="DS System" style="width:80px;margin-top:10px;" class="pull-right">
                         <h1 class="page-header">
-                            Welcome to <small>Examiner v0.1</small>
+                            Welcome to <small class="text-primary">Examiner v0.1</small>
                            
                         </h1>                
                     </div>

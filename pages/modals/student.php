@@ -8,8 +8,6 @@
                 <form method="post">
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="hidden" name="id" id="id"/>
-                            <input type="hidden" name="user_id" id="user_id"/>
                             <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                             <div class="form-group">
                                 <label>Student ID</label>
