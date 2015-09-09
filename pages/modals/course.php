@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Add Category</h3>
+                <h3>Manage Course</h3>
             </div>
             <div class="modal-body">
                 <form role="form">
