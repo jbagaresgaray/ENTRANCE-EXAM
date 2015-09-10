@@ -405,51 +405,61 @@ function save() {
         return false;
     }
 
-    $.ajax({
-        url: '../server/student/',
-        async: false,
-        type: 'POST',
-        headers: {
-            'X-Auth-Token': $("input[name='csrf']").val()
-        },
-        data: {
-            studid: $('#studid').val(),
-            fname: $('#fname').val(),
-            lname: $('#lname').val(),
-            mobileno: $('#mobileno').val(),
-            email: $('#email').val(),
-            address: $('#address').val(),
-            birthdate: $('#birthdate').val(),
-            graduated: $('#graduated').val(),
-            last_school: $('#last_school').val(),
-            pref_course: $('#pref_course').val(),
-            gender: $('#gender').val(),
-            username: $('#username').val(),
-            password: $('#password').val()
-        },
-        success: function(response) {
-            var decode = response;
-            if (decode.success == true) {
-                $('#addstudent').modal('hide');
-                refresh();
-                $.notify("Record successfully saved", "success");
-            } else if (decode.success === false) {
-                $('#btn-save').button('reset');
-                $.notify(decode.msg, "error");
-                return;
+    if (checkName($('#lname').val(), $('#fname').val()) == false) {
+        if (checkValue('studid', $('#studid').val()) == false) {
+            if (checkValue('email', $('#email').val()) == false) {
+                if (checkAccount('username', $('#username').val()) == false) {
+
+                    $.ajax({
+                        url: '../server/student/',
+                        async: false,
+                        type: 'POST',
+                        headers: {
+                            'X-Auth-Token': $("input[name='csrf']").val()
+                        },
+                        data: {
+                            studid: $('#studid').val(),
+                            fname: $('#fname').val(),
+                            lname: $('#lname').val(),
+                            mobileno: $('#mobileno').val(),
+                            email: $('#email').val(),
+                            address: $('#address').val(),
+                            birthdate: $('#birthdate').val(),
+                            graduated: $('#graduated').val(),
+                            last_school: $('#last_school').val(),
+                            pref_course: $('#pref_course').val(),
+                            gender: $('#gender').val(),
+                            username: $('#username').val(),
+                            password: $('#password').val()
+                        },
+                        success: function(response) {
+                            var decode = response;
+                            if (decode.success == true) {
+                                $('#addstudent').modal('hide');
+                                refresh();
+                                $.notify("Record successfully saved", "success");
+                            } else if (decode.success === false) {
+                                $('#btn-save').button('reset');
+                                $.notify(decode.msg, "error");
+                                return;
+                            }
+                        },
+                        error: function(error) {
+                            console.log("Error:");
+                            console.log(error.responseText);
+                            console.log(error.message);
+                            if (error.responseText) {
+                                var msg = JSON.parse(error.responseText)
+                                $.notify(msg.msg, "error");
+                            }
+                            return;
+                        }
+                    });
+
+                }
             }
-        },
-        error: function(error) {
-            console.log("Error:");
-            console.log(error.responseText);
-            console.log(error.message);
-            if (error.responseText) {
-                var msg = JSON.parse(error.responseText)
-                $.notify(msg.msg, "error");
-            }
-            return;
         }
-    });
+    }
 }
 
 function update() {
@@ -537,7 +547,7 @@ function update() {
     });
 }
 
-function updateAccount(){
+function updateAccount() {
     resetHelpInLine();
 
     var empty = false;
@@ -603,4 +613,97 @@ function updateAccount(){
             return;
         }
     });
+}
+
+function checkValue(field, value) {
+    var invalid = false;
+    $.ajax({
+        url: '../server/student/check/' + field + '/' + value,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(value + ' - ' + decode.msg, "error");
+                invalid = true;
+            } else if (decode.success === false) {
+                invalid = false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+                invalid = true;
+            }
+        }
+    });
+    console.log('checkValue: ', invalid);
+    return invalid;
+}
+
+function checkAccount(field, value) {
+    var invalid = false;
+    $.ajax({
+        url: '../server/student/checkaccount/' + field + '/' + value,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(value + ' - ' + decode.msg, "error");
+                invalid = true;
+            } else if (decode.success === false) {
+                invalid = false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+                invalid = true;
+            }
+        }
+    });
+    console.log('checkValue: ', invalid);
+    return invalid;
+}
+
+function checkName(lastname, firstname) {
+    var invalid = false;
+    $.ajax({
+        url: '../server/student/checkName/' + lastname + '/' + firstname,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify((lastname + ', ' + firstname) + ' - ' + decode.msg, "error");
+                invalid = true;
+            } else if (decode.success === false) {
+                invalid = false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+                invalid = true;
+            }
+        }
+    });
+    console.log('checkValue: ', invalid);
+    return invalid;
 }

@@ -273,45 +273,53 @@ function save() {
     }
 
     if ($("#id").val() === '') {
-        $.ajax({
-            url: '../server/users/',
-            async: false,
-            type: 'POST',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                fname: $('#fname').val(),
-                lname: $('#lname').val(),
-                mobileno: $('#mobileno').val(),
-                username: $('#username').val(),
-                password: $('#password').val(),
-                email: $('#email').val(),
-                level: $('#level').val()
-            },
-            success: function(response) {
-                var decode = response;
-                if (decode.success == true) {
-                    $('#adduser').modal('hide');
-                    refresh();
-                    $.notify("Record successfully saved", "success");
-                } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
-                    $.notify(decode.msg, "error");
-                    return;
+
+        if (checkName($('#lname').val(), $('#fname').val()) == false) {
+            if (checkValue('email', $('#email').val()) == false) {
+                if (!checkValue('username', $('#username').val()) == false) {
+                    $.ajax({
+                        url: '../server/users/',
+                        async: false,
+                        type: 'POST',
+                        headers: {
+                            'X-Auth-Token': $("input[name='csrf']").val()
+                        },
+                        data: {
+                            fname: $('#fname').val(),
+                            lname: $('#lname').val(),
+                            mobileno: $('#mobileno').val(),
+                            username: $('#username').val(),
+                            password: $('#password').val(),
+                            email: $('#email').val(),
+                            level: $('#level').val()
+                        },
+                        success: function(response) {
+                            var decode = response;
+                            if (decode.success == true) {
+                                $('#adduser').modal('hide');
+                                refresh();
+                                $.notify("Record successfully saved", "success");
+                            } else if (decode.success === false) {
+                                $('#btn-save').button('reset');
+                                $.notify(decode.msg, "error");
+                                return;
+                            }
+                        },
+                        error: function(error) {
+                            console.log("Error:");
+                            console.log(error.responseText);
+                            console.log(error.message);
+                            if (error.responseText) {
+                                var msg = JSON.parse(error.responseText)
+                                $.notify(msg.msg, "error");
+                            }
+                            return;
+                        }
+                    });
                 }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
-                }
-                return;
             }
-        });
+
+        }
     } else {
         $.ajax({
             url: '../server/users/' + $('#id').val(),
@@ -353,4 +361,63 @@ function save() {
             }
         });
     }
+}
+
+function checkName(lastname, firstname) {
+    var invalid = false;
+    $.ajax({
+        url: '../server/users/checkName/' + lastname + '/' + firstname,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify((lastname +', ' + firstname) + ' - ' + decode.msg, "error");
+                invalid = true;
+            } else if (decode.success === false) {
+                invalid = false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+                invalid = true;
+            }
+        }
+    });
+    console.log('checkValue: ', invalid);
+    return invalid;
+}
+
+function checkValue(field, value) {
+    $.ajax({
+        url: '../server/users/check/' + field + '/' + value,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(decode.msg, "error");
+                return true;
+            } else if (decode.success === false) {
+                return false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return true;
+        }
+    });
 }

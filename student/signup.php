@@ -50,6 +50,16 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="mobileno" class="col-lg-3 control-label">Gender</label>
+                    <div class="col-lg-9">
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="username" class="col-lg-3 control-label">Username</label>
                     <div class="col-lg-9">
                         <input type="text" class="form-control" id="username" placeholder="Username">

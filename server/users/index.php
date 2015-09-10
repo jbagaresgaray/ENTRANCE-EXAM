@@ -31,12 +31,20 @@
 			}
 	    break;
 	  case 'POST':
-			UsersController::create($_POST);
+			// UsersController::create($_POST);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
 	  		if ($request[0] == 'auth'){
 				UsersController::currentUser();
+			}else if ($request[0] == 'check'){
+				$field = $request[1];
+				$value = $request[2];
+	  			UsersController::check($field,$value);
+			}else if ($request[0] == 'checkName'){
+				$lastname = $request[1];
+				$firstname = $request[2];
+	  			UsersController::checkName($lastname,$firstname);
 			}else{
 		  		$id = $request[0];
 				UsersController::detail($id);

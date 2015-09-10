@@ -123,81 +123,83 @@ function save() {
         return false;
     }
 
-    if ($("#id").val() === '') {
-        $.ajax({
-            url: '../server/schedules/',
-            async: false,
-            type: 'POST',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                description: $('#description').val(),
-                start_date: $('#start_date').val(),
-                end_date: $('#end_date').val(),
-                start_time: $('#start_time').val(),
-                end_time : $('#end_time').val()
-            },
-            success: function(response) {
-                var decode = response;
-                if (decode.success == true) {
-                    $('#addSchedule').modal('hide');
-                    refresh();
-                    $.notify("Record successfully saved", "success");
-                } else if (decode.success === false) {
-                    $.notify(decode.msg, "error");
+    if (!checkValue('description', $('#description').val())) {
+        if ($("#id").val() === '') {
+            $.ajax({
+                url: '../server/schedules/',
+                async: false,
+                type: 'POST',
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
+                data: {
+                    description: $('#description').val(),
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    start_time: $('#start_time').val(),
+                    end_time : $('#end_time').val()
+                },
+                success: function(response) {
+                    var decode = response;
+                    if (decode.success == true) {
+                        $('#addSchedule').modal('hide');
+                        refresh();
+                        $.notify("Record successfully saved", "success");
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
                     return;
                 }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
-                }
-                return;
-            }
-        });
-    } else {
-        $.ajax({
-            url: '../server/schedules/' + $('#id').val(),
-            async: false,
-            type: 'PUT',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                description: $('#description').val(),
-                start_date: $('#start_date').val(),
-                end_date: $('#end_date').val(),
-                start_time: $('#start_time').val(),
-                end_time : $('#end_time').val()
-            },
-            success: function(response) {
-                var decode = response;
-                console.log('decode: ', decode);
-                if (decode.success == true) {
-                    $('#addSchedule').modal('hide');
-                    refresh();
-                    $.notify("Record successfully updated", "success");
-                } else if (decode.success === false) {
-                    $.notify(decode.msg, "error");
+            });
+        } else {
+            $.ajax({
+                url: '../server/schedules/' + $('#id').val(),
+                async: false,
+                type: 'PUT',
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
+                data: {
+                    description: $('#description').val(),
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
+                    start_time: $('#start_time').val(),
+                    end_time : $('#end_time').val()
+                },
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#addSchedule').modal('hide');
+                        refresh();
+                        $.notify("Record successfully updated", "success");
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
                     return;
                 }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
-                }
-                return;
-            }
-        });
+            });
+        }
     }
 }
 
@@ -346,4 +348,36 @@ function getData(id) {
             return;
         }
     });
+}
+
+
+function checkValue(field, value) {
+    var invalid = false;
+    $.ajax({
+        url: '../server/schedules/check/' + field + '/' + value,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(value + ' - ' + decode.msg, "error");
+                invalid = true;
+            } else if (decode.success === false) {
+                invalid = false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+                invalid = true;
+            }
+        }
+    });
+    console.log('checkValue: ', invalid);
+    return invalid;
 }

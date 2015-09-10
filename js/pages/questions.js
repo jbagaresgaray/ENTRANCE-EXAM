@@ -210,6 +210,7 @@ function validate() {
 // $("form#frmQuestions").submit(function(e) {
 function save() {
     if (validate() !== true) {
+
         var CKEDITOR = $().CKEditorValFor('content');
 
         var formData = new FormData();
@@ -239,78 +240,81 @@ function save() {
         formData.append('tmp_pic3', $('#tmp_pic3').val());
         formData.append('tmp_pic4', $('#tmp_pic4').val());
 
-        if ($("#question_id").val() === '') {
-            $.ajax({
-                url: '../server/questions/',
-                type: 'POST',
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-Auth-Token': $("input[name='csrf']").val()
-                },
-                data: formData,
-                success: function(response) {
-                    var decode = response;
-                    console.log('decode: ', decode);
-                    if (decode.success == true) {
-                        $('#questionsModal').modal('hide');
-                        refresh();
-                        $.notify("Record successfully saved", "success");
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 1000);
-                    } else if (decode.success === false) {
-                        $.notify(decode.msg, "error");
+        if (checkValue('content', CKEDITOR) == false) {
+
+            if ($("#question_id").val() === '') {
+                $.ajax({
+                    url: '../server/questions/',
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        'X-Auth-Token': $("input[name='csrf']").val()
+                    },
+                    data: formData,
+                    success: function(response) {
+                        var decode = response;
+                        console.log('decode: ', decode);
+                        if (decode.success == true) {
+                            $('#questionsModal').modal('hide');
+                            refresh();
+                            $.notify("Record successfully saved", "success");
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1000);
+                        } else if (decode.success === false) {
+                            $.notify(decode.msg, "error");
+                            return;
+                        }
+                    },
+                    error: function(error) {
+                        console.log("Error:");
+                        console.log(error.responseText);
+                        console.log(error.message);
+                        if (error.responseText) {
+                            var msg = JSON.parse(error.responseText)
+                            $.notify(msg.msg, "error");
+                        }
                         return;
                     }
-                },
-                error: function(error) {
-                    console.log("Error:");
-                    console.log(error.responseText);
-                    console.log(error.message);
-                    if (error.responseText) {
-                        var msg = JSON.parse(error.responseText)
-                        $.notify(msg.msg, "error");
-                    }
-                    return;
-                }
-            });
-        } else {
-            $.ajax({
-                url: '../server/questions/update',
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                data: formData,
-                headers: {
-                    'X-Auth-Token': $("input[name='csrf']").val()
-                },
-                success: function(response) {
-                    var decode = response;
-                    console.log('decode: ', decode);
-                    if (decode.success == true) {
-                        $('#questionsModal').modal('hide');
-                        refresh();
-                        $.notify("Record successfully updated", "success");
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 1000);
-                    } else if (decode.success === false) {
-                        $.notify(decode.msg, "error");
+                });
+            } else {
+                $.ajax({
+                    url: '../server/questions/update',
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-Auth-Token': $("input[name='csrf']").val()
+                    },
+                    success: function(response) {
+                        var decode = response;
+                        console.log('decode: ', decode);
+                        if (decode.success == true) {
+                            $('#questionsModal').modal('hide');
+                            refresh();
+                            $.notify("Record successfully updated", "success");
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1000);
+                        } else if (decode.success === false) {
+                            $.notify(decode.msg, "error");
+                            return;
+                        }
+                    },
+                    error: function(error) {
+                        console.log("Error:");
+                        console.log(error.responseText);
+                        console.log(error.message);
+                        if (error.responseText) {
+                            var msg = JSON.parse(error.responseText)
+                            $.notify(msg.msg, "error");
+                        }
                         return;
                     }
-                },
-                error: function(error) {
-                    console.log("Error:");
-                    console.log(error.responseText);
-                    console.log(error.message);
-                    if (error.responseText) {
-                        var msg = JSON.parse(error.responseText)
-                        $.notify(msg.msg, "error");
-                    }
-                    return;
-                }
-            });
+                });
+            }
         }
     }
     // });
@@ -470,7 +474,7 @@ $('#questionsModal').on('hidden.bs.modal', function(e) {
     $('#pic2').val('');
     $('#pic3').val('');
     $('#pic4').val('');
-    
+
     $('#answer').val('');
     $('#answerid').val('');
 
@@ -488,4 +492,64 @@ $('#questionsModal').on('hidden.bs.modal', function(e) {
     $('#tmp_pic2').val('');
     $('#tmp_pic3').val('');
     $('#tmp_pic4').val('');
-})
+});
+
+function mysql_real_escape_string (str) {
+    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+        switch (char) {
+            case "\0":
+                return "\\0";
+            case "\x08":
+                return "\\b";
+            case "\x09":
+                return "\\t";
+            case "\x1a":
+                return "\\z";
+            case "\n":
+                return "\\n";
+            case "\r":
+                return "\\r";
+            case "\"":
+            case "'":
+            case "\\":
+            case "%":
+                return "\\"+char; // prepends a backslash to backslash, percent,
+                                  // and double/single quotes
+        }
+    });
+}
+
+function checkValue(field, value) {
+    var invalid = false;
+    $.ajax({
+        url: '../server/questions/check',
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        data:{
+            field: field,
+            value: value
+        },
+        type: 'POST',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(value + ' - ' + decode.msg, "error");
+                invalid = true;
+            } else if (decode.success === false) {
+                invalid = false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+                invalid = true;
+            }
+        }
+    });
+    console.log('checkValue: ', invalid);
+    return invalid;
+}

@@ -103,7 +103,7 @@ class CategoryController {
 		}
 	}
 
-	public static function check($value){
+	public static function check($field,$value){
 		session_start();
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
@@ -117,7 +117,7 @@ class CategoryController {
 		}else{
 			$value = strtolower($value);
 			$value = preg_replace('/\s+/', '', $value);
-			Category::check($value);
+			Category::check($field,$value);
 		}
 	}
 }

@@ -9,6 +9,7 @@
                     <input type="hidden" name="id" id="id"/>
                     <input type="hidden" name="csrf" value="<?php echo $_SESSION['form_token'];?>">
                     <div class="form-group">
+                        <label>First Name</label>
                         <input type="text" class="form-control" name="fname" id="fname" placeholder="Firstname" />
                         <span class="help-inline"></span>
                     </div>
@@ -46,7 +47,7 @@
                         <label>User Level</label>
                         <select class="form-control" id="level" name="level">
                             <option value="Admin">Admin</option>
-                            <option value="Student">Student</option>
+                            <option value="User">User</option>
                         </select>
                         <span class="help-inline"></span>
                     </div>

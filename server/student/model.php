@@ -63,6 +63,7 @@ class Student {
 			$mobileno = $mysqli->real_escape_string($data['mobileno']);
 			$username = $mysqli->real_escape_string($data['username']);
 			$email = $mysqli->real_escape_string($data['email']);
+			$gender = $mysqli->real_escape_string($data['gender']);
 			$level = $mysqli->real_escape_string($data['level']);
 
 			$password = $func->generatePassword(5,1);
@@ -72,8 +73,8 @@ class Student {
 			$stmt2->execute();
 			$user_id = $mysqli->insert_id;		
 
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,user_id) VALUES(?,?,?,?,?,?)')){
-				$stmt->bind_param("ssssss", $studid,$fname,$lname,$mobileno,$email,$user_id);
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,gender,user_id) VALUES(?,?,?,?,?,?,?)')){
+				$stmt->bind_param("sssssss", $studid,$fname,$lname,$mobileno,$email,$gender,$user_id);
 				$stmt->execute();
 
 				$message = 'Hello there! Thank you for using our mobile app. Your App Password: ' . $password. ' .';
@@ -314,6 +315,57 @@ class Student {
                 print json_encode(array('success' =>false,'msg' =>'Error with SQL' . $query1),JSON_PRETTY_PRINT);
             }
         }
+	}
+
+	public static function check($field,$value){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM student c WHERE LCASE(REPLACE(c.$field,' ','')) LIKE '%$value%';";
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Warning: Data already existed!!!'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public static function checkName($lastname,$firstname){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM student c WHERE ((LCASE(REPLACE(c.lname,' ','')) LIKE '%$lastname%') AND (LCASE(REPLACE(c.fname,' ','')) LIKE '%$firstname%'));";
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Warning: Student already existed!!!'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public static function checkAccount($field,$value){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM userdata c WHERE LCASE(REPLACE(c.$field,' ','')) LIKE '%$value%';";
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Warning: Data already existed!!!'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
+			}
+		}
 	}
 }
 ?>

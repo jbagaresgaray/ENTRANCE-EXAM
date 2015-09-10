@@ -46,8 +46,30 @@
 	    	break;
 	  	case 'GET':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
-		  		$id = $request[0];
-	  			StudentController::detail($id);
+		  		if ($request[0] == 'check'){
+					$field = $request[1];
+					$value = $request[2];
+		  			StudentController::check($field,$value);
+				}else if ($request[0] == 'checkName'){
+					$lastname = $request[1];
+					$firstname = $request[2];
+		  			StudentController::checkName($lastname,$firstname);
+				}else if ($request[0] == 'signcheck'){
+					$field = $request[1];
+					$value = $request[2];
+		  			StudentController::sign_check($field,$value);
+				}else if ($request[0] == 'checkaccount'){
+					$field = $request[1];
+					$value = $request[2];
+		  			StudentController::checkAccount($field,$value);
+				}else if ($request[0] == 'signcheckName'){
+					$lastname = $request[1];
+					$firstname = $request[2];
+		  			StudentController::sign_checkName($lastname,$firstname);
+				}else{
+					$id = $request[0];
+	  				StudentController::detail($id);
+	  			}
 		  	}else{
 		  		StudentController::read();
 		  	}

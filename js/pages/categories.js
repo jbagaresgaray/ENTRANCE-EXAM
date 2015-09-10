@@ -119,7 +119,8 @@ function save() {
         return false;
     }
 
-    if (checkValue($('#category_name').val()) == false) {
+    if (checkValue('name',$('#category_name').val()) == false) {
+
         if ($("#category_id").val() === '') {
             $.ajax({
                 url: '../server/category/',
@@ -336,9 +337,9 @@ function getData(id) {
 }
 
 
-function checkValue(value) {
+function checkValue(field,value) {
     $.ajax({
-        url: '../server/category/check/' + value,
+        url: '../server/category/check/' + field +'/'+ value,
         async: false,
         headers: {
             'X-Auth-Token': $("input[name='csrf']").val()
@@ -347,10 +348,9 @@ function checkValue(value) {
         success: function(response) {
             var decode = response;
             if (decode.success == true) {
-                $.notify(decode.msg, "success");
+                $.notify(decode.msg, "error");
                 return true;
             } else if (decode.success === false) {
-                $.notify(decode.msg, "error");
                 return false;
             }
         },

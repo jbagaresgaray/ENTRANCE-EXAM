@@ -456,5 +456,23 @@ class Questions {
 		}
 	}
 
+	public static function check($field,$value){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM question c WHERE LCASE(REPLACE(c.$field,' ','')) LIKE '$value%';";
+			/*$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Warning: Data already existed!!!'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
+			}*/
+			print_r(json_encode($query));
+		}
+	}
+
 }
 ?>

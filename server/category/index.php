@@ -22,13 +22,14 @@
 			}
 			break;
 	  	case 'POST':
-		  	// CategoryController::create($_POST);
+		  	CategoryController::create($_POST);
 		    break;
 	  	case 'GET':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		if ($request[0] == 'check'){
-					$value = $request[1];
-		  			CategoryController::check($value);
+					$field = $request[1];
+					$value = $request[2];
+		  			CategoryController::check($field,$value);
 				}else{
 					$id = $request[0];
 		  			CategoryController::detail($id);

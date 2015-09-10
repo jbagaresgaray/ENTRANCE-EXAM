@@ -62,24 +62,6 @@ class Courses {
 		}
 	}
 
-	public static function check($value){
-		$config= new Config();
-		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
-		if ($mysqli->connect_errno) {
-		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
-		    return;
-		}else{
-			$query ="SELECT * FROM courses c WHERE coursecode LIKE '%$value%' LIMIT 1;";
-			$mysqli->set_charset("utf8");
-			$result = $mysqli->query($query);
-			if($row = $result->fetch_array(MYSQLI_ASSOC)){
-				print json_encode(array('success' =>true,'course' =>$row),JSON_PRETTY_PRINT);
-			}else{
-				print json_encode(array('success' =>false,'msg' =>"No record found!"),JSON_PRETTY_PRINT);
-			}
-		}
-	}
-
 	public static function update($id,$data){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
@@ -114,31 +96,14 @@ class Courses {
 		}
 	}
 
-	public static function check($value){
+	public static function check($field,$value){
 		$config= new Config();
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
-			$query ="SELECT * FROM courses c WHERE LCASE(REPLACE(c.coursecode,' ','')) LIKE '%$value%';";
-			$result = $mysqli->query($query);
-			if($row = $result->fetch_array(MYSQLI_ASSOC)){
-				print json_encode(array('success' =>true,'msg' =>'Warning: Data already existed!!!'),JSON_PRETTY_PRINT);
-			}else{
-				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
-			}
-		}
-	}
-
-	public static function check2($value){
-		$config= new Config();
-		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
-		if ($mysqli->connect_errno) {
-		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
-		    return;
-		}else{
-			$query ="SELECT * FROM courses c WHERE LCASE(REPLACE(c.coursename,' ','')) LIKE '%$value%';";
+			$query ="SELECT * FROM courses c WHERE LCASE(REPLACE(c.$field,' ','')) LIKE '%$value%';";
 			$result = $mysqli->query($query);
 			if($row = $result->fetch_array(MYSQLI_ASSOC)){
 				print json_encode(array('success' =>true,'msg' =>'Warning: Data already existed!!!'),JSON_PRETTY_PRINT);

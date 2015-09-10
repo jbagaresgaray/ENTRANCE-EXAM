@@ -27,11 +27,9 @@
 	  case 'GET':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
 		  		if ($request[0] == 'check'){
-					$value = $request[1];
-		  			CourseController::check($value);
-				}else if ($request[0] == 'check2'){
-					$value = $request[1];
-		  			CourseController::check2($value);
+					$field = $request[1];
+					$value = $request[2];
+		  			CourseController::check($field,$value);
 				}else{
 					$id = $request[0];
 		  			CourseController::detail($id);

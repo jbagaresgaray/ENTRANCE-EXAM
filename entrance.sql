@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `birthdate` date NULL,
   `graduated` date NULL,
   `last_school` varchar(100) NULL,
-  `pref_course` int(11) NOT NULL,
+  `pref_course` int(11) NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;

@@ -26,8 +26,14 @@
 		    break;
 	  	case 'GET':
 		  	if(isset($request) && !empty($request) && $request[0] !== ''){
-		  		$id = $request[0];
-		  		ScheduleController::detail($id);
+		  		if ($request[0] == 'check'){
+					$field = $request[1];
+					$value = $request[2];
+		  			ScheduleController::check($field,$value);
+				}else{
+					$id = $request[0];
+		  			ScheduleController::detail($id);
+		  		}
 		  	}else{
 				ScheduleController::read();
 		  	}

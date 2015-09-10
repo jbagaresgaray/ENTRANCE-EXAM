@@ -112,7 +112,7 @@ class CourseController {
 		}
 	}
 
-	public static function check($value){
+	public static function check($field,$value){
 		session_start();
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
@@ -126,25 +126,7 @@ class CourseController {
 		}else{
 			$value = strtolower($value);
 			$value = preg_replace('/\s+/', '', $value);
-			Courses::check($value);
-		}
-	}
-
-	public static function check2($value){
-		session_start();
-		$headers = apache_request_headers();	
-		$token = $headers['X-Auth-Token'];
-
-		if(!$headers['X-Auth-Token']){
-			header('Invalid CSRF Token', true, 401);
-			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
-		}else if($token != $_SESSION['form_token']){
-			header('Invalid CSRF Token', true, 401);
-			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
-		}else{
-			$value = strtolower($value);
-			$value = preg_replace('/\s+/', '', $value);
-			Courses::check2($value);
+			Courses::check($field,$value);
 		}
 	}
 }

@@ -201,6 +201,45 @@ class UsersController {
 			Users::delete($id);
 		}
 	}
+
+	public static function check($field,$value){
+		session_start();
+		$headers = apache_request_headers();	
+		$token = $headers['X-Auth-Token'];
+
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else{
+			$value = strtolower($value);
+			$value = preg_replace('/\s+/', '', $value);
+			Users::check($field,$value);
+		}
+	}
+
+	public static function checkName($lastname,$firstname){
+		session_start();
+		$headers = apache_request_headers();	
+		$token = $headers['X-Auth-Token'];
+
+		if(!$headers['X-Auth-Token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else if($token != $_SESSION['form_token']){
+			header('Invalid CSRF Token', true, 401);
+			return print json_encode(array('success'=>false,'status'=>400,'msg'=>'Invalid CSRF Token / Bad Request / Unauthorized ... Please Login again'),JSON_PRETTY_PRINT);
+		}else{
+			$lastname = strtolower($lastname);
+			$lastname = preg_replace('/\s+/', '', $lastname);
+
+			$firstname = strtolower($firstname);
+			$firstname = preg_replace('/\s+/', '', $firstname);
+			Users::checkName($lastname,$firstname);
+		}
+	}
 }
 
 ?>

@@ -21,12 +21,15 @@
 			}*/
 	    break;
 	  case 'POST':
-	  		
 	  		if(isset($request) && !empty($request) && $request[0] !== ''){
 				if ($request[0] == 'update'){
 					// return print_r(json_encode($_POST));
 	  				// return print_r(json_encode($_FILES));
 					QuestionsController::update($_POST,$_FILES);
+				}else if ($request[0] == 'check'){
+					$field = $_POST['field'];
+					$value = $_POST['value'];
+		  			QuestionsController::check($field,$value);
 				}
 			}else{
 				// return print_r(json_encode($_POST));
@@ -36,8 +39,8 @@
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){
-  			$id = $request[0];
-  			QuestionsController::detail($id);
+			$id = $request[0];
+			QuestionsController::detail($id);
 	  	}else{
 	  		QuestionsController::read();
 	  	}

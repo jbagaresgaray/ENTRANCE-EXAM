@@ -61,7 +61,7 @@ class Users {
 		    return;
 		}else{
 
-			$query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata c WHERE c.level= 'Admin' LIMIT 1,30000000;";
+			$query1 ="SELECT id,username,email,mobileno,fname,lname,level FROM userdata c WHERE c.level <> 'Student' LIMIT 1,30000000;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();
@@ -167,6 +167,40 @@ class Users {
 				print json_encode(array('success' =>true,'status'=>200,'msg' =>'User Profile successfully updated'),JSON_PRETTY_PRINT);
 			}else{
 				print json_encode(array('success' =>false,'status'=>200,'msg' =>'Error message: %s\n', $mysqli->error),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public static function check($field,$value){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM userdata c WHERE LCASE(REPLACE(c.$field,' ','')) LIKE '%$value%';";
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Warning: Data already existed!!!'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
+			}
+		}
+	}
+
+	public static function checkName($lastname,$firstname){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$query ="SELECT * FROM userdata c WHERE ((LCASE(REPLACE(c.lname,' ','')) LIKE '%$lastname%') AND (LCASE(REPLACE(c.fname,' ','')) LIKE '%$firstname%'));";
+			$result = $mysqli->query($query);
+			if($row = $result->fetch_array(MYSQLI_ASSOC)){
+				print json_encode(array('success' =>true,'msg' =>'Warning: User Account already existed!!!'),JSON_PRETTY_PRINT);
+			}else{
+				print json_encode(array('success' =>false,'msg' =>'No record found!'),JSON_PRETTY_PRINT);
 			}
 		}
 	}
