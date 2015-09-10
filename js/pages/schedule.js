@@ -123,7 +123,7 @@ function save() {
         return false;
     }
 
-    if ($("#course_id").val() === '') {
+    if ($("#id").val() === '') {
         $.ajax({
             url: '../server/schedules/',
             async: false,
@@ -132,7 +132,7 @@ function save() {
                 'X-Auth-Token': $("input[name='csrf']").val()
             },
             data: {
-                decription: $('#decription').val(),
+                description: $('#description').val(),
                 start_date: $('#start_date').val(),
                 end_date: $('#end_date').val(),
                 start_time: $('#start_time').val(),
@@ -141,11 +141,10 @@ function save() {
             success: function(response) {
                 var decode = response;
                 if (decode.success == true) {
-                    $('#addcourse').modal('hide');
+                    $('#addSchedule').modal('hide');
                     refresh();
                     $.notify("Record successfully saved", "success");
                 } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
                     $.notify(decode.msg, "error");
                     return;
                 }
@@ -170,7 +169,7 @@ function save() {
                 'X-Auth-Token': $("input[name='csrf']").val()
             },
             data: {
-                decription: $('#decription').val(),
+                description: $('#description').val(),
                 start_date: $('#start_date').val(),
                 end_date: $('#end_date').val(),
                 start_time: $('#start_time').val(),
@@ -180,7 +179,7 @@ function save() {
                 var decode = response;
                 console.log('decode: ', decode);
                 if (decode.success == true) {
-                    $('#addcourse').modal('hide');
+                    $('#addSchedule').modal('hide');
                     refresh();
                     $.notify("Record successfully updated", "success");
                 } else if (decode.success === false) {

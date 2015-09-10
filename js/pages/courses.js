@@ -129,78 +129,84 @@ function save() {
         return false;
     }
 
-    if ($("#course_id").val() === '') {
-        $.ajax({
-            url: '../server/courses/',
-            async: false,
-            type: 'POST',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                coursename: $('#course_name').val(),
-                coursecode: $('#course_code').val(),
-                passing_score: $('#passing_score').val()
-            },
-            success: function(response) {
-                var decode = response;
-                if (decode.success == true) {
-                    $('#addcourse').modal('hide');
-                    refresh();
-                    $.notify("Record successfully saved", "success");
-                } else if (decode.success === false) {
-                    $('#btn-save').button('reset');
-                    $.notify(decode.msg, "error");
-                    return;
-                }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
-                }
-                return;
-            }
-        });
+    if (checkValue($('#course_code').val())) {
+        return;
+    } else if (checkValue($('#course_name').val())) {
+        return;
     } else {
-        $.ajax({
-            url: '../server/courses/' + $('#course_id').val(),
-            async: false,
-            type: 'PUT',
-            headers: {
-                'X-Auth-Token': $("input[name='csrf']").val()
-            },
-            data: {
-                coursename: $('#course_name').val(),
-                coursecode: $('#course_code').val(),
-                passing_score: $('#passing_score').val()
-            },
-            success: function(response) {
-                var decode = response;
-                console.log('decode: ', decode);
-                if (decode.success == true) {
-                    $('#addcourse').modal('hide');
-                    refresh();
-                    $.notify("Record successfully updated", "success");
-                } else if (decode.success === false) {
-                    $.notify(decode.msg, "error");
+        if ($("#course_id").val() === '') {
+            $.ajax({
+                url: '../server/courses/',
+                async: false,
+                type: 'POST',
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
+                data: {
+                    coursename: $('#course_name').val(),
+                    coursecode: $('#course_code').val(),
+                    passing_score: $('#passing_score').val()
+                },
+                success: function(response) {
+                    var decode = response;
+                    if (decode.success == true) {
+                        $('#addcourse').modal('hide');
+                        refresh();
+                        $.notify("Record successfully saved", "success");
+                    } else if (decode.success === false) {
+                        $('#btn-save').button('reset');
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
                     return;
                 }
-            },
-            error: function(error) {
-                console.log("Error:");
-                console.log(error.responseText);
-                console.log(error.message);
-                if (error.responseText) {
-                    var msg = JSON.parse(error.responseText)
-                    $.notify(msg.msg, "error");
+            });
+        } else {
+            $.ajax({
+                url: '../server/courses/' + $('#course_id').val(),
+                async: false,
+                type: 'PUT',
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
+                data: {
+                    coursename: $('#course_name').val(),
+                    coursecode: $('#course_code').val(),
+                    passing_score: $('#passing_score').val()
+                },
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#addcourse').modal('hide');
+                        refresh();
+                        $.notify("Record successfully updated", "success");
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
+                        return;
+                    }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
+                    return;
                 }
-                return;
-            }
-        });
+            });
+        }
     }
 }
 
@@ -341,6 +347,64 @@ function getData(id) {
                 $.notify(msg.msg, "error");
             }
             return;
+        }
+    });
+}
+
+function checkValue(value) {
+    $.ajax({
+        url: '../server/courses/check/' + value,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(decode.msg, "success");
+                return true;
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return true;
+        }
+    });
+}
+
+function checkValue2(value) {
+    $.ajax({
+        url: '../server/courses/check2/' + value,
+        async: false,
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            if (decode.success == true) {
+                $.notify(decode.msg, "success");
+                return true;
+            } else if (decode.success === false) {
+                $.notify(decode.msg, "error");
+                return false;
+            }
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return true;
         }
     });
 }

@@ -13,15 +13,14 @@ class Schedules {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
-			$decription = $mysqli->real_escape_string($data['decription']);
+			$description = $mysqli->real_escape_string($data['description']);
 			$start_date = $mysqli->real_escape_string($data['start_date']);
 			$end_date = $mysqli->real_escape_string($data['end_date']);
 			$start_time = $mysqli->real_escape_string($data['start_time']);
 			$end_time = $mysqli->real_escape_string($data['end_time']);
 
-			$time = $data['time'];
-			if ($stmt = $mysqli->prepare('INSERT INTO exam_sched(decription,start_date,end_date,start_time,end_time) VALUES(?,?,?,?,?)')){
-				$stmt->bind_param('sssss', $decription,$start_date,$end_date,$start_time,$end_time);
+			if ($stmt = $mysqli->prepare('INSERT INTO exam_sched(description,start_date,end_date,start_time,end_time) VALUES(?,?,?,?,?)')){
+				$stmt->bind_param('sssss', $description,$start_date,$end_date,$start_time,$end_time);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully saved'),JSON_PRETTY_PRINT);
 			}else{
@@ -77,14 +76,14 @@ class Schedules {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
-			$decription = $mysqli->real_escape_string($data['decription']);
+			$description = $mysqli->real_escape_string($data['description']);
 			$start_date = $mysqli->real_escape_string($data['start_date']);
 			$end_date = $mysqli->real_escape_string($data['end_date']);
 			$start_time = $mysqli->real_escape_string($data['start_time']);
 			$end_time = $mysqli->real_escape_string($data['end_time']);
 			
-			if ($stmt = $mysqli->prepare('UPDATE exam_sched SET `decription`=?,start_date=?,end_date=?,start_time=?,end_time=? WHERE id=?')){
-				$stmt->bind_param('sssssi', $decription,$start_date,$end_date,$start_time,$end_time,$id);
+			if ($stmt = $mysqli->prepare('UPDATE exam_sched SET `description`=?,start_date=?,end_date=?,start_time=?,end_time=? WHERE id=?')){
+				$stmt->bind_param('sssssi', $description,$start_date,$end_date,$start_time,$end_time,$id);
 				$stmt->execute();
 				print json_encode(array('success' =>true,'msg' =>'Record successfully updated'),JSON_PRETTY_PRINT);
 			}else{

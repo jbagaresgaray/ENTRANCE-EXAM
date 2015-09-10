@@ -68,11 +68,11 @@ CREATE TABLE IF NOT EXISTS `courses` (
 DROP TABLE IF EXISTS `exam_sched`;
 CREATE TABLE IF NOT EXISTS `exam_sched` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `decription` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
+  `start_time` varchar(15) NOT NULL,
+  `end_time` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
