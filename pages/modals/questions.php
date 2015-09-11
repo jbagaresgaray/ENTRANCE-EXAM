@@ -23,28 +23,28 @@
                     </div>
                     <div class="form-group well">
                         <label>Correct Answer</label>
-                        <input type="text" name="answer" id="answer" class="form-control"/>
+                        <input type="text" name="answer" id="answer" class="form-control answer"/>
                         <p class="help-inline"></p>
                         <label>Image: </label>
                         <input type="file" name="correctpic" id="correctpic" class="form-control" accept="image/*" />
                     </div>
                     <div class="form-group well">
                         <label>2nd Choice</label>
-                        <input type="text" name="choice2" id="choice2" class="form-control"/> 
+                        <input type="text" name="choice2" id="choice2" class="form-control answer"/> 
                         <p class="help-inline"></p>
                         <label>Image: </label>
                         <input type="file" name="pic2" id="pic2" class="form-control" accept="image/*" />
                     </div>
                     <div class="form-group well">                
                         <label>3rd Choice</label>
-                        <input type="text" name="choice3" id="choice3" class="form-control"/> 
+                        <input type="text" name="choice3" id="choice3" class="form-control answer"/> 
                         <p class="help-inline"></p>
                         <label>Image: </label>
                         <input type="file" name="pic3" id="pic3" class="form-control" accept="image/*" />
                     </div>
                     <div class="form-group well">
                         <label>4th Choice</label>
-                        <input type="text" name="choice4" id="choice4" class="form-control"/>
+                        <input type="text" name="choice4" id="choice4" class="form-control answer"/>
                         <p class="help-inline"></p>
                         <label>Image: </label>
                         <input type="file" name="pic4" id="pic4" class="form-control" accept="image/*" />

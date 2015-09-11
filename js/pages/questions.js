@@ -152,7 +152,8 @@ function resetHelpInLine() {
     });
 }
 
-function validate() {
+// $("form#frmQuestions").submit(function(e) {
+function save() {
     resetHelpInLine();
 
     var empty = false;
@@ -199,124 +200,129 @@ function validate() {
         empty = true;
     }
 
+    var inputs = $('input.answer[type="text"]');
+    var result = inputs.filter(function(i, el) {
+        return inputs.not(this).filter(function() {
+            return this.value.toLowerCase().replace(' ', '') === el.value.toLowerCase().replace(' ', '');
+        }).length !== 0;
+    });
+
+    if (result.length !== 0) {
+        $.notify('Question has answers that contains the same value. Please try again', "error");
+        empty = true;
+    }
+
     if (empty == true) {
         $.notify('Please input all the required fields correctly.', "error");
         return;
     }
 
-    return empty;
-}
 
-// $("form#frmQuestions").submit(function(e) {
-function save() {
-    if (validate() !== true) {
+    var CKEDITOR = $().CKEditorValFor('content');
 
-        var CKEDITOR = $().CKEditorValFor('content');
+    var formData = new FormData();
+    formData.append('content', CKEDITOR);
+    formData.append('category_id', $('#category_id').val());
 
-        var formData = new FormData();
-        formData.append('content', CKEDITOR);
-        formData.append('category_id', $('#category_id').val());
+    formData.append('mainpic', $('#mainpic')[0].files[0]);
+    formData.append('correctpic', $('#correctpic')[0].files[0]);
+    formData.append('pic2', $('#pic2')[0].files[0]);
+    formData.append('pic3', $('#pic3')[0].files[0]);
+    formData.append('pic4', $('#pic4')[0].files[0]);
 
-        formData.append('mainpic', $('#mainpic')[0].files[0]);
-        formData.append('correctpic', $('#correctpic')[0].files[0]);
-        formData.append('pic2', $('#pic2')[0].files[0]);
-        formData.append('pic3', $('#pic3')[0].files[0]);
-        formData.append('pic4', $('#pic4')[0].files[0]);
+    formData.append('answer', $('#answer').val());
+    formData.append('choice2', $('#choice2').val());
+    formData.append('choice3', $('#choice3').val());
+    formData.append('choice4', $('#choice4').val());
 
-        formData.append('answer', $('#answer').val());
-        formData.append('choice2', $('#choice2').val());
-        formData.append('choice3', $('#choice3').val());
-        formData.append('choice4', $('#choice4').val());
+    formData.append('answerid', $('#answerid').val());
+    formData.append('choice2id', $('#choice2id').val());
+    formData.append('choice3id', $('#choice3id').val());
+    formData.append('choice4id', $('#choice4id').val());
+    formData.append('question_id', $('#question_id').val());
 
-        formData.append('answerid', $('#answerid').val());
-        formData.append('choice2id', $('#choice2id').val());
-        formData.append('choice3id', $('#choice3id').val());
-        formData.append('choice4id', $('#choice4id').val());
-        formData.append('question_id', $('#question_id').val());
+    formData.append('tmp_main', $('#tmp_main').val());
+    formData.append('tmp_correct', $('#tmp_correct').val());
+    formData.append('tmp_pic2', $('#tmp_pic2').val());
+    formData.append('tmp_pic3', $('#tmp_pic3').val());
+    formData.append('tmp_pic4', $('#tmp_pic4').val());
 
-        formData.append('tmp_main', $('#tmp_main').val());
-        formData.append('tmp_correct', $('#tmp_correct').val());
-        formData.append('tmp_pic2', $('#tmp_pic2').val());
-        formData.append('tmp_pic3', $('#tmp_pic3').val());
-        formData.append('tmp_pic4', $('#tmp_pic4').val());
-
-        if (checkValue('content', CKEDITOR) == false) {
-
-            if ($("#question_id").val() === '') {
-                $.ajax({
-                    url: '../server/questions/',
-                    type: 'POST',
-                    contentType: false,
-                    processData: false,
-                    headers: {
-                        'X-Auth-Token': $("input[name='csrf']").val()
-                    },
-                    data: formData,
-                    success: function(response) {
-                        var decode = response;
-                        console.log('decode: ', decode);
-                        if (decode.success == true) {
-                            $('#questionsModal').modal('hide');
-                            refresh();
-                            $.notify("Record successfully saved", "success");
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 1000);
-                        } else if (decode.success === false) {
-                            $.notify(decode.msg, "error");
-                            return;
-                        }
-                    },
-                    error: function(error) {
-                        console.log("Error:");
-                        console.log(error.responseText);
-                        console.log(error.message);
-                        if (error.responseText) {
-                            var msg = JSON.parse(error.responseText)
-                            $.notify(msg.msg, "error");
-                        }
+    if (checkValue('content', CKEDITOR) == false) {
+        if ($("#question_id").val() === '') {
+            $.ajax({
+                url: '../server/questions/',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
+                data: formData,
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#questionsModal').modal('hide');
+                        refresh();
+                        $.notify("Record successfully saved", "success");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
                         return;
                     }
-                });
-            } else {
-                $.ajax({
-                    url: '../server/questions/update',
-                    contentType: false,
-                    processData: false,
-                    type: 'POST',
-                    data: formData,
-                    headers: {
-                        'X-Auth-Token': $("input[name='csrf']").val()
-                    },
-                    success: function(response) {
-                        var decode = response;
-                        console.log('decode: ', decode);
-                        if (decode.success == true) {
-                            $('#questionsModal').modal('hide');
-                            refresh();
-                            $.notify("Record successfully updated", "success");
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 1000);
-                        } else if (decode.success === false) {
-                            $.notify(decode.msg, "error");
-                            return;
-                        }
-                    },
-                    error: function(error) {
-                        console.log("Error:");
-                        console.log(error.responseText);
-                        console.log(error.message);
-                        if (error.responseText) {
-                            var msg = JSON.parse(error.responseText)
-                            $.notify(msg.msg, "error");
-                        }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
+                    return;
+                }
+            });
+        } else {
+            $.ajax({
+                url: '../server/questions/update',
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-Auth-Token': $("input[name='csrf']").val()
+                },
+                success: function(response) {
+                    var decode = response;
+                    console.log('decode: ', decode);
+                    if (decode.success == true) {
+                        $('#questionsModal').modal('hide');
+                        refresh();
+                        $.notify("Record successfully updated", "success");
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
+                    } else if (decode.success === false) {
+                        $.notify(decode.msg, "error");
                         return;
                     }
-                });
-            }
+                },
+                error: function(error) {
+                    console.log("Error:");
+                    console.log(error.responseText);
+                    console.log(error.message);
+                    if (error.responseText) {
+                        var msg = JSON.parse(error.responseText)
+                        $.notify(msg.msg, "error");
+                    }
+                    return;
+                }
+            });
         }
     }
+
     // });
 }
 
@@ -494,8 +500,8 @@ $('#questionsModal').on('hidden.bs.modal', function(e) {
     $('#tmp_pic4').val('');
 });
 
-function mysql_real_escape_string (str) {
-    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+function mysql_real_escape_string(str) {
+    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function(char) {
         switch (char) {
             case "\0":
                 return "\\0";
@@ -513,8 +519,8 @@ function mysql_real_escape_string (str) {
             case "'":
             case "\\":
             case "%":
-                return "\\"+char; // prepends a backslash to backslash, percent,
-                                  // and double/single quotes
+                return "\\" + char; // prepends a backslash to backslash, percent,
+                // and double/single quotes
         }
     });
 }
@@ -527,7 +533,7 @@ function checkValue(field, value) {
         headers: {
             'X-Auth-Token': $("input[name='csrf']").val()
         },
-        data:{
+        data: {
             field: field,
             value: value
         },
