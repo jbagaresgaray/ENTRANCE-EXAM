@@ -119,7 +119,7 @@ function save() {
         return false;
     }
 
-    if (checkValue('name',$('#category_name').val()) == false) {
+    if ( checkValue('name',$('#category_name').val()) == false) {
 
         if ($("#category_id").val() === '') {
             $.ajax({
@@ -338,6 +338,7 @@ function getData(id) {
 
 
 function checkValue(field,value) {
+    var check = false;
     $.ajax({
         url: '../server/category/check/' + field +'/'+ value,
         async: false,
@@ -349,9 +350,9 @@ function checkValue(field,value) {
             var decode = response;
             if (decode.success == true) {
                 $.notify(decode.msg, "error");
-                return true;
+                check = true;
             } else if (decode.success === false) {
-                return false;
+                check = false;
             }
         },
         error: function(error) {
@@ -360,7 +361,8 @@ function checkValue(field,value) {
                 var msg = JSON.parse(error.responseText)
                 $.notify(msg.msg, "error");
             }
-            return true;
+            check = true;
         }
     });
+    return check;
 }
