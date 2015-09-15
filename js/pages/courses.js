@@ -129,9 +129,9 @@ function save() {
         return false;
     }
 
-    if (checkValue('coursecode', $('#course_code').val()) == false) {
+    if (checkValue('coursecode', $('#course_code').val(),$("#course_id").val()) == false) {
 
-        if (checkValue('coursename', $('#course_name').val()) == false) {
+        if (checkValue('coursename', $('#course_name').val(),$("#course_id").val()) == false) {
 
             if ($("#course_id").val() === '') {
                 $.ajax({
@@ -351,10 +351,10 @@ function getData(id) {
     });
 }
 
-function checkValue(field, value) {
+function checkValue(field, value, id) {
     var invalid = false;
     $.ajax({
-        url: '../server/courses/check/' + field + '/' + value,
+        url: '../server/courses/check/' + field + '/' + value +'/' + id,
         async: false,
         headers: {
             'X-Auth-Token': $("input[name='csrf']").val()

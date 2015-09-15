@@ -6,10 +6,10 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
+<!DOCTYPE html>
+<html lang="en">
 
 <?php include('includes/head.php'); ?>
 
@@ -42,9 +42,7 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
         </div>
         <div class="clearfix"></div>
         <p class="lead">By checking and reviewing of your examination results. You are qualified to enroll with this following courses</p>
-        <!-- <p class="text-left text-danger">BS-IT (25 Passing Rate)</p>
-        <p class="text-left text-danger">BS-CS (25 Passing Rate)</p>
-        <p class="text-left text-danger">BS-HRM (25 Passing Rate)</p> -->
+        <h3 class="text-left text-danger" id="suggest_course"></h3>
     </div><!-- /.container -->
 
 

@@ -123,11 +123,18 @@ class Quiz {
 		    die();
 		}else{
 			$data = array();
+			$data1 = array();
 			$studid = $_SESSION['entrance_student']['studid'];
 			$mobileno = $_SESSION['entrance_student']['mobileno'];
 			$totalScore = 0;
         	$message = 'EXAM Results are :'. "\r\n";
-        	
+
+        	$query1 ="SELECT C.id as course_id,C.coursecode,C.coursename FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score AND S.studid='$studid';";
+			$result1 = $mysqli->query($query1);
+			while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
+				array_push($data1,$row1);
+			}
+
 			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -137,7 +144,6 @@ class Quiz {
 				$row['percent'] = number_format($p,2).'%';
 
 				array_push($data,$row);
-
 				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] . "\r\n";
 			}
 			$message .= ' TOTAL SCORE: '.$totalScore;
@@ -155,7 +161,7 @@ class Quiz {
 			$result = file_get_contents($url, false, $context);
 			$response = $config->sms_response($result);
 
-			print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'message_status'=>$response,'$message'=>$message),JSON_PRETTY_PRINT);
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'suggest_course'=>$data1,'message_status'=>$response),JSON_PRETTY_PRINT);
 			// print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
 		}
 	}

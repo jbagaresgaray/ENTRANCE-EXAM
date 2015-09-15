@@ -20,7 +20,7 @@ class Results {
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 				$studid = $row['studid'];
 
-				$query1 ="SELECT S.studid,C.id as course_id,C.coursename FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score AND S.studid='$studid';";
+				$query1 ="SELECT S.studid,C.id as course_id,C.coursecode FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score AND S.studid='$studid';";
 				$result1 = $mysqli->query($query1);
 				$data1 = array();
 				while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
@@ -41,7 +41,7 @@ class Results {
 		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
 		    return;
 		}else{
-			$query ="SELECT S.* , C.id as course_id,C.coursename,(SELECT IFNULL(SUM(score),0) FROM result WHERE stud_id=S.studid) AS TotalScore
+			$query ="SELECT S.* , C.id as course_id,C.coursecode,(SELECT IFNULL(SUM(score),0) FROM result WHERE stud_id=S.studid) AS TotalScore
 				FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score 
 				AND C.id=$id;";
 

@@ -29,7 +29,8 @@
 		  		if ($request[0] == 'check'){
 					$field = $request[1];
 					$value = $request[2];
-		  			CourseController::check($field,$value);
+					$id = $request[3];
+		  			CourseController::check($field,$value,$id);
 				}else{
 					$id = $request[0];
 		  			CourseController::detail($id);

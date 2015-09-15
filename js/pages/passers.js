@@ -78,7 +78,7 @@ function fetch_all_passers(url) {
                         if (typeof row[i].suggest_course != 'undefined') {
 
                             var courses = row[i].suggest_course.map(function(elem) {
-                                return elem.coursename;
+                                return elem.coursecode;
                             }).join(", ");
 
                             var html = '<tr class="odd">\

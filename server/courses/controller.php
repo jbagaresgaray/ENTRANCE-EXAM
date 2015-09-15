@@ -112,7 +112,7 @@ class CourseController {
 		}
 	}
 
-	public static function check($field,$value){
+	public static function check($field,$value,$id){
 		session_start();
 		$headers = apache_request_headers();	
 		$token = $headers['X-Auth-Token'];
@@ -126,7 +126,7 @@ class CourseController {
 		}else{
 			$value = strtolower($value);
 			$value = preg_replace('/\s+/', '', $value);
-			Courses::check($field,$value);
+			Courses::check($field,$value,$id);
 		}
 	}
 }
