@@ -20,7 +20,7 @@ class Quiz {
 			$questions = json_decode($data['question']);
 			$mobileno = $_SESSION['entrance_student']['mobileno'];
 			$totalScore = 0;
-        	$message = 'Hello there! EXAM Results are :'. "\r\n";
+        	$message = 'EXAM Results are :'. "\r\n";
             $row = count($c);
 			$score = 0;
 			$var = array();
@@ -48,8 +48,7 @@ class Quiz {
 
 				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] ."\r\n";
 			}
-			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
-			$message .='Please check on the app for more info about the result';
+			$message .= ' TOTAL SCORE: '.$totalScore;
 
 			$url = 'https://www.itexmo.com/php_api/api.php';
 			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
@@ -127,8 +126,8 @@ class Quiz {
 			$studid = $_SESSION['entrance_student']['studid'];
 			$mobileno = $_SESSION['entrance_student']['mobileno'];
 			$totalScore = 0;
-        	$message = 'Hello there! EXAM Results are :'. "\r\n";
-
+        	$message = 'EXAM Results are :'. "\r\n";
+        	
 			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -141,8 +140,7 @@ class Quiz {
 
 				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] . "\r\n";
 			}
-			$message .= "\r\n\r\n".' TOTAL SCORE: '.$totalScore ."\r\n\r\n";
-			$message .='Please check on the app for more info about the result';
+			$message .= ' TOTAL SCORE: '.$totalScore;
 
 			$url = 'https://www.itexmo.com/php_api/api.php';
 			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
@@ -157,7 +155,7 @@ class Quiz {
 			$result = file_get_contents($url, false, $context);
 			$response = $config->sms_response($result);
 
-			print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'message_status'=>$response),JSON_PRETTY_PRINT);
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data,'message_status'=>$response,'$message'=>$message),JSON_PRETTY_PRINT);
 			// print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
 		}
 	}
