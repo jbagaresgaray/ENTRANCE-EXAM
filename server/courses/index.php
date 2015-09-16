@@ -31,6 +31,8 @@
 					$value = $request[2];
 					$id = $request[3];
 		  			CourseController::check($field,$value,$id);
+		  		}elseif ($request[0] == 'signup') {
+		  			CourseController::readSignup();
 				}else{
 					$id = $request[0];
 		  			CourseController::detail($id);

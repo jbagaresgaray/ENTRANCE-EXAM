@@ -96,7 +96,7 @@ function saveAccount(){
     }
 
     $.ajax({
-        url: '../server/student/account',
+        url: '../server/student/account/' + ($('#student_id').val() + '-' + $('#user_id').val()),
         async: false,
         type: 'PUT',
         data: {

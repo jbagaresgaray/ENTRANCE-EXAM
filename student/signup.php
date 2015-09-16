@@ -36,6 +36,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="username" class="col-lg-3 control-label">Username</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="username" placeholder="Username">
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="email" class="col-lg-3 control-label">Email</label>
                     <div class="col-lg-9">
                         <input type="email" class="form-control" id="email" placeholder="Email Address">
@@ -60,9 +67,38 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="username" class="col-lg-3 control-label">Username</label>
+                    <label for="mobileno" class="col-lg-3 control-label">Address</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" id="username" placeholder="Username">
+                        <input type="text" class="form-control" id="address" placeholder="Address">
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mobileno" class="col-lg-3 control-label">Birthdate</label>
+                    <div class="col-lg-9">
+                        <input type="date" class="form-control" id="birthdate">
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mobileno" class="col-lg-3 control-label">Graduated School</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="gradschool" placeholder="Graduated School">
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mobileno" class="col-lg-3 control-label">Date Graduated</label>
+                    <div class="col-lg-9">
+                        <input type="date" class="form-control" id="graduated">
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mobileno" class="col-lg-3 control-label">Pref. Course</label>
+                    <div class="col-lg-9">
+                        <select class="form-control" id="course" name="course">
+                        </select>
                         <span class="help-inline"></span>
                     </div>
                 </div>

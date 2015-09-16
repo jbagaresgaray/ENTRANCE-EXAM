@@ -86,6 +86,11 @@ class StudentController {
 		    	'username' => $data['username'],
 		    	'email' => $data['email'],
 		    	'gender' => $data['gender'],
+		    	'address' => $data['address'],
+		    	'birthdate' => $data['birthdate'],
+		    	'gradschool' => $data['gradschool'],
+		    	'graduated' => $data['graduated'],
+		    	'course' => $data['course'],
 		    	'level'=> 'Student'
 		    ];
 			Student::signup($var);
@@ -232,11 +237,7 @@ class StudentController {
 			return print json_encode(array('success'=>false,'status'=>200,'msg'=>'Please enter a valid confirmed password'),JSON_PRETTY_PRINT);
 			die();
 		}else{
-			if(isset($_SESSION['entrance_student'])){
-				$id = $_SESSION['entrance_student']['id'];
-			}else{
-				$id = $data['id'];
-			}  
+			$id = $data['id'];
 			Student::updateAccount($id,$data);
 		}
 		

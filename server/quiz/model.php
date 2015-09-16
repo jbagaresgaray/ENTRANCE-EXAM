@@ -20,10 +20,13 @@ class Quiz {
 			$questions = json_decode($data['question']);
 			$mobileno = $_SESSION['entrance_student']['mobileno'];
 			$totalScore = 0;
+			$coverage = 0;
+			$score = 0;
         	$message = 'EXAM Results are :'. "\r\n";
             $row = count($c);
-			$score = 0;
 			$var = array();
+			$var1 = array();
+			$var2 = array();
 
             for($i = $row; $i > 0; $i--){
                 $ans = isset($data['ans'.$i]) ? $data['ans'.$i] : 'null';
@@ -36,7 +39,9 @@ class Quiz {
             }
             $mysqli->query("INSERT INTO result VALUES (null,$category_id,'$student_id',$score,$row,NOW())");
 
-			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$student_id;";
+
+
+			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id='$student_id';";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 				$total= $row['score'] / $row['total'];
@@ -44,11 +49,17 @@ class Quiz {
 				$totalScore += $row['score'];
 				$row['percent'] = number_format($p,2).'%';
 
-				array_push($data,$row);
-
-				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] ."\r\n";
+				array_push($var,$row);
 			}
-			$message .= ' TOTAL SCORE: '.$totalScore;
+			$message .= 'TOTAL SCORE: '.$totalScore .'/'. $coverage . "\r\n";
+
+			$query1 ="SELECT C.id as course_id,C.coursecode,C.coursename FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score AND S.studid='$student_id';";
+			$result1 = $mysqli->query($query1);
+			while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
+				array_push($var1,$row1);
+				array_push($var2,$row1['coursecode']);
+			}
+			$message .= 'COURSE SUGGESTIONS: ['. implode(", ",$var2) ."]\r\n";
 
 			$url = 'https://www.itexmo.com/php_api/api.php';
 			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);
@@ -61,8 +72,7 @@ class Quiz {
 			);
 			$context  = stream_context_create($param);
 			$result = file_get_contents($url, false, $context);
-			$response = $config->sms_response($result);
-            
+			$response = $config->sms_response($result);            
 
 			print_r(json_encode(array('success' =>true,'status'=>200,'category_id'=>$category_id,'result'=>$score,'msg'=>'Thank you for participating the examination'),JSON_PRETTY_PRINT));
 		}        
@@ -124,29 +134,35 @@ class Quiz {
 		}else{
 			$data = array();
 			$data1 = array();
+			$data2 = array();
 			$studid = $_SESSION['entrance_student']['studid'];
 			$mobileno = $_SESSION['entrance_student']['mobileno'];
 			$totalScore = 0;
-        	$message = 'EXAM Results are :'. "\r\n";
+			$coverage = 0;
+        	$message = 'EXAM Results :'. "\r\n";
 
-        	$query1 ="SELECT C.id as course_id,C.coursecode,C.coursename FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score AND S.studid='$studid';";
-			$result1 = $mysqli->query($query1);
-			while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
-				array_push($data1,$row1);
-			}
-
-			$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id=$studid;";
+        	$query ="SELECT c.`name`,r.* FROM result r INNER JOIN category c ON r.category_id = c.id WHERE r.stud_id='$studid';";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 				$total= $row['score'] / $row['total'];
 				$p = $total * 100;
 				$totalScore += $row['score'];
+				$coverage += $row['total'];
 				$row['percent'] = number_format($p,2).'%';
 
 				array_push($data,$row);
-				$message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] . "\r\n";
+				// $message .= '* '.$row['name'].' - '. $row['score'].'/'.$row['total'] . "\r\n";
 			}
-			$message .= ' TOTAL SCORE: '.$totalScore;
+			$message .= 'TOTAL SCORE: '.$totalScore .'/'. $coverage . "\r\n";
+			
+        	$query1 ="SELECT C.id as course_id,C.coursecode,C.coursename FROM student S, courses C WHERE (SELECT SUM(score) FROM result WHERE stud_id=S.studid) >= C.passing_score AND S.studid='$studid';";
+			$result1 = $mysqli->query($query1);
+			while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
+				array_push($data1,$row1);
+				array_push($data2,$row1['coursecode']);
+			}
+			$message .= 'COURSE SUGGESTIONS: ['. implode(", ",$data2) ."]\r\n";
+			
 
 			$url = 'https://www.itexmo.com/php_api/api.php';
 			$itexmo = array('1' => $mobileno, '2' => $message, '3' => $config->sms_api_code);

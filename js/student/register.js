@@ -1,5 +1,6 @@
 $(document).ready(function() {
     clearFields();
+    fetch_courses();
 });
 
 function resetHelpInLine() {
@@ -17,8 +18,10 @@ function clearFields() {
     $('#email').val('');
     $('#mobileno').val('');
     $('#username').val('');
-    $('#password').val('');
-    $('#password2').val('');
+    $('#address').val('');
+    $('#course').val('');
+    $('#birthdate').val('');
+    $('#gradschool').val('');
 }
 
 function save() {
@@ -60,18 +63,13 @@ function save() {
         empty = true;
     }
 
-    if ($('#password').val() == '') {
-        $('#password').next('span').text('Password is required.');
+    if ($('#address').val() == '') {
+        $('#address').next('span').text('Address is required.');
         empty = true;
     }
 
-    if ($('#password2').val() == '') {
-        $('#password2').next('span').text('Confirm Password is required.');
-        empty = true;
-    }
-
-    if ($('#password').val() !== $('#password2').val()) {
-        $('#password2').next('span').text('Password and Confirm Password must be the same.');
+    if ($('#gradschool').val() == '') {
+        $('#gradschool').next('span').text('Graduated School is required.');
         empty = true;
     }
 
@@ -97,7 +95,12 @@ function save() {
                             mobileno: $('#mobileno').val(),
                             username: $('#username').val(),
                             email: $('#email').val(),
-                            gender: $('#gender').val()
+                            gender: $('#gender').val(),
+                            address: $('#address').val(),
+                            birthdate: $('#birthdate').val(),
+                            gradschool: $('#gradschool').val(),
+                            graduated: $('#graduated').val(),
+                            course: $('#course').val()
                         },
                         success: function(response) {
                             var decode = response;
@@ -216,4 +219,31 @@ function checkName(lastname, firstname) {
     });
     console.log('checkValue: ', invalid);
     return invalid;
+}
+
+function fetch_courses() {
+    $.ajax({
+        url: '../server/courses/signup',
+        async: true,
+        type: 'GET',
+        success: function(response) {
+            var decode = response;
+            $('#course').empty();
+            for (var i = 0; i < decode.courses.length; i++) {
+                var row = decode.courses;
+                var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].coursecode + '</option>';
+                $("#course").append(html);
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
+        }
+    });
 }

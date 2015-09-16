@@ -50,6 +50,10 @@ class CourseController {
 		}
 	}
 
+	public static function readSignup(){
+		Courses::read();
+	}
+
 	public static function detail($id){
 		session_start();
 		$headers = apache_request_headers();	

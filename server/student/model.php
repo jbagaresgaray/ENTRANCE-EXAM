@@ -64,6 +64,12 @@ class Student {
 			$username = $mysqli->real_escape_string($data['username']);
 			$email = $mysqli->real_escape_string($data['email']);
 			$gender = $mysqli->real_escape_string($data['gender']);
+			$address = $mysqli->real_escape_string($data['address']);
+			$birthdate = $mysqli->real_escape_string($data['birthdate']);
+			$gradschool = $mysqli->real_escape_string($data['gradschool']);
+			$graduated = $mysqli->real_escape_string($data['graduated']);
+			$course = $mysqli->real_escape_string($data['course']);
+
 			$level = $mysqli->real_escape_string($data['level']);
 
 			$password = $func->generatePassword(5,1);
@@ -73,8 +79,8 @@ class Student {
 			$stmt2->execute();
 			$user_id = $mysqli->insert_id;		
 
-			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,gender,user_id) VALUES(?,?,?,?,?,?,?)')){
-				$stmt->bind_param("sssssss", $studid,$fname,$lname,$mobileno,$email,$gender,$user_id);
+			if ($stmt = $mysqli->prepare('INSERT INTO student(studid,fname,lname,mobileno,email,gender,address,birthdate,graduated,last_school,pref_course,user_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)')){
+				$stmt->bind_param("ssssssssssss", $studid,$fname,$lname,$mobileno,$email,$gender,$address,$birthdate,$graduated,$gradschool,$course,$user_id);
 				$stmt->execute();
 
 				$message = 'Hello there! Thank you for using our mobile app. Your App Password: ' . $password. ' .';
