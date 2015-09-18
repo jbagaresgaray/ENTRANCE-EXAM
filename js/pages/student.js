@@ -26,6 +26,8 @@ $(document).ready(function() {
         }
         $pager.insertBefore($table).find('span.page-number:first').addClass('active');
     });
+    
+    $("#tbl_students").tablesorter();
 });
 
 $('#filter').keyup(function() {

@@ -85,7 +85,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         </div>
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                              <table class="table table-bordered table-striped paginated" style="margin-bottom:0;" id="tbl_courses">
+                              <table class="table table-bordered table-striped paginated tablesorter" style="margin-bottom:0;" id="tbl_courses">
                                   <thead>
                                       <tr role="row">
                                             <th class="sorting" >
@@ -120,6 +120,10 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
 
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- jQuery tablesorter-->
+    <script src="../bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.js"></script>
+    <script src="../bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

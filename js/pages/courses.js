@@ -27,6 +27,8 @@ $(document).ready(function() {
         }
         $pager.insertBefore($table).find('span.page-number:first').addClass('active');
     });
+
+    $("#tbl_courses").tablesorter();
 });
 
 $('#filter').keyup(function() {
@@ -129,9 +131,9 @@ function save() {
         return false;
     }
 
-    if (checkValue('coursecode', $('#course_code').val(),$("#course_id").val()) == false) {
+    if (checkValue('coursecode', $('#course_code').val(), $("#course_id").val()) == false) {
 
-        if (checkValue('coursename', $('#course_name').val(),$("#course_id").val()) == false) {
+        if (checkValue('coursename', $('#course_name').val(), $("#course_id").val()) == false) {
 
             if ($("#course_id").val() === '') {
                 $.ajax({
@@ -354,7 +356,7 @@ function getData(id) {
 function checkValue(field, value, id) {
     var invalid = false;
     $.ajax({
-        url: '../server/courses/check/' + field + '/' + value +'/' + id,
+        url: '../server/courses/check/' + field + '/' + value + '/' + id,
         async: false,
         headers: {
             'X-Auth-Token': $("input[name='csrf']").val()

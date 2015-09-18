@@ -47,6 +47,7 @@ class Quiz {
 				$total= $row['score'] / $row['total'];
 				$p = $total * 100;
 				$totalScore += $row['score'];
+				$coverage += $row['total'];
 				$row['percent'] = number_format($p,2).'%';
 
 				array_push($var,$row);
@@ -77,53 +78,6 @@ class Quiz {
 			print_r(json_encode(array('success' =>true,'status'=>200,'category_id'=>$category_id,'result'=>$score,'msg'=>'Thank you for participating the examination'),JSON_PRETTY_PRINT));
 		}        
 	}
-
-	public function getQuestionsByCategory($id){
-		$config= new Config();
-		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
-		if ($mysqli->connect_errno) {
-		    return print json_encode(array('success' =>false,'status'=>400,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
-		    die();
-		}else{
-			$data = array();
-			$query ="SELECT * FROM question c WHERE c.category_id=$id;";
-			$result = $mysqli->query($query);
-			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				$data1 = array();
-				$query1 ="SELECT * FROM choice c WHERE c.questionid=".$row['id'];
-				$result1 = $mysqli->query($query1);
-				while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
-					array_push($data1,$row1);
-					shuffle($data1);
-				}				
-				$row['choices'] = $data1;
-				array_push($data,$row);			
-			}
-			print json_encode(array('success' =>true,'status'=>200,'category'=>$id,'quiz' =>$data),JSON_PRETTY_PRINT);
-		}
-	}
-
-	public function getQuizDetails($category_id){
-		$config= new Config();
-		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
-		if ($mysqli->connect_errno) {
-		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
-		    return;
-		}else{
-			$data = array();
-			$studid = $_SESSION['entrance_student']['studid'];
-			$query ="SELECT s.*, (SELECT content FROM question WHERE id=s.question_id LIMIT 1) AS questions,
-				(SELECT answer FROM choice WHERE id=s.choice_id LIMIT 1) AS yourchoice, (SELECT answer FROM choice WHERE questionid=s.question_id AND choice='yes' LIMIT 1) AS correctans
-				FROM status s WHERE s.category_id=$category_id AND s.stud_id='$studid' ORDER BY s.id;";
-				
-			$result = $mysqli->query($query);
-			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				array_push($data,$row);			
-			}
-			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
-		}
-	}
-
 
 	public function getQuizResults(){
 		$config= new Config();
@@ -181,6 +135,53 @@ class Quiz {
 			// print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
 		}
 	}
+
+		public function getQuestionsByCategory($id){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    return print json_encode(array('success' =>false,'status'=>400,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    die();
+		}else{
+			$data = array();
+			$query ="SELECT * FROM question c WHERE c.category_id=$id;";
+			$result = $mysqli->query($query);
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$data1 = array();
+				$query1 ="SELECT * FROM choice c WHERE c.questionid=".$row['id'];
+				$result1 = $mysqli->query($query1);
+				while($row1 = $result1->fetch_array(MYSQLI_ASSOC)){
+					array_push($data1,$row1);
+					shuffle($data1);
+				}				
+				$row['choices'] = $data1;
+				array_push($data,$row);			
+			}
+			print json_encode(array('success' =>true,'status'=>200,'category'=>$id,'quiz' =>$data),JSON_PRETTY_PRINT);
+		}
+	}
+
+	public function getQuizDetails($category_id){
+		$config= new Config();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>"Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error));
+		    return;
+		}else{
+			$data = array();
+			$studid = $_SESSION['entrance_student']['studid'];
+			$query ="SELECT s.*, (SELECT content FROM question WHERE id=s.question_id LIMIT 1) AS questions,
+				(SELECT answer FROM choice WHERE id=s.choice_id LIMIT 1) AS yourchoice, (SELECT answer FROM choice WHERE questionid=s.question_id AND choice='yes' LIMIT 1) AS correctans
+				FROM status s WHERE s.category_id=$category_id AND s.stud_id='$studid' ORDER BY s.id;";
+				
+			$result = $mysqli->query($query);
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				array_push($data,$row);			
+			}
+			print json_encode(array('success' =>true,'status'=>200,'results' =>$data),JSON_PRETTY_PRINT);
+		}
+	}
+
 
 	public function checkIfAlreadyExam($category_id){
 		$config= new Config();

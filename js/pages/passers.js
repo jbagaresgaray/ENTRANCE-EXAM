@@ -5,7 +5,6 @@ $(document).ready(function() {
 
     filters();
 
-
     $('#dataTables-example').DataTable({
         responsive: true
     });

@@ -33,6 +33,8 @@ $(document).ready(function() {
         }
         $pager.insertBefore($table).find('span.page-number:first').addClass('active');
     });
+
+    $("#tbl_questions").tablesorter();
 });
 
 $('#filter').keyup(function() {

@@ -31,7 +31,7 @@
 			}
 	    break;
 	  case 'POST':
-			// UsersController::create($_POST);
+			UsersController::create($_POST);
 	    break;
 	  case 'GET':
 	  	if(isset($request) && !empty($request) && $request[0] !== ''){

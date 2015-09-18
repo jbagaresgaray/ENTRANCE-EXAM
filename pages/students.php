@@ -32,7 +32,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
     <!-- DataTables Responsive CSS -->
     <link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
-     <!-- Bootstrap Core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -94,7 +94,7 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover paginated" id="tbl_students">
+                                <table class="table table-striped table-bordered table-hover paginated tablesorter" id="tbl_students">
                                     <thead>
                                         <tr>
                                             <th>Fullname</th>
@@ -129,6 +129,10 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
 
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- jQuery tablesorter-->
+    <script src="../bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.js"></script>
+    <script src="../bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

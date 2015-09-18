@@ -23,6 +23,8 @@ $(document).ready(function() {
         }
         $pager.insertBefore($table).find('span.page-number:first').addClass('active');
     });
+
+    $("#tbl_users").tablesorter();
 });
 
 $('#filter').keyup(function() {
@@ -276,7 +278,7 @@ function save() {
 
         if (checkName($('#lname').val(), $('#fname').val()) == false) {
             if (checkValue('email', $('#email').val()) == false) {
-                if (!checkValue('username', $('#username').val()) == false) {
+                if (checkValue('username', $('#username').val()) == false) {
                     $.ajax({
                         url: '../server/users/',
                         async: false,
@@ -375,7 +377,7 @@ function checkName(lastname, firstname) {
         success: function(response) {
             var decode = response;
             if (decode.success == true) {
-                $.notify((lastname +', ' + firstname) + ' - ' + decode.msg, "error");
+                $.notify((lastname + ', ' + firstname) + ' - ' + decode.msg, "error");
                 invalid = true;
             } else if (decode.success === false) {
                 invalid = false;
@@ -395,6 +397,7 @@ function checkName(lastname, firstname) {
 }
 
 function checkValue(field, value) {
+    var invalid = false;
     $.ajax({
         url: '../server/users/check/' + field + '/' + value,
         async: false,
@@ -406,9 +409,9 @@ function checkValue(field, value) {
             var decode = response;
             if (decode.success == true) {
                 $.notify(decode.msg, "error");
-                return true;
+                invalid = true;
             } else if (decode.success === false) {
-                return false;
+                invalid = false;
             }
         },
         error: function(error) {
@@ -417,7 +420,8 @@ function checkValue(field, value) {
                 var msg = JSON.parse(error.responseText)
                 $.notify(msg.msg, "error");
             }
-            return true;
+            invalid = true;
         }
     });
+    return invalid;
 }
