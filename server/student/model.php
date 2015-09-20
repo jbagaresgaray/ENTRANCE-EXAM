@@ -72,7 +72,7 @@ class Student {
 
 			$level = $mysqli->real_escape_string($data['level']);
 
-			$password = $func->generatePassword(5,1);
+			$password = $func->generatePassword(7,1);
 
 			$stmt2 = $mysqli->prepare('INSERT INTO userdata(username,password,str_password,fname,lname,email,mobileno,level) VALUES (?,?,?,?,?,?,?,?);');
 			$stmt2->bind_param("ssssssss", $username,sha1($password),$password,$fname,$lname,$email,$mobileno,$level);
