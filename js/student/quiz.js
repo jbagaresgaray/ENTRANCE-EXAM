@@ -3,6 +3,11 @@
 var quizData = [];
 var c = 1;
 
+document.addEventListener("backbutton", onBackKeyDown, false);
+function onBackKeyDown(e) {
+  e.preventDefault();
+}
+
 $(document).ready(function() {
     $.material.init();
 
@@ -19,7 +24,6 @@ $(document).ready(function() {
 
 
 });
-
 
 $('#next').click(function() {
     $('.current').removeClass('current').hide()

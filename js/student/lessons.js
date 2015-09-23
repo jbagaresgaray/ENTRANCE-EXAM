@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $.material.init();
-
     fetch_categories();
 });
 
@@ -51,7 +50,7 @@ function fetch_categories() {
                                     <h3 class="panel-title"></h3>\
                                 </div>\
                                 <div class="panel-body">\
-                                    <h3>' + row[i].name + '</h3>\
+                                    <h3>' + row[i].name + ' (<small>' + row[i].time +' mins.</small>)</h3>\
                                     <p><a data-id="' + row[i].id + '" class="btn btn-warning" href="javascript:start_quiz(' + row[i].id + ','+ row[i].time +')">Take Test</a></p>\
                                 </div>\
                             </div>';
