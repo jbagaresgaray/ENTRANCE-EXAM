@@ -27,17 +27,34 @@ class Category {
 	}
 
 	public static function read(){
-		$limit = 10;
-		$adjacent = 3;
 		$config= new Config();
 		$func = new Functions();
-
 		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
 		if ($mysqli->connect_errno) {
 		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
 		    return;
 		}else{
 			$query1 ="SELECT * FROM category c;";
+			$result1 = $mysqli->query($query1);
+			$rows = $result1->num_rows;
+			$data = array();
+			while($row = $result1->fetch_array(MYSQLI_ASSOC)){
+				array_push($data,$row);
+			}
+			print json_encode(array('success' =>true,'category' =>$data),JSON_PRETTY_PRINT);
+		}
+	}
+
+	public static function readCategoryQuiz(){
+		$config= new Config();
+		$func = new Functions();
+		$mysqli = new mysqli($config->host, $config->user, $config->pass, $config->db);
+		if ($mysqli->connect_errno) {
+		    print json_encode(array('success' =>false,'msg' =>'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error));
+		    return;
+		}else{
+			$studid = $_SESSION['entrance_student']['studid'];
+			$query1 ="SELECT c.*, (SELECT r.score FROM result r WHERE r.category_id=c.id AND r.stud_id='$studid' LIMIT 1) AS score FROM category c;";
 			$result1 = $mysqli->query($query1);
 			$rows = $result1->num_rows;
 			$data = array();

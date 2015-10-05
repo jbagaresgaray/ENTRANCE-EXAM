@@ -35,6 +35,21 @@ function fetch_all_passers(studentid) {
             var decode = response;
             if (decode) {
                 if (decode.data.length > 0) {
+                    var htmlStr = '';
+                    var total = 0;
+                    var score = 0;
+                    for (var i = 0; i < decode.summary.length; i++) {
+                        var row = decode.summary;
+                        if(row[i].score !== null){
+                            total += parseInt(row[i].total);
+                            score += parseInt(row[i].score);
+                            htmlStr = '<p class="lead">' + row[i].name.toUpperCase() +': <strong>' + row[i].score + '/' + row[i].total + '</strong></p>';
+                            $('#result_summary').append(htmlStr);
+                        }
+                    };
+                    htmlStr = '<p class="lead"><strong>TOTAL: ' + score +'/'+ total + '</strong></p>';
+                    $('#result_summary').append(htmlStr);
+
                     for (var i = 0; i < decode.data.length; i++) {
                         var row = decode.data;
                         var table = '<h2 class="text-primary">' + row[i].category_name + '</h2><table class="table table-striped table-bordered table-hover" id="dataTables-example' + i + '">\

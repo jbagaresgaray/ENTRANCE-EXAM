@@ -27,7 +27,6 @@ if(!isset($_SESSION['entrance_student']) || empty($_SESSION['entrance_student'])
         <div id="lessons"></div>
     </div><!-- /.container -->
 
-
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 

@@ -34,7 +34,7 @@ function start_quiz(id,time) {
 
 function fetch_categories() {
     $.ajax({
-        url: '../server/category',
+        url: '../server/category/quiz',
         async: true,
         type: 'GET',
         headers: {
@@ -49,11 +49,19 @@ function fetch_categories() {
                                 <div class="panel-heading">\
                                     <h3 class="panel-title"></h3>\
                                 </div>\
-                                <div class="panel-body">\
-                                    <h3>' + row[i].name + ' (<small>' + row[i].time +' mins.</small>)</h3>\
-                                    <p><a data-id="' + row[i].id + '" class="btn btn-warning" href="javascript:start_quiz(' + row[i].id + ','+ row[i].time +')">Take Test</a></p>\
-                                </div>\
-                            </div>';
+                                <div class="panel-body"><h3>' + row[i].name + ' (<small>' + row[i].time +' mins.</small>)</h3>';
+
+                if(row[i].score > 0 && row[i].score != null){
+                    html +='<p>\
+                                <a data-id="' + row[i].id + '" class="btn btn-warning" href="javascript:start_quiz(' + row[i].id + ','+ row[i].time +')">Take Test</a>\
+                                <i class="mdi-action-done"></i>\
+                            </p>';
+                }else{
+                    html +='<p>\
+                                <a data-id="' + row[i].id + '" class="btn btn-warning" href="javascript:start_quiz(' + row[i].id + ','+ row[i].time +')">Take Test</a>\
+                            </p>';
+                }
+                html += '</div></div>';
                 $("#lessons").append(html);
             }
         },

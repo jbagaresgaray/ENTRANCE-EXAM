@@ -63,6 +63,8 @@ class Results {
 		}else{
 
 			$data = array();
+			$data2 = array();
+
 			$query ="SELECT DISTINCT s.category_id,(SELECT name FROM category WHERE id=s.category_id LIMIT 1) as category_name FROM status s WHERE s.stud_id = '$student_id' ORDER BY s.id;";
 			$result = $mysqli->query($query);
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -87,8 +89,14 @@ class Results {
 				$row['quiz'] = $data1;
 				array_push($data,$row);
 			}
+
+			$query2 ="SELECT c.*, (SELECT r.score FROM result r WHERE r.category_id=c.id AND r.stud_id='$student_id' LIMIT 1) AS score,(SELECT r.total FROM result r WHERE r.category_id=c.id AND r.stud_id='$student_id' LIMIT 1) AS total FROM category c;";
+			$result2 = $mysqli->query($query2);
+			while($row = $result2->fetch_array(MYSQLI_ASSOC)){
+				array_push($data2,$row);
+			}
 			
-			print json_encode(['success' =>true,'data' =>$data],JSON_PRETTY_PRINT);
+			print json_encode(['success' =>true,'data' =>$data,'summary'=>$data2],JSON_PRETTY_PRINT);
 		}
 	}
 

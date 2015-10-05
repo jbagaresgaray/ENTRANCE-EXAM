@@ -30,6 +30,8 @@
 					$field = $request[1];
 					$value = $request[2];
 		  			CategoryController::check($field,$value);
+		  		}elseif ($request[0] == 'quiz'){
+					CategoryController::readCategoryQuiz();
 				}else{
 					$id = $request[0];
 		  			CategoryController::detail($id);

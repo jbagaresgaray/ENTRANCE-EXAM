@@ -273,7 +273,7 @@ function submit() {
             console.log('decode: ', decode);
             $.notify(decode.msg, "success");
             setTimeout(function() {
-                window.location.href = "thankquiz.php";
+                window.location.href = "lessons.php";
             }, 1000);
         },
         error: function(error) {

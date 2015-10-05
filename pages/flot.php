@@ -92,6 +92,9 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                             <br>
                             <p class="lead"><strong>NAME: </strong><span id="StudentName"></span></p>
                             <hr>
+                            <div id="result_summary">
+                            </div>
+                            <hr>
                             <div class="dataTable_wrapper" id="wrapTable"></div>
                         </div>
                     </div>
