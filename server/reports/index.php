@@ -14,10 +14,16 @@
 			}else if ($request[0] == 'passers'){
 				if (isset($request) && !empty($request) && isset($request[1])){
 					$course_id = $request[1];
-					ResultsController::getPassersByCourse($course_id);
-				}else{
-					ResultsController::getPassers();
+					$year = $request[2];
+					ResultsController::getPassersByCourse($course_id,$year);
 				}
+			}else if ($request[0] == 'passers2'){
+				if (isset($request) && !empty($request) && isset($request[1])){
+					$year = $request[1];
+					ResultsController::getPassers($year);
+				}					
+			}else if ($request[0] == 'year'){
+				ResultsController::getResultsYear();
 			}else{
 				return print json_encode('ENTRANCE EXAM API v.0.1 developed by: Philip Cesar B. Garay');
 				die();

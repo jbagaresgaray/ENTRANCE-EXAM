@@ -74,11 +74,11 @@ if(!isset($_SESSION['entrance']) || empty($_SESSION['entrance'])){
                     <a class="btn btn-primary" download="passers.xls" onclick="exportToExcel(this, 'dataTables-example', 'Passers Data')">Export to Excel</a>
                     <a onclick="refresh()" class="btn btn-primary">Refresh</a>
                     <a onclick="printToPrinter()" class="btn btn-success">Print</a>
-                    <div class="col-lg-4 pull-right">
+                    <div class="col-lg-5 pull-right">
                         <label>Courses</label>
                         <select class="form-control" id="cboFilters"></select>
                     </div>
-                    <div class="col-lg-3 pull-right">
+                    <div class="col-lg-2 pull-right">
                         <label>School Year</label>
                         <select class="form-control" id="cboYear"></select>
                     </div>

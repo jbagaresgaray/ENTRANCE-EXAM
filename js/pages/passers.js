@@ -2,6 +2,7 @@ $(document).ready(function() {
     $("#cboFilters").bind("change", filters);
 
     fetch_courses();
+    fetch_years();
 
     filters();
 
@@ -34,7 +35,7 @@ function filters() {
                 </tr></thead><tbody></tbody></table>';
         $('#wrapTable').append(table);
 
-        fetch_all_passers('../server/reports/passers');
+        fetch_all_passers('../server/reports/passers2/' + $('#cboYear').val());
     } else {
         $('#wrapTable').empty();
         var table = '<table class="table table-striped table-bordered table-hover" id="dataTables-example">\
@@ -43,7 +44,7 @@ function filters() {
                 </tr></thead><tbody></tbody></table>';
         $('#wrapTable').append(table);
 
-        fetch_all_passers('../server/reports/passers/' + value);
+        fetch_all_passers('../server/reports/passers/' + value + '/' + $('#cboYear').val());
     }
 }
 
@@ -130,6 +131,36 @@ function fetch_courses() {
                 var row = decode.courses;
                 var html = '<option id="' + row[i].id + '" value="' + row[i].id + '">' + row[i].coursename + '</option>';
                 $("#cboFilters").append(html);
+            }
+        },
+        error: function(error) {
+            console.log("Error:");
+            console.log(error.responseText);
+            console.log(error.message);
+            if (error.responseText) {
+                var msg = JSON.parse(error.responseText)
+                $.notify(msg.msg, "error");
+            }
+            return;
+        }
+    });
+}
+
+function fetch_years() {
+    $.ajax({
+        url: '../server/reports/year',
+        async: false,
+        type: 'GET',
+        headers: {
+            'X-Auth-Token': $("input[name='csrf']").val()
+        },
+        success: function(response) {
+            var decode = response;
+            $('#cboYear').empty();
+            for (var i = 0; i < decode.results_year.length; i++) {
+                var row = decode.results_year;
+                var html = '<option value="' + row[i].cYear + '">' + row[i].cYear + '</option>';
+                $("#cboYear").append(html);
             }
         },
         error: function(error) {
